@@ -1,0 +1,39 @@
+<div class="jumbotron" ng-controller="WorkCtrl">
+    <div class="form-group">
+        <label>Enter Task</label>
+        <input type="text"
+               name="task"
+               required
+               class="form-control"
+               ng-trim="false"
+               ng-change="valueEnteredChanged()"
+               ng-keydown="keydown($event)"
+               ng-enter="submit()"
+               ng-model="task.input"
+               ng-focus="onFocus($event)">
+        <div ng-if="autocomplete" class="autocomplete">
+            <ul>
+                <li ng-click="selectTaskNr(actask)" ng-repeat="actask in tasks | filter:task.nr | unique:'nr'" ng-class="{active: $index === activeIndex}">{{actask.nr}}</li>
+            </ul>
+        </div>
+        <div class="col-xs-6">
+            <label class="checkbox" style="font-size: 14px; text-align: left">
+                <input type="checkbox" name="persistdate" value="persistdate" ng-model="task.persistdate" ng-change="valueEnteredChanged()"> Persist date
+            </label>
+        </div>
+        <div class="col-xs-6">
+            <label class="checkbox" style="font-size: 14px; text-align: left">
+                <input type="checkbox" name="calculatedhours" value="calculatedhours" ng-model="task.calculatedhours" ng-change="valueEnteredChanged()"> Has calculated hours
+            </label>
+        </div>
+    </div>
+    <p>{{task.nr}}<span ng-show="task.start"> from {{task.start | date:'HH:mm'}}</span><span ng-show="task.end"> to {{task.end | date:'HH:mm'}}</span><span ng-show="task.start"> at {{task.start | date:'dd.MM.yyyy'}}</span></p>
+    <p>{{task.descr}}</p>
+</div>
+<ul ng-show="tasks">
+    <li ng-repeat="task in tasks | limitTo:5">
+        {{task.nr}} {{task.start | date:'dd.MM.yyyy'}} {{task.start | date:'HH:mm'}}-{{task.end | date:'HH:mm'}} {{task.descr}}
+    </li>
+    <li>..........</li>
+</ul>
+{{ currentUser.name }}

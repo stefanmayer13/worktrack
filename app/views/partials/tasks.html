@@ -1,0 +1,10 @@
+<div ng-include="'partials/navbar'"></div>
+
+<ul ng-show="tasks" ng-controller="TasksCtrl">
+    <li ng-repeat="task in tasks">
+        {{task.nr}} {{task.start | date:'dd.MM.yyyy'}} {{task.start | date:'HH:mm'}}-{{task.end | date:'HH:mm'}} {{task.end - task.start - 3600000 | date:'HH:mm'}} {{task.descr}}
+    </li>
+</ul>
+{{ currentUser.name }}
+
+<div class="footer" ng-include="'partials/footer'"></div>

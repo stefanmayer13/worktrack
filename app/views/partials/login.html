@@ -1,0 +1,53 @@
+<div class="jumbotron" ng-controller="LoginCtrl">
+    <h1>{{texts.title}}</h1>
+    <p class="lead">
+        <span ng-show="currentUser">{{ currentUser.name }}</span>
+        <span ng-show="!currentUser">{{ texts.logintext }}</span>
+    </p>
+
+    <form class="form" name="form" novalidate>
+
+        <div class="form-group col-lg-6">
+            <label>{{texts.email}}</label>
+
+            <input type="email"
+                   name="email"
+                   required
+                   class="form-control"
+                   ng-model="user.email">
+        </div>
+
+
+        <div class="form-group col-lg-6">
+            <label>{{texts.password}}</label>
+
+            <input type="password"
+                   name="password"
+                   required
+                   class="form-control"
+                   ng-model="user.password">
+        </div>
+
+        <div ng-show="(requestname)" class="form-group">
+            <label>{{texts.name}}</label>
+
+            <input type="text"
+                   name="name"
+                   class="form-control"
+                   ng-model="user.name">
+        </div>
+
+        <div class="form-group has-error">
+            <p class="help-block" ng-show="(form.email.$error.required || form.email.$error.email || form.password.$error.required) && submitted">
+                Please enter your email and password.
+            </p>
+            <p class="help-block" ng-show="(requestname)">
+                Please enter your full name.
+            </p>
+            <p class="help-block">{{ errors.other }}</p>
+        </div>
+
+        <button ng-click="signin(form)" class="btn btn-lg btn-primary"> {{texts.signin}} </button>
+        <!--<button ng-click="signup(form)" class="btn btn-lg btn-danger"> {{texts.signup}} </button>-->
+    </form>
+</div>
