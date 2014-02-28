@@ -18,7 +18,7 @@ angular.module('WorkTrackApp')
     $scope.prev = function () {
       $scope.nextDate = $scope.date;
       $scope.date = $scope.prevDate;
-      $scope.prevDate = new Date();
+      $scope.prevDate = new Date($scope.date.getTime());
       $scope.prevDate.setDate($scope.date.getDate()-1);
       getTasks();
     };
@@ -30,7 +30,7 @@ angular.module('WorkTrackApp')
       $scope.date = $scope.nextDate;
 
       if (($scope.date - (new Date())) < 3600) {
-        $scope.nextDate = new Date();
+        $scope.nextDate = new Date($scope.date.getTime());
         $scope.nextDate.setDate($scope.date.getDate()+1);
       } else {
         $scope.nextDate = null;

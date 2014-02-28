@@ -14,10 +14,11 @@ angular.module('WorkTrackApp')
         method: 'GET',
         isArray:true
       },
-      get: {
+      getNotSynced: {
         method: 'GET',
+        isArray:true,
         params: {
-          id:'me'
+          id: 'sync'
         }
       }
 	  });

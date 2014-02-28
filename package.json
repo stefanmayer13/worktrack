@@ -10,7 +10,8 @@
     "passport": "latest",
     "passport-local": "latest",
     "ejs": "~0.8.4",
-    "xml2js": "~0.4.1"
+    "xml2js": "~0.4.1",
+    "async": "~0.2.10"
   },
   "devDependencies": {
     "grunt": "~0.4.1",

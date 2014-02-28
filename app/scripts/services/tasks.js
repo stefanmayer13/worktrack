@@ -21,7 +21,7 @@ angular.module('WorkTrackApp')
           }
         }
 
-        return Task.getAll({start: start || 0, limit: limit || 5}, function(tasks) {
+        return Task.getNotSynced({start: start || 0, limit: limit || 5}, function(tasks) {
           if (tasks) {
             if (!$rootScope.tasks || $rootScope.tasks.length === 0 || reset) {
               $rootScope.tasks = tasks;
