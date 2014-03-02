@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('WorkTrackApp')
-  .factory('Auth', function Auth($location, $rootScope, Session, User, $cookieStore) {
+  .factory('Auth', function Auth($location, $rootScope, Session, User, $cookieStore, $http) {
     
     // Get currentUser from cookie
     $rootScope.currentUser = $cookieStore.get('user') || null;
@@ -20,7 +20,7 @@ angular.module('WorkTrackApp')
         var cb = callback || angular.noop;
 
         return Session.save({
-          email: user.email,
+          username: user.username,
           password: user.password
         }, function(user) {
           $rootScope.currentUser = user;

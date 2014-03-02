@@ -70,5 +70,4 @@ angular.module('WorkTrackApp')
       }, 200);
     };
     Tasks.getTasks();
-    $scope.jirasession = Jira.getSession();
   });

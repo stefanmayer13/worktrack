@@ -8,13 +8,13 @@
     <form class="form" name="form" novalidate>
 
         <div class="form-group col-lg-6">
-            <label>{{texts.email}}</label>
+            <label>{{texts.username}}</label>
 
-            <input type="email"
-                   name="email"
+            <input type="text"
+                   name="username"
                    required
                    class="form-control"
-                   ng-model="user.email">
+                   ng-model="user.username">
         </div>
 
 
@@ -28,26 +28,13 @@
                    ng-model="user.password">
         </div>
 
-        <div ng-show="(requestname)" class="form-group">
-            <label>{{texts.name}}</label>
-
-            <input type="text"
-                   name="name"
-                   class="form-control"
-                   ng-model="user.name">
-        </div>
-
         <div class="form-group has-error">
-            <p class="help-block" ng-show="(form.email.$error.required || form.email.$error.email || form.password.$error.required) && submitted">
-                Please enter your email and password.
-            </p>
-            <p class="help-block" ng-show="(requestname)">
-                Please enter your full name.
+            <p class="help-block" ng-show="(form.username.$error.required || form.username.$error.username || form.password.$error.required) && submitted">
+                Please enter your username and password.
             </p>
             <p class="help-block">{{ errors.other }}</p>
         </div>
 
         <button ng-click="signin(form)" class="btn btn-lg btn-primary"> {{texts.signin}} </button>
-        <!--<button ng-click="signup(form)" class="btn btn-lg btn-danger"> {{texts.signup}} </button>-->
     </form>
 </div>
