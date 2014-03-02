@@ -1,6 +1,36 @@
 'use strict';
 
 angular.module('WorkTrackApp')
-  .controller('TasksCtrl', function (Tasks) {
-    Tasks.getTasks(20);
+  .controller('TasksCtrl', function ($scope, $rootScope, $location, $routeParams, Tasks, Task) {
+    $scope.type = '';
+
+    $scope.showAll = function () {
+      $rootScope.tasks = {
+        tasks: []
+      };
+      $scope.type = 'all';
+      Tasks.getTasks(35, true);
+    };
+
+    $scope.showNoSync = function () {
+      $rootScope.tasks = {
+        tasks: []
+      };
+      $scope.type = 'tosync';
+      Tasks.getTasksToSync(35, true);
+    };
+
+    $scope.add = function (task) {
+      Task.add({id: task.id}, function () {
+        $scope.showNoSync();
+      });
+    };
+
+    $scope.sync = function (task) {
+      Task.sync({id: task.id, jiraid: task.jiraid}, function () {
+        $scope.showNoSync();
+      });
+    };
+
+    $scope.showAll();
   });

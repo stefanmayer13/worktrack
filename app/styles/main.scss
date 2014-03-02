@@ -122,3 +122,20 @@ body {
         }
     }
 }
+
+.tasklist {
+    ul {
+        li.active {
+            button {
+                background-color: #428bca;
+            }
+        }
+        li button {
+            border: 1px solid #428bca;
+            border-radius: 4px;
+            background-color: transparent;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+    }
+}

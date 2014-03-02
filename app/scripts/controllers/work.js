@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('WorkTrackApp')
-  .controller('WorkCtrl', function ($scope, $rootScope, $filter, Work, Task, Tasks) {
+  .controller('WorkCtrl', function ($scope, $rootScope, $filter, Work, Task, Tasks, Jira) {
     //$scope.task = {input: 'SPOSP-1 0800 0900 0801 Description Bla'};
     $scope.autocomplete = false;
     $scope.activeIndex = 0;
@@ -70,4 +70,5 @@ angular.module('WorkTrackApp')
       }, 200);
     };
     Tasks.getTasks();
+    $scope.jirasession = Jira.getSession();
   });

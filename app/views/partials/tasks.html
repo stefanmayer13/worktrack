@@ -1,10 +1,23 @@
 <div ng-include="'partials/navbar'"></div>
 
-<ul ng-show="tasks" ng-controller="TasksCtrl">
-    <li ng-repeat="task in tasks">
-        {{task.jira | checkmark}} {{task.nr}} {{task.start | date:'dd.MM.yyyy'}} {{task.start | date:'HH:mm'}}-{{task.end | date:'HH:mm'}} {{task.end - task.start - 3600000 | date:'HH:mm'}} {{task.descr}}
-    </li>
-</ul>
-{{ currentUser.name }}
+<div ng-controller="TasksCtrl" class="tasklist">
+    <ul class="nav nav-pills">
+        <li ng-class="{active: type == 'all'}">
+            <button ng-click="showAll()">All</button>
+        </li>
+        <li ng-class="{active: type == 'tosync'}">
+            <button ng-click="showNoSync()">To Sync</button>
+        </li>
+    </ul>
 
-<div class="footer" ng-include="'partials/footer'"></div>
+    <ul ng-show="tasks">
+        <li ng-repeat="task in tasks.tasks">
+            <span ng-if="type == 'all'">{{task.jiraid | checkmark}}</span><span ng-if="type == 'tosync'">{{task.jira | checkmark}}</span> {{task.nr}} {{task.start | date:'dd.MM.yyyy'}} {{task.start | date:'HH:mm'}}-{{task.end | date:'HH:mm'}} {{task.end - task.start - 3600000 | date:'HH:mm'}} {{task.descr}}
+            <a ng-if="type == 'tosync' && task.jira !== 'ok'" ng-click="add(task)">Add</a>
+            <a ng-if="type == 'tosync' && task.jira !== 'add' && task.jira" ng-click="sync(task)">Sync</a>
+        </li>
+    </ul>
+    {{ currentUser.name }}
+
+    <div class="footer" ng-include="'partials/footer'"></div>
+</div>

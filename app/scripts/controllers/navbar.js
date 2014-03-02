@@ -34,6 +34,7 @@ angular.module('WorkTrackApp')
     };
     
     $scope.isActive = function(route) {
-      return route === $location.path();
+      var path = $location.path().split('/');
+      return route === '/' + path[1];
     };
   });

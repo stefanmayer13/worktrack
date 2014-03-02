@@ -12,7 +12,7 @@ angular.module('WorkTrackApp', [
         templateUrl: 'partials/main',
         controller: 'MainCtrl'
       })
-      .when('/tasks', {
+      .when('/tasks/:action?', {
         templateUrl: 'partials/tasks',
         controller: 'TasksCtrl',
         authenticate: true
