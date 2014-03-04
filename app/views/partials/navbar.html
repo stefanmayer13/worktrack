@@ -5,5 +5,5 @@
     </li>
     <li ng-show="currentUser" ng-class="{active: isActive('/logout')}"><a href="" ng-click="logout()">Logout</a></li>
   </ul>
-  <h3 class="text-muted">WorkTrack</h3>
+  <h3 style="display: inline; padding-right: 10px" class="text-muted">WorkTrack</h3><span ng-if="currentUser"><img style="padding: 5px;" src="{{currentUser.avatar['48x48']}}" height="48" width="48" /> {{ currentUser.name }}</span>
 </div>

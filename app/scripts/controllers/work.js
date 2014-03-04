@@ -73,5 +73,8 @@ angular.module('WorkTrackApp')
         event.target.previousElementSibling.scrollIntoView();
       }, 200);
     };
-    Tasks.getTasks();
+    $scope.getMore = function () {
+      Tasks.getTasks($rootScope.tasks.tasks.length + 5);
+    };
+    Tasks.getTasks(5, true);
   });

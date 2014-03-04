@@ -139,3 +139,26 @@ body {
         }
     }
 }
+
+.work {
+    .checkbox {
+        font-size: 14px;
+        text-align: left;
+        margin: 0;
+        input {
+            margin-top: 8px;
+        }
+    }
+}
+
+.cta {
+    cursor: pointer;
+    color: #0066bb;
+}
+
+ul {
+    padding-left: 0;
+    li {
+        list-style-type: none;
+    }
+}
