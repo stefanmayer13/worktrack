@@ -53,13 +53,15 @@ angular.module('WorkTrackApp')
           task.end = 0;
         }
         if (task.start && task.end) {
-          if (types.date) {
+          if (types.date && types.date[0]) {
             task.start = this.parseDate(task.start, types.date[0]);
             task.end = this.parseDate(task.end, types.date[0]);
           } else if(types.number && types.number.length > lastNumberUsed) {
             lastNumberUsed++;
-            task.start = this.parseDate(task.start, types.number[lastNumberUsed]);
-            task.end = this.parseDate(task.end, types.number[lastNumberUsed]);
+            if (types.number[lastNumberUsed]) {
+              task.start = this.parseDate(task.start, types.number[lastNumberUsed]);
+              task.end = this.parseDate(task.end, types.number[lastNumberUsed]);
+            }
           } else if (task.persistdate && task.oldDate) {
             task.start.setMonth(task.oldDate.getMonth());
             task.start.setDate(task.oldDate.getDate());

@@ -13,8 +13,8 @@
     <ul ng-show="tasks">
         <li ng-repeat="task in tasks.tasks">
             <span ng-if="type == 'all'">{{task.jiraid | checkmark}}</span><span ng-if="type == 'tosync'">{{task.jira | checkmark}}</span> {{task.nr}} {{task.start | date:'dd.MM.yyyy'}} {{task.start | date:'HH:mm'}}-{{task.end | date:'HH:mm'}} {{task.end - task.start - 3600000 | date:'HH:mm'}} {{task.descr}}
-            <a ng-if="type == 'tosync' && task.jira !== 'ok'" ng-click="add(task)">Add</a>
-            <a ng-if="type == 'tosync' && task.jira !== 'add' && task.jira" ng-click="sync(task)">Sync</a>
+            <span ng-if="type == 'tosync' && task.jira !== 'ok'" ng-click="add(task)">Add</span>
+            <span ng-if="type == 'tosync' && task.jira !== 'add' && task.jira" ng-click="sync(task)">Sync</span>
         </li>
     </ul>
     {{ currentUser.name }}

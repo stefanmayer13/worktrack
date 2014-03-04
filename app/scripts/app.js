@@ -34,10 +34,11 @@ angular.module('WorkTrackApp', [
     $locationProvider.html5Mode(true);
       
     // Intercept 401s and 403s and redirect you to login
-    $httpProvider.interceptors.push(['$q', '$location', function($q, $location) {
+    $httpProvider.interceptors.push(['$q', '$location', '$rootScope', function($q, $location, $rootScope) {
       return {
         'responseError': function(response) {
-          if(response.status === 401 || response.status === 403) {
+          if(response.status === 401) { //  || response.status === 403
+            $rootScope.currentUser = null;
             $location.path('/');
             return $q.reject(response);
           }

@@ -29,7 +29,7 @@ angular.module('WorkTrackApp')
         })
         .catch( function(err) {
           err = err.data;
-          $scope.errors.other = err.message;
+          $scope.errors.other = err.errorMessages[0];
         });
       }
     };

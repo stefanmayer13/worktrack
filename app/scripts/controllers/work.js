@@ -1,10 +1,13 @@
 'use strict';
 
 angular.module('WorkTrackApp')
-  .controller('WorkCtrl', function ($scope, $rootScope, $filter, Work, Task, Tasks, Jira) {
+  .controller('WorkCtrl', function ($scope, $rootScope, $filter, Work, Task, Tasks) {
     //$scope.task = {input: 'SPOSP-1 0800 0900 0801 Description Bla'};
     $scope.autocomplete = false;
     $scope.activeIndex = 0;
+    $scope.task = {
+      synctojira: true
+    };
     $scope.valueEnteredChanged = function () {
       Work.parseInput($scope.task);
       if ($scope.task.nr && $scope.task.step < 2) {
@@ -36,6 +39,7 @@ angular.module('WorkTrackApp')
           $scope.task = {
             persistdate: $scope.task.persistdate,
             calculatedhours: $scope.task.calculatedhours,
+            synctojira: $scope.task.synctojira,
             oldDate: $scope.task.oldDate
           };
           document.getElementsByName('task')[0].blur();

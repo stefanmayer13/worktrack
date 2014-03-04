@@ -1,4 +1,7 @@
 <div class="jumbotron" ng-controller="WorkCtrl">
+    <label class="checkbox" style="font-size: 14px; text-align: left">
+        <input type="checkbox" name="synctojira" value="synctojira" ng-model="task.synctojira" ng-change="valueEnteredChanged()"> Sync to jira
+    </label>
     <div class="form-group">
         <label>Enter Task</label>
         <input type="text"
@@ -32,7 +35,7 @@
 </div>
 <ul ng-show="tasks">
     <li ng-repeat="task in tasks.tasks | limitTo:5">
-        {{task.nr}} {{task.start | date:'dd.MM.yyyy'}} {{task.start | date:'HH:mm'}}-{{task.end | date:'HH:mm'}} {{task.descr}}
+        {{task.jiraid | checkmark}} {{task.nr}} {{task.start | date:'dd.MM.yyyy'}} {{task.start | date:'HH:mm'}}-{{task.end | date:'HH:mm'}} {{task.descr}}
     </li>
     <li>..........</li>
 </ul>

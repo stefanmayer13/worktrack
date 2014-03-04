@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('WorkTrackApp')
-  .factory('Auth', function Auth($location, $rootScope, Session, User, $cookieStore, $http) {
+  .factory('Auth', function Auth($location, $rootScope, Session, User, $cookieStore) {
     
     // Get currentUser from cookie
     $rootScope.currentUser = $cookieStore.get('user') || null;
