@@ -1,12 +1,14 @@
 'use strict';
 
 angular.module('WorkTrackApp')
-  .factory('Jira', function ($resource) {
-    return $resource('/api/jirasession', {
-    }, {
-      getSession: {
-        method: 'GET',
-        params: {}
+  .factory('Jira', function Auth($http) {
+    return {
+      import: function(from, to) {
+        console.log(from, to);
+        return $http.post('/api/jira', {from: from, to: to}).
+          success(function(data) {
+            console.log(data);
+          });
       }
-    });
+    };
   });

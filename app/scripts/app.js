@@ -27,6 +27,11 @@ angular.module('WorkTrackApp', [
         controller: 'JiraTasksCtrl',
         authenticate: true
       })
+      .when('/jira/:action?', {
+        templateUrl: 'partials/jira',
+        controller: 'JiraCtrl',
+        authenticate: true
+      })
       .otherwise({
         redirectTo: '/'
       });

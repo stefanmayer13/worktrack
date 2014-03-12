@@ -1,15 +1,17 @@
 <div ng-include="'partials/navbar'"></div>
 
-<div ng-controller="TasksCtrl" class="tasklist">
-    <ul class="nav nav-pills pull-left">
-        <li ng-class="{active: type == 'all'}">
-            <button ng-click="showAll()">All</button>
-        </li>
-        <li ng-class="{active: type == 'tosync'}">
-            <button ng-click="showNoSync()">To Sync</button>
-        </li>
-    </ul>
-    <div class="pull-right"><a ng-href="/jira/import">Import</a></div>
+<div class="tasklist">
+
+    <p>
+        <label>
+            From <input type="date" ng-model="import.from" ng-change="dateChanged()"/>
+        </label>
+        <label>
+            To <input type="date" ng-model="import.to" ng-change="dateChanged()"/>
+        </label>
+    </p>
+
+    <button class="btn btn-lg btn-primary" ng-click="startImport()">Import</button>
 
     <ul ng-show="tasks">
         <li ng-repeat="task in tasks.tasks">
