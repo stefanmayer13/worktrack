@@ -28,31 +28,43 @@ describe('Controller: MainCtrl', function () {
 
   describe('parseInput', function () {
     it('should set task nr', function () {
-      task.input = 'Tasknr';
+      task.input = 'Sposp-1';
       expect(work.parseInput(task)).toEqual({
         input: task.input,
-        nr: 'Tasknr'
+        nr: 'Sposp-1',
+        oldDate: null,
+        step: 1,
+        start: 0,
+        end: 0,
+        descr: ''
       });
     });
     it('should set start time', function () {
-      task.input = 'Tasknr 0900';
+      task.input = 'Sposp-1 0900';
       expect(work.parseInput(task)).toEqual({
         input: task.input,
-        nr: 'Tasknr',
-        start: date
+        nr: 'Sposp-1',
+        start: date,
+        oldDate: null,
+        step: 2,
+        end: 0,
+        descr: ''
       });
     });
     it('should set end time', function () {
-      task.input = 'Tasknr 0900 1000';
+      task.input = 'Sposp-1 0900 1000';
       expect(work.parseInput(task)).toEqual({
         input: task.input,
-        nr: 'Tasknr',
+        nr: 'Sposp-1',
         start: date,
-        end: date2
+        end: date2,
+        oldDate: null,
+        step: 3,
+        descr: ''
       });
     });
     it('should set date', function () {
-      task.input = 'Tasknr 0900 1000 080214';
+      task.input = 'Sposp-1 0900 1000 080214';
       date.setDate(8);
       date.setMonth(1);
       date.setYear(2014);
@@ -61,9 +73,12 @@ describe('Controller: MainCtrl', function () {
       date2.setYear(2014);
       expect(work.parseInput(task)).toEqual({
         input: task.input,
-        nr: 'Tasknr',
+        nr: 'Sposp-1',
         start: date,
-        end: date2
+        end: date2,
+        oldDate: null,
+        step: 3,
+        descr: ''
       });
     });
   });

@@ -17,7 +17,9 @@ angular.module('WorkTrackApp')
         to = tmp;
       }
       if (!isNaN(from.getTime()) && !isNaN(to.getTime())) {
-        Jira.import(from, to);
+        Jira.import(from, to).success(function (tasks) {
+          $scope.importTasks = tasks;
+        });
       }
     };
   });

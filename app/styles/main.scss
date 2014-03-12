@@ -125,6 +125,7 @@ body {
 
 .tasklist {
     ul {
+        clear: both;
         li.active {
             button {
                 background-color: #428bca;

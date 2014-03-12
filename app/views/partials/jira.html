@@ -13,11 +13,9 @@
 
     <button class="btn btn-lg btn-primary" ng-click="startImport()">Import</button>
 
-    <ul ng-show="tasks">
-        <li ng-repeat="task in tasks.tasks">
-            <span ng-if="type == 'all'">{{task.jiraid | checkmark}}</span><span ng-if="type == 'tosync'">{{task.jira | checkmark}}</span> {{task.nr}} {{task.start | date:'dd.MM.yyyy'}} {{task.start | date:'HH:mm'}}-{{task.end | date:'HH:mm'}} {{task.end - task.start - 3600000 | date:'HH:mm'}} {{task.descr}}
-            <span ng-if="type == 'tosync' && task.jira !== 'ok'" ng-click="add(task)" class="cta">Add</span>
-            <span ng-if="type == 'tosync' && task.jira !== 'add' && task.jira" ng-click="sync(task)" class="cta">Sync</span>
+    <ul ng-show="importTasks">
+        <li ng-repeat="task in importTasks.tasks">
+            {{task.synced | checkmark}} {{task.nr}} {{task.issue}} {{task.hours}}:{{task.minutes}} {{task.descr}}
         </li>
     </ul>
 
