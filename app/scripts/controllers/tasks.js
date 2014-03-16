@@ -32,5 +32,13 @@ angular.module('WorkTrackApp')
       });
     };
 
+    $scope.parseHours = function (hours) {
+      return ('0' + parseInt(hours, 10)).slice(-2);
+    };
+
+    $scope.parseMinutes = function (minutes) {
+      return ('0' + minutes%1*60).slice(-2);
+    };
+
     $scope.showAll();
   });

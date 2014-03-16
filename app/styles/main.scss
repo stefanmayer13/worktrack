@@ -125,7 +125,6 @@ body {
 
 .tasklist {
     ul {
-        clear: both;
         li.active {
             button {
                 background-color: #428bca;
@@ -137,6 +136,13 @@ body {
             background-color: transparent;
             padding: 10px;
             margin-bottom: 10px;
+        }
+    }
+    table {
+        clear: both;
+        td {
+            padding-left: 5px;
+            padding-right: 5px;
         }
     }
 }

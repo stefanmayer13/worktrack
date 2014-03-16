@@ -13,6 +13,8 @@
 
     <button class="btn btn-lg btn-primary" ng-click="startImport()">Import</button>
 
+    <p ng-show="importTasks.tasks"><b>{{importTasks.imported}} Tasks imported</b></p>
+    <p ng-show="importTasks.tasks">{{importTasks.tasks.length}} Tasks with {{importTasks.time}} hours found:</p>
     <ul ng-show="importTasks">
         <li ng-repeat="task in importTasks.tasks">
             {{task.synced | checkmark}} {{task.nr}} {{task.issue}} {{task.hours}}:{{task.minutes}} {{task.descr}}
