@@ -76,5 +76,12 @@ angular.module('WorkTrackApp')
     $scope.getMore = function () {
       Tasks.getTasks($rootScope.tasks.tasks.length + 5);
     };
+    $scope.parseHours = function (hours) {
+      return ('0' + parseInt(hours, 10)).slice(-2);
+    };
+
+    $scope.parseMinutes = function (minutes) {
+      return ('0' + minutes%1*60).slice(-2);
+    };
     Tasks.getTasks(5, true);
   });

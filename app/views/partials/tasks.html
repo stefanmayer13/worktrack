@@ -24,8 +24,7 @@
             <td ng-if="type == 'tosync'">{{task.jira | checkmark}}</td>
             <td>{{task.nr}}</td>
             <td>{{task.start | date:'dd.MM.yyyy'}}</td>
-            <td ng-show="task.end">{{task.start | date:'HH:mm'}}-{{task.end | date:'HH:mm'}} {{task.end - task.start - 3600000 | date:'HH:mm'}}</td>
-            <td ng-show="task.time">{{parseHours(task.time)}}:{{parseMinutes(task.time)}}</td>
+            <td>{{parseHours(task.time)}}:{{parseMinutes(task.time)}}<span ng-show="task.end"> {{task.start | date:'HH:mm'}}-{{task.end | date:'HH:mm'}}</span></td>
             <td>{{task.descr}}</td>
             <td ng-if="type == 'tosync' && task.jira !== 'ok'" ng-click="add(task)" class="cta">Add</td>
             <td ng-if="type == 'tosync' && task.jira !== 'add' && task.jira" ng-click="sync(task)" class="cta">Sync</td>

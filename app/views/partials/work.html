@@ -1,5 +1,6 @@
 <div class="work" ng-controller="WorkCtrl">
 <div class="jumbotron">
+    <p class="workinfo" ng-show="tasks.workedToday">Todays work: <b>{{tasks.workedToday}}h</b></p>
     <div class="form-group">
         <label>Enter Task</label>
         <input type="text"
@@ -30,10 +31,23 @@
     <p>{{task.nr}}<span ng-show="task.start"> from {{task.start | date:'HH:mm'}}</span><span ng-show="task.end"> to {{task.end | date:'HH:mm'}}</span><span ng-show="task.start"> at {{task.start | date:'dd.MM.yyyy'}}</span></p>
     <p>{{task.descr}}</p>
 </div>
-<ul ng-show="tasks">
-    <li ng-repeat="task in tasks.tasks">
-        {{task.jiraid | checkmark}} {{task.nr}} {{task.start | date:'dd.MM.yyyy'}} {{task.start | date:'HH:mm'}}-{{task.end | date:'HH:mm'}} {{task.descr}}
-    </li>
-    <li ng-click="getMore()" ng-if="tasks.tasks.length < tasks.count" class="cta">.....</li>
-</ul>
+<table ng-show="tasks.tasks">
+    <tr>
+        <th>Status</th>
+        <th>Task</th>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Description</th>
+    </tr>
+    <tr ng-repeat="task in tasks.tasks">
+        <td>{{task.jiraid | checkmark}}</td>
+        <td>{{task.nr}}</td>
+        <td>{{task.start | date:'dd.MM.yyyy'}}</td>
+        <td>{{parseHours(task.time)}}:{{parseMinutes(task.time)}}<span ng-show="task.end"> {{task.start | date:'HH:mm'}}-{{task.end | date:'HH:mm'}}</span></td>
+        <td>{{task.descr}}</td>
+    </tr>
+    <tr>
+        <td ng-click="getMore()" ng-if="tasks.tasks.length < tasks.count" class="cta">.....</td>
+    </tr>
+</table>
 </div>
