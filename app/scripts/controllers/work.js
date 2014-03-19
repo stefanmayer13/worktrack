@@ -10,14 +10,30 @@ angular.module('WorkTrackApp')
     };
     $scope.valueEnteredChanged = function () {
       Work.parseInput($scope.task);
-      if ($scope.task.nr && $scope.task.step < 2) {
+      if ($scope.task.input && !$scope.task.nr && $scope.task.step < 2) {
         $scope.autocomplete = true;
-        var length =($filter('filter')($rootScope.tasks, $scope.task.nr)).length;
+        var length =($filter('filter')($rootScope.tasks.tasks, $scope.task.input)).length;
         if ($scope.activeIndex >= length) {
           $scope.activeIndex = length > 0 ? length - 1 : 0;
         }
       } else {
         $scope.autocomplete = false;
+      }
+      if ($scope.task.step > 0) {
+        console.log($scope.task.step);
+        if (!$scope.task.start && $scope.task.step > 1) {
+          $scope.help = 'Enter starting hour';
+        } else if (!$scope.task.end && $scope.task.step > 2) {
+          $scope.help = 'Enter finishing hour';
+        } else if (!$scope.task.descr && !$scope.task.date && $scope.task.step > 3) {
+          $scope.help = 'Enter date or description';
+        } else if (!$scope.task.descr && $scope.task.step > 4) {
+          $scope.help = 'Enter description';
+        } else if ($scope.task.descr && $scope.task.step > 4) {
+          $scope.help = 'Press enter to submit';
+        }
+      } else {
+        $scope.help = '';
       }
     };
     $scope.submit = function () {
@@ -60,6 +76,10 @@ angular.module('WorkTrackApp')
         if ($scope.activeIndex > 0) {
           $scope.activeIndex--;
         }
+        event.preventDefault();
+      } else if($scope.autocomplete && event.which === 13) {
+        $scope.task.input = event.target.nextElementSibling.children[0].children[$scope.activeIndex].innerHTML;
+        $scope.valueEnteredChanged();
         event.preventDefault();
       }
     };

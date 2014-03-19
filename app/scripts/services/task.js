@@ -13,6 +13,12 @@ angular.module('WorkTrackApp')
       getAll: {
         method: 'GET'
       },
+      getByDay: {
+        method: 'GET',
+        params: {
+          id: 'byday'
+        }
+      },
       getNotSynced: {
         method: 'GET',
         params: {

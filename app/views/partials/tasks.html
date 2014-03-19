@@ -1,35 +1,28 @@
 <div ng-include="'partials/navbar'"></div>
 
-<div ng-controller="TasksCtrl" class="tasklist">
-    <ul class="nav nav-pills pull-left">
-        <li ng-class="{active: type == 'all'}">
-            <button ng-click="showAll()">All</button>
-        </li>
-        <li ng-class="{active: type == 'tosync'}">
-            <button ng-click="showNoSync()">To Sync</button>
-        </li>
-    </ul>
-    <div class="pull-right"><a ng-href="/jira/import">Import</a></div>
-
+<div class="tasklist">
+    <div class="row">
+        <div class="col-xs-6 col-md-4" ng-click="prev()"><button class="btn btn-sm btn-primary">{{prevDate | date:'dd.MM.yyyy'}}</button></div>
+        <div class="col-xs-6 col-md-4" ng-click="now()"><button class="btn btn-sm btn-success">{{date | date:'EEE dd.MM.yyyy'}}</button></div>
+        <div ng-show="nextDate" class="col-xs-6 col-md-4" ng-click="next()"><button class="btn btn-sm btn-primary">{{nextDate | date:'dd.MM.yyyy'}}</button></div>
+    </div>
     <table ng-show="tasks.tasks">
-        <tr>
-            <th>Status</th>
-            <th>Task</th>
-            <th>Date</th>
-            <th>Time</th>
-            <th>Description</th>
-        </tr>
         <tr ng-repeat="task in tasks.tasks">
-            <td ng-if="type == 'all'">{{task.jiraid | checkmark}}</td>
-            <td ng-if="type == 'tosync'">{{task.jira | checkmark}}</td>
+            <td>{{task.jiraid | checkmark}}</td>
             <td>{{task.nr}}</td>
             <td>{{task.start | date:'dd.MM.yyyy'}}</td>
-            <td>{{parseHours(task.time)}}:{{parseMinutes(task.time)}}<span ng-show="task.end"> {{task.start | date:'HH:mm'}}-{{task.end | date:'HH:mm'}}</span></td>
+            <td>{{parseHours(task.time)}}:{{parseMinutes(task.time)}}</td>
             <td>{{task.descr}}</td>
-            <td ng-if="type == 'tosync' && task.jira !== 'ok'" ng-click="add(task)" class="cta">Add</td>
-            <td ng-if="type == 'tosync' && task.jira !== 'add' && task.jira" ng-click="sync(task)" class="cta">Sync</td>
+        </tr>
+        <tr>
+            <td colspan="3"></td><td><b>{{parseHours(tasks.worked)}}:{{parseMinutes(tasks.worked)}}</b></td><td></td>
         </tr>
     </table>
-
-    <div class="footer" ng-include="'partials/footer'"></div>
+    <div class="alert alert-warning" ng-hide="tasks.tasks">No worklogs on this day.</div>
+    <div class="row">
+        <button ng-click="getToday()" class="btn btn-sm btn-info">Today</button>
+    </div>
 </div>
+{{ currentUser.name }}
+
+<div class="footer" ng-include="'partials/footer'"></div>

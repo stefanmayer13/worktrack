@@ -18,6 +18,7 @@ angular.module('WorkTrackApp')
         } else if (!task.persistdate) {
           task.oldDate = null;
         }
+        task.date = null;
         for (length = inputTypes.length; index < length; index++) {
           input = inputTypes[index];
           if (!types[input.type]) {
@@ -53,14 +54,23 @@ angular.module('WorkTrackApp')
           task.end = 0;
         }
         if (task.start && task.end) {
+          if (task.start > task.end) {
+            var tmp = task.end;
+            task.end = task.start;
+            task.start = tmp;
+          }
           if (types.date && types.date[0]) {
             task.start = this.parseDate(task.start, types.date[0]);
             task.end = this.parseDate(task.end, types.date[0]);
+            task.date = types.date[0];
+            task.step++;
           } else if(types.number && types.number.length > lastNumberUsed) {
             lastNumberUsed++;
             if (types.number[lastNumberUsed]) {
               task.start = this.parseDate(task.start, types.number[lastNumberUsed]);
               task.end = this.parseDate(task.end, types.number[lastNumberUsed]);
+              task.date = types.number[lastNumberUsed];
+              task.step++;
             }
           } else if (task.persistdate && task.oldDate) {
             task.start.setMonth(task.oldDate.getMonth());
@@ -69,6 +79,7 @@ angular.module('WorkTrackApp')
             task.end.setMonth(task.oldDate.getMonth());
             task.start.setDate(task.oldDate.getDate());
             task.end.setYear(task.oldDate.getFullYear());
+            task.date = task.oldDate;
           }
           if (task.persistdate) {
             task.oldDate = new Date(task.start);
@@ -200,7 +211,7 @@ angular.module('WorkTrackApp')
       },
 
       isInt: function (input) {
-        return input && input.indexOf(' ') === -1 && !isNaN(input) && parseInt(input, 10) % 1 === 0;
+        return input && input.indexOf('.') === -1  && input.indexOf(' ') === -1 && !isNaN(input) && parseFloat(input, 10) % 1 === 0;
       },
 
       parseTime: function(time) {

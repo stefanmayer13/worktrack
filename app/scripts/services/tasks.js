@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('WorkTrackApp')
-  .factory('Tasks', function Auth($rootScope, Session, Task) {
+  .factory('Tasks', function Auth($rootScope, Session, Task, $q, $filter) {
     return {
       getTasks: function(limit, reset, callback) {
         var start = 0,
@@ -28,6 +28,27 @@ angular.module('WorkTrackApp')
           console.log(err);
           return cb(err);
         }).$promise;
+      },
+
+      getTasksByDay: function (date, cb) {
+        var deferred = $q.defer();
+        if (!date) {
+          date = new Date();
+        }
+        date = $filter('date')(date, 'yyyy-MM-dd');
+        Task.getByDay({date: date}, function(tasks) {
+          if (cb) {
+            cb($rootScope.tasks);
+          }
+          deferred.resolve(tasks);
+        }, function(err) {
+          console.log(err);
+          if (cb) {
+            cb(err);
+          }
+          deferred.reject(err);
+        });
+        return deferred.promise;
       },
 
       getTasksToSync: function(limit, reset, callback) {

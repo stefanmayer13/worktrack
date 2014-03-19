@@ -1,8 +1,10 @@
 <div class="work" ng-controller="WorkCtrl">
 <div class="jumbotron">
+    <p class="workinfo pull-right">Weeks work: <b>{{tasks.workedWeek}}h</b></p>
     <p class="workinfo" ng-show="tasks.workedToday">Todays work: <b>{{tasks.workedToday}}h</b></p>
     <div class="form-group">
-        <label>Enter Task</label>
+        <label ng-hide="help">Enter Task</label>
+        <div ng-show="help" class="alert alert-info">{{help}}</div>
         <input type="text"
                name="task"
                required
@@ -12,23 +14,24 @@
                ng-keydown="keydown($event)"
                ng-enter="submit()"
                ng-model="task.input"
-               ng-focus="onFocus($event)">
+               ng-focus="onFocus($event)"
+               autofocus="autofocus">
         <div ng-if="autocomplete" class="autocomplete">
             <ul>
-                <li ng-click="selectTaskNr(actask)" ng-repeat="actask in tasks | filter:task.nr | unique:'nr'" ng-class="{active: $index === activeIndex}">{{actask.nr}}</li>
+                <li ng-click="selectTaskNr(actask)" ng-repeat="actask in tasks.tasks | filter:task.nr | unique:'nr'" ng-class="{active: $index === activeIndex}">{{actask.nr}}</li>
             </ul>
         </div>
-        <label class="checkbox">
+        <label class="checkbox pull-left">
             <input type="checkbox" name="synctojira" value="synctojira" ng-model="task.synctojira" ng-change="valueEnteredChanged()"> Sync to jira
         </label>
-        <label class="checkbox">
+        <label class="checkbox pull-left">
             <input type="checkbox" name="persistdate" value="persistdate" ng-model="task.persistdate" ng-change="valueEnteredChanged()"> Persist date
         </label>
-        <label class="checkbox">
+<!--        <label class="checkbox">
             <input type="checkbox" name="calculatedhours" value="calculatedhours" ng-model="task.calculatedhours" ng-change="valueEnteredChanged()"> Has calculated hours
-        </label>
+        </label> -->
     </div>
-    <p>{{task.nr}}<span ng-show="task.start"> from {{task.start | date:'HH:mm'}}</span><span ng-show="task.end"> to {{task.end | date:'HH:mm'}}</span><span ng-show="task.start"> at {{task.start | date:'dd.MM.yyyy'}}</span></p>
+    <p class="clear">{{task.nr}}<span ng-show="task.start"> from {{task.start | date:'HH:mm'}}</span><span ng-show="task.end"> to {{task.end | date:'HH:mm'}}</span><span ng-show="task.start"> at {{task.start | date:'dd.MM.yyyy'}}</span></p>
     <p>{{task.descr}}</p>
 </div>
 <table ng-show="tasks.tasks">
