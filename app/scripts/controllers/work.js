@@ -19,8 +19,8 @@ angular.module('WorkTrackApp')
       } else {
         $scope.autocomplete = false;
       }
-      if ($scope.task.step > 0) {
-        console.log($scope.task.step);
+      if ($scope.task.step > 1) {
+        //console.log($scope.task.step);
         if (!$scope.task.start && $scope.task.step > 1) {
           $scope.help = 'Enter starting hour';
         } else if (!$scope.task.end && $scope.task.step > 2) {
@@ -29,7 +29,7 @@ angular.module('WorkTrackApp')
           $scope.help = 'Enter date or description';
         } else if (!$scope.task.descr && $scope.task.step > 4) {
           $scope.help = 'Enter description';
-        } else if ($scope.task.descr && $scope.task.step > 4) {
+        } else if ($scope.task.descr && $scope.task.step >= 4) {
           $scope.help = 'Press enter to submit';
         }
       } else {
@@ -60,7 +60,8 @@ angular.module('WorkTrackApp')
           };
           document.getElementsByName('task')[0].blur();
           $scope.autocomplete = false;
-          Tasks.getTasks(5, true);
+          $scope.help = '';
+          Tasks.getTasks(15, true);
         },
         function(err) {
           console.log(err);
@@ -83,10 +84,13 @@ angular.module('WorkTrackApp')
         event.preventDefault();
       }
     };
+    $scope.hoverTaskNr = function (index) {
+      $scope.activeIndex = index;
+    };
     $scope.selectTaskNr = function (task) {
       $scope.task.input = task.nr;
       document.getElementsByName('task')[0].focus();
-      Work.parseInput($scope.task);
+      $scope.valueEnteredChanged();
     };
     $scope.onFocus = function (event) {
       window.setTimeout(function () {
@@ -94,7 +98,7 @@ angular.module('WorkTrackApp')
       }, 200);
     };
     $scope.getMore = function () {
-      Tasks.getTasks($rootScope.tasks.tasks.length + 5);
+      Tasks.getTasks($rootScope.tasks.tasks.length + 10);
     };
     $scope.parseHours = function (hours) {
       return ('0' + parseInt(hours, 10)).slice(-2);
@@ -103,5 +107,5 @@ angular.module('WorkTrackApp')
     $scope.parseMinutes = function (minutes) {
       return ('0' + minutes%1*60).slice(-2);
     };
-    Tasks.getTasks(5, true);
+    Tasks.getTasks(15, true);
   });

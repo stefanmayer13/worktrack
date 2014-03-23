@@ -18,6 +18,14 @@ angular.module('WorkTrackApp')
         return Task.getAll({start: start || 0, limit: (limit - start) || 5}, function(tasks) {
           if (tasks) {
             if (!$rootScope.tasks || $rootScope.tasks.tasks.length === 0 || reset) {
+              var weekQuota,
+                weekDay = (new Date()).getDay();
+              if (weekDay === 0) {
+                weekDay = 7;
+              }
+              weekQuota = 38.5 / (8 - weekDay);
+              $rootScope.weekQuota = weekQuota;
+              $rootScope.weekLogWarningLevel = (tasks.workedWeek < weekQuota-4.5 || tasks.workedWeek > weekQuota+5.5) ? 'danger' : ((tasks.workedWeek < weekQuota-2.5 || tasks.workedWeek > weekQuota+4.4) ? 'warning' : ((tasks.workedWeek < weekQuota-0.5 || tasks.workedWeek > weekQuota+1) ? 'info' : 'success'));
               $rootScope.tasks = tasks;
             } else {
               $rootScope.tasks.tasks = $rootScope.tasks.tasks.concat(tasks.tasks);

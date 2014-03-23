@@ -5,6 +5,7 @@ angular.module('WorkTrackApp')
     return {
       parseInput: function(task) {
         if (!task.input) {
+          task.step = 0;
           return '';
         }
         var index = 0,

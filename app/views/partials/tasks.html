@@ -2,9 +2,12 @@
 
 <div class="tasklist">
     <div class="row">
-        <div class="col-xs-6 col-md-4" ng-click="prev()"><button class="btn btn-sm btn-primary">{{prevDate | date:'dd.MM.yyyy'}}</button></div>
-        <div class="col-xs-6 col-md-4" ng-click="now()"><button class="btn btn-sm btn-success">{{date | date:'EEE dd.MM.yyyy'}}</button></div>
-        <div ng-show="nextDate" class="col-xs-6 col-md-4" ng-click="next()"><button class="btn btn-sm btn-primary">{{nextDate | date:'dd.MM.yyyy'}}</button></div>
+        <div class="pull-right"><a ng-href="jira" class="btn btn-lg btn-warning">Import</a></div>
+    </div>
+    <div class="row">
+        <div class="pull-left" ng-click="prev()"><button class="btn btn-sm btn-primary">{{prevDate | date:'dd.MM.yyyy'}}</button></div>
+        <button ng-show="nextDate" class="pull-right btn btn-sm btn-primary" ng-click="next()">{{nextDate | date:'dd.MM.yyyy'}}</button>
+        <input class="center-block" type="date" ng-model="dateSwitch" ng-change="dateChanged()"/>
     </div>
     <table ng-show="tasks.tasks">
         <tr ng-repeat="task in tasks.tasks">
@@ -19,6 +22,7 @@
         </tr>
     </table>
     <div class="alert alert-warning" ng-hide="tasks.tasks">No worklogs on this day.</div>
+    <div class="alert alert-{{weekLogWarningLevel}}">Weeks work: {{parseHours(tasks.workedWeek)}}:{{parseMinutes(tasks.workedWeek)}}h</div>
     <div class="row">
         <button ng-click="getToday()" class="btn btn-sm btn-info">Today</button>
     </div>

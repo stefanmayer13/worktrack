@@ -1,6 +1,6 @@
 <div class="work" ng-controller="WorkCtrl">
 <div class="jumbotron">
-    <p class="workinfo pull-right">Weeks work: <b>{{tasks.workedWeek}}h</b></p>
+    <p class="workinfo pull-right workinfo-{{weekLogWarningLevel}}">Weeks work: <b>{{tasks.workedWeek}}h</b> (of {{weekQuota}}h)</p>
     <p class="workinfo" ng-show="tasks.workedToday">Todays work: <b>{{tasks.workedToday}}h</b></p>
     <div class="form-group">
         <label ng-hide="help">Enter Task</label>
@@ -18,7 +18,7 @@
                autofocus="autofocus">
         <div ng-if="autocomplete" class="autocomplete">
             <ul>
-                <li ng-click="selectTaskNr(actask)" ng-repeat="actask in tasks.tasks | filter:task.nr | unique:'nr'" ng-class="{active: $index === activeIndex}">{{actask.nr}}</li>
+                <li ng-click="selectTaskNr(actask)" ng-mouseover="hoverTaskNr($index)" ng-repeat="actask in tasks.tasks | filter:task.input | unique:'nr' | limitTo: 5" ng-class="{active: $index === activeIndex}">{{actask.nr}}</li>
             </ul>
         </div>
         <label class="checkbox pull-left">
@@ -36,7 +36,7 @@
 </div>
 <table ng-show="tasks.tasks">
     <tr>
-        <th>Status</th>
+        <th></th>
         <th>Task</th>
         <th>Date</th>
         <th>Time</th>
@@ -50,7 +50,7 @@
         <td>{{task.descr}}</td>
     </tr>
     <tr>
-        <td ng-click="getMore()" ng-if="tasks.tasks.length < tasks.count" class="cta">.....</td>
+        <td colspan="5" ng-click="getMore()" ng-if="tasks.tasks.length < tasks.count" class="cta">...load more...</td>
     </tr>
 </table>
 </div>

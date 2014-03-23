@@ -1,7 +1,9 @@
 <div ng-include="'partials/navbar'"></div>
 
 <div class="tasklist">
-
+    <div class="row">
+        <div class="pull-left"><a ng-href="tasks" class="btn btn-sm btn-info">Back</a></div>
+    </div>
     <p>
         <label>
             From <input type="date" ng-model="import.from" ng-change="dateChanged()"/>
@@ -11,9 +13,9 @@
         </label>
     </p>
 
-    <button class="btn btn-lg btn-primary" ng-click="startImport()">Import</button>
+    <button class="btn btn-primary" ng-click="startImport()">Import</button>
 
-    <p ng-show="importTasks.tasks"><b>{{importTasks.imported}} Tasks imported</b></p>
+    <p ng-show="importTasks.imported !== undefined"><b>{{importTasks.imported}} Tasks imported</b></p>
     <p ng-show="importTasks.tasks">{{importTasks.tasks.length}} Tasks with {{importTasks.time}} hours found:</p>
     <ul ng-show="importTasks">
         <li ng-repeat="task in importTasks.tasks">
