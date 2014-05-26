@@ -78,7 +78,7 @@ angular.module('WorkTrackApp')
             task.start.setDate(task.oldDate.getDate());
             task.start.setYear(task.oldDate.getFullYear());
             task.end.setMonth(task.oldDate.getMonth());
-            task.start.setDate(task.oldDate.getDate());
+            task.end.setDate(task.oldDate.getDate());
             task.end.setYear(task.oldDate.getFullYear());
             task.date = task.oldDate;
           }

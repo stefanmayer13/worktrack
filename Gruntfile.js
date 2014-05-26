@@ -378,8 +378,66 @@ module.exports = function (grunt) {
         configFile: 'karma.conf.js',
         singleRun: true
       }
+    },
+
+    sshconfig: {
+      production: {
+        host: '188.226.231.189',
+        port: 22,
+        username: '<%= grunt.option("user") %>',
+        password: '<%= grunt.option("password") %>',
+        path: '/opt/worktrack'
+      }
+    },
+    sshexec: {
+      start: {
+        command: 'start worktrack'
+      },
+      stop: {
+        command: 'stop worktrack',
+        options: {
+          ignoreErrors: true
+        }
+      },
+      'npm-update': {
+        command: 'cd /opt/worktrack && npm update'
+      }
+    },
+    sftp: {
+      deploy: {
+        files: {
+          './"': 'dist/**'
+        },
+        options: {
+          srcBasePath: 'dist/',
+          createDirectories: true
+        }
+      }
+    },
+    compress: {
+      zip:{
+        files: {
+          './dist.zip': './dist/**'
+        }
+      }
     }
   });
+
+  grunt.loadNpmTasks('grunt-ssh');
+  grunt.loadNpmTasks('grunt-contrib-compress');
+
+  grunt.registerTask('deploy', [
+    //'build',
+    'sshexec:stop',
+    'sftp:deploy',
+    'sshexec:npm-update',
+    'sshexec:start'
+  ]);
+
+  grunt.registerTask('restartapp', [
+    'sshexec:stop',
+    'sshexec:start'
+  ]);
 
   grunt.registerTask('express-keepalive', 'Keep grunt running', function() {
     this.async();
@@ -426,7 +484,8 @@ module.exports = function (grunt) {
     'cssmin',
     'uglify',
     'rev',
-    'usemin'
+    'usemin',
+    //'compress:zip'
   ]);
 
   grunt.registerTask('heroku', function () {
