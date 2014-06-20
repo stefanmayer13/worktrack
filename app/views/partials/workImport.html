@@ -1,0 +1,22 @@
+<div class="workimport" ng-controller="WorkImportCtrl">
+    <div class="jumbotron">
+        <div class="form-group">
+            <label ng-hide="help">Enter Tasks</label>
+            <textarea style="height: 250px;" type="text"
+                   name="task"
+                   required
+                   class="form-control"
+                   ng-trim="false"
+                   ng-model="input"
+                   autofocus="autofocus">
+            </textarea>
+            <button ng-click="submit()">Submit</button>
+        </div>
+    </div>
+    <p>{{total | date:'HH:mm'}}</p>
+    <table>
+        <tr ng-repeat="task in tasks">
+            <td>{{task.start | date:'HH:mm'}} - {{task.end | date:'HH:mm'}}</td><td>{{task.nr}}</td><td>{{task.descr}}</td><td>{{task.start | date:'dd.MM.yyyy'}}</td><td>{{sync}}</td>
+        </tr>
+    </table>
+</div>

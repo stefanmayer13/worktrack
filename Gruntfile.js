@@ -79,6 +79,7 @@ module.exports = function (grunt) {
       express: {
         files: [
           'server.js',
+          'lib/routes.js',
           'lib/**/*.{js,json}'
         ],
         tasks: ['newer:jshint:server', 'express:dev'],

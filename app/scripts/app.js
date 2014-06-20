@@ -12,6 +12,10 @@ angular.module('WorkTrackApp', [
         templateUrl: 'partials/main',
         controller: 'MainCtrl'
       })
+      .when('/workImport', {
+        templateUrl: 'partials/workImport',
+        controller: 'WorkImportCtrl'
+      })
       .when('/tasks/:action?', {
         templateUrl: 'partials/tasks',
         controller: 'TasksCtrl',
