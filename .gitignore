@@ -1,10 +1,7 @@
 node_modules
-public
 .tmp
 .sass-cache
-app/bower_components
-heroku
-/views
-dist
-.idea/
-token.txt
+.idea
+
+old
+token.js
