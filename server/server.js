@@ -11,6 +11,7 @@ var server = new Hapi.Server();
 server.connection({port: Config.port});
 
 require('./routes/api')(server);
+require('./routes/app')(server);
 
 server.start(function () {
     Logger.info('Server running at:', server.info.uri);

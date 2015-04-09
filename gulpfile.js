@@ -7,9 +7,18 @@ var gulp = require('gulp');
 
 require('babel/register');
 
-gulp.task('default', ['devserver']);
+gulp.task('default', ['webpack', 'devserver', 'watch']);
 
 gulp.task('devserver', getTask('server').rundevserver);
+
+gulp.task('webpack', getTask('client').webpack);
+
+gulp.task('watch', function () {
+//    gulp.watch('scss/*.scss', ['sass']);
+    gulp.watch('app/**/*.js', ['check', 'webpack']);
+});
+
+gulp.task('check', getTask('helper').check);
 
 function getTask(name) {
     return require('./tasks/' + name);

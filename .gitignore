@@ -3,5 +3,7 @@ node_modules
 .sass-cache
 .idea
 
+tmp
+
 old
 token.js

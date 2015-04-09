@@ -3,7 +3,6 @@
  * @author <a href="mailto:stefanmayer13@gmail.com">Stefan Mayer</a>
  */
 
-let gulp = require('gulp');
 let gutil = require("gulp-util");
 let nodemon = require('nodemon');
 
