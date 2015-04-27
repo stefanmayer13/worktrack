@@ -36,9 +36,11 @@
         "xit": true,
         "xdescribe": true,
         "expect": true,
-        "fetch": true
+        "fetch": true,
+        "Rx": true
     },
     "rules": {
+        "no-multi-str": 0,
         "no-multi-spaces": 2,
         "no-underscore-dangle": 0,
         "no-bitwise": 1,

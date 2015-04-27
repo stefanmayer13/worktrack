@@ -26,7 +26,7 @@ module.exports = {
 
     plugins: [
         new webpack.optimize.DedupePlugin(),
-        new webpack.optimize.CommonsChunkPlugin(/* chunkName= */"react", /* filename= */"react.js"),
-        new webpack.optimize.UglifyJsPlugin()
+        new webpack.optimize.CommonsChunkPlugin(/* chunkName= */"react", /* filename= */"react.js")
+        //new webpack.optimize.UglifyJsPlugin()
     ]
 };

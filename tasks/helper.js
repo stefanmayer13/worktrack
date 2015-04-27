@@ -4,7 +4,8 @@
  */
 
 let gutil = require('gulp-util');
-let eslint = require('eslint');
+let eslint = require('gulp-eslint');
+let gulp = require('gulp');
 
 module.exports = {
     check() {
@@ -17,4 +18,4 @@ module.exports = {
             .pipe(eslint.format())
             .pipe(eslint.failAfterError());
     }
-}
+};

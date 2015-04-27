@@ -2,7 +2,11 @@
 /**
  * @author <a href="mailto:stefanmayer13@gmail.com">Stefan Mayer</a>
  */
+require('es6-promise').polyfill();
+require('whatwg-fetch');
 
 let React = require('react/addons');
 
-React.render(<div>Hello</div>, document.getElementById('app'));
+let ReportDetail = require('./pages/ReportDetail');
+
+React.render(<ReportDetail />, document.getElementById('app'));

@@ -10,7 +10,7 @@ let Logger = require('./Logger');
 var server = new Hapi.Server();
 server.connection({port: Config.port});
 
-require('./routes/api')(server);
+require('./routes/api')(server, '/api');
 require('./routes/app')(server);
 
 server.start(function () {
