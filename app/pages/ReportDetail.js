@@ -5,12 +5,15 @@
 
 let React = require('react/addons');
 let Api = require('../utils/Api');
-let Time = require('../utils/TimeHelper')
+let Time = require('../utils/TimeHelper');
+let TimeEntry = require('../components/TimeEntry');
 
 let ReportDetail = React.createClass({
 
     getInitialState() {
-        return {};
+        return {
+            data: []
+        };
     },
 
     componentWillMount() {
@@ -24,7 +27,12 @@ let ReportDetail = React.createClass({
     render() {
         return (
             <div className='page'>
-                <p>Total: {Time.getTime(this.state.total_grand)}</p>
+                <p>Total: {Time.getTimeFromMs(this.state.total_grand)}</p>
+                <ul>
+                    {this.state.data.map((data) => {
+                        return <TimeEntry key={data.id} entry={data} />;
+                    })}
+                </ul>
             </div>
         );
     }
