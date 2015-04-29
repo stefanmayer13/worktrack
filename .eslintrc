@@ -10,6 +10,7 @@
         "jsx": true,
         "blockBindings": true,
         "defaultParams": true,
+        "objectLiteralComputedProperties": true,
         "objectLiteralShorthandMethods": true,
         "objectLiteralShorthandProperties": true,
         "templateStrings": true,

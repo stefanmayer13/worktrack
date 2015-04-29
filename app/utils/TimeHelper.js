@@ -8,8 +8,8 @@ module.exports = {
         let timeInSeconds = time/1000,
             seconds = timeInSeconds % 60,
             minutes = Math.floor(timeInSeconds/60) % 60,
-            hours = Math.floor(timeInSeconds/3600) % 60;
-        return ('0' + hours).slice(-2) + ':' + ('0' + minutes).slice(-2) + ':' + ('0' + seconds).slice(-2);
+            hours = Math.floor(timeInSeconds/3600);
+        return (hours < 10 ? '0' + hours : hours) + ':' + ('0' + minutes).slice(-2) + ':' + ('0' + seconds).slice(-2);
     },
 
     getTimeFromDateString(dateString) {
@@ -21,10 +21,10 @@ module.exports = {
     },
 
     getDate(date) {
-        return ('0' + date.getDate()).slice(-2) + '.' + ('0' + date.getMonth()).slice(-2) + '.' + date.getFullYear();
+        return ('0' + date.getDate()).slice(-2) + '.' + ('0' + (date.getMonth() + 1)).slice(-2) + '.' + date.getFullYear();
     },
 
     getDateForApi(date) {
-        return date.getFullYear() + '-' + ('0' + date.getMonth()).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
+        return date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
     }
 };

@@ -13,7 +13,6 @@ let ReportDetail = React.createClass({
     getInitialState() {
         let start = new Date(),
             end = new Date();
-        start.setDate(start.getDate() - 1);
         return {
             data: [],
             startDate: start,
@@ -35,10 +34,18 @@ let ReportDetail = React.createClass({
         return (
             <div className='page'>
                 <p>
-                    <button onClick={this._onForward}>+</button>
-                    <div>{Time.getDate(this.state.startDate)} - {Time.getDate(this.state.endDate)}</div>
-                    <button onClick={this._onBackward}>-</button>
+                    <label for="startDate">From:</label>
+                    <button onClick={this._onForwardStart}>+</button>
+                    <input type="date" name="startDate" value={Time.getDateForApi(this.state.startDate)} onChange={this._handleDateChange} />
+                    <button onClick={this._onBackwardStart}>-</button>
                 </p>
+                <p>
+                    <label for="startDate">To:</label>
+                    <button onClick={this._onForwardEnd}>+</button>
+                    <input type="date" name="endDate" value={Time.getDateForApi(this.state.endDate)} onChange={this._handleDateChange} />
+                    <button onClick={this._onBackwardEnd}>-</button>
+                </p>
+                {this.state.loading ? <p>Loading new data ...</p> : null}
                 <p>Total: {Time.getTimeFromMs(this.state.total_grand)}</p>
                 <ul>
                     {this.state.data.map((data) => {
@@ -50,29 +57,63 @@ let ReportDetail = React.createClass({
     },
 
     _getNewData(state) {
+        this.setState({
+            loading: true
+        });
         Api.fetch(`/api/reports/details?start=${Time.getDateForApi(state.startDate)}&end=${Time.getDateForApi(state.endDate)}`)
             .subscribe((data) => {
                 console.log(data);
+                data.loading = false;
                 this.setState(data);
             });
     },
 
-    _onForward() {
-        this._changeDate(+1);
-    },
-
-    _onBackward() {
-        this._changeDate(-1);
-    },
-
-    _changeDate(dir) {
-        let start = new Date(this.state.startDate),
-            end = new Date(this.state.endDate);
-        start.setDate(start.getDate() + dir);
-        end.setDate(end.getDate() +dir);
+    _handleDateChange(e) {
         this.setState({
-            startDate: start,
-            endDate: end
+            [e.target.name]: new Date(e.target.value)
+        });
+    },
+
+    _onForwardStart() {
+        this._changeDate('startDate', +1);
+    },
+
+    _onBackwardStart() {
+        this._changeDate('startDate', -1);
+    },
+
+    _onForwardEnd() {
+        this._changeDate('endDate', +1);
+    },
+
+    _onBackwardEnd() {
+        this._changeDate('endDate', -1);
+    },
+
+    _changeDate(datetype, dir) {
+        let date = new Date(this.state[datetype]);
+        date.setDate(date.getDate() + dir);
+        this._setDate(datetype, date);
+    },
+
+    _setDate(datetype, date) {
+        let startdate, enddate;
+        if (datetype === 'startDate') {
+            startdate = date;
+            enddate = this.state.endDate;
+            if (enddate < startdate) {
+                enddate = new Date(startdate);
+            }
+        } else {
+            startdate = this.state.startDate;
+            enddate = date;
+            if (enddate < startdate) {
+                startdate = new Date(enddate);
+            }
+        }
+        this.setState({
+            startDate: startdate,
+            endDate: enddate
         });
     }
 });
