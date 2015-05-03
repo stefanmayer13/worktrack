@@ -35,15 +35,15 @@ let ReportDetail = React.createClass({
             <div className='page'>
                 <p>
                     <label for="startDate">From:</label>
-                    <button onClick={this._onForwardStart}>+</button>
-                    <input type="date" name="startDate" value={Time.getDateForApi(this.state.startDate)} onChange={this._handleDateChange} />
                     <button onClick={this._onBackwardStart}>-</button>
+                    <input type="date" name="startDate" value={Time.getDateForApi(this.state.startDate)} onChange={this._handleDateChange} />
+                    <button onClick={this._onForwardStart}>+</button>
                 </p>
                 <p>
                     <label for="startDate">To:</label>
-                    <button onClick={this._onForwardEnd}>+</button>
-                    <input type="date" name="endDate" value={Time.getDateForApi(this.state.endDate)} onChange={this._handleDateChange} />
                     <button onClick={this._onBackwardEnd}>-</button>
+                    <input type="date" name="endDate" value={Time.getDateForApi(this.state.endDate)} onChange={this._handleDateChange} />
+                    <button onClick={this._onForwardEnd}>+</button>
                 </p>
                 {this.state.loading ? <p>Loading new data ...</p> : null}
                 <p>Total: {Time.getTimeFromMs(this.state.total_grand)}</p>

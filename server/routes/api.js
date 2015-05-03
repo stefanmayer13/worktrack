@@ -4,9 +4,10 @@
  */
 
 let https = require('https');
-let token = require('../../token');
+let token = require('../../auth').token;
 let Logger = require('../Logger');
 let DateHelper = require('../utils/DateHelper');
+let JiraHelper = require('../utils/JiraHelper');
 
 module.exports = (server, prefix) => {
     server.route({
@@ -71,6 +72,14 @@ module.exports = (server, prefix) => {
             });
 
             req.end();
+        }
+    });
+
+    server.route({
+        method: 'GET',
+        path: prefix+'/jira/issue/{issuekey}',
+        handler(request, reply) {
+            JiraHelper.getIssue(request.params.issuekey, reply);
         }
     });
 };
