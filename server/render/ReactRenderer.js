@@ -3,12 +3,9 @@
  * @author <a href="mailto:stefanmayer13@gmail.com">Stefan Mayer</a>
  */
 
-let Q = require('q');
-
 let ReactRenderer = {
     render() {
-        var deferred = Q.defer();
-        deferred.resolve('<!DOCTYPE html> \
+        return '<!DOCTYPE html> \
             <html> \
                 <head lang="en"> \
                     <meta charset="UTF-8"> \
@@ -21,8 +18,7 @@ let ReactRenderer = {
                     <div id="app" />\
                 </body> \
             </html>\
-        ');
-        return deferred.promise;
+        ';
     }
 };
 

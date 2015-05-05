@@ -10,19 +10,7 @@ module.exports = (server) => {
         method: 'GET',
         path: '/{path*}',
         handler: (request, reply) => {
-            ReactRenderer.render(request).then((html) => {
-                reply(html);
-            }).catch((error) => {
-                switch (error.name) {
-                    case 'RedirectError':
-                        reply().redirect(error.url);
-                        break;
-                    default:
-                        console.log('Rendering Error: ', error.stack);
-                        reply(new Error('ERROR'));
-                        break;
-                }
-            });
+            reply(ReactRenderer.render(request));
         }
     });
 

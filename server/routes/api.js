@@ -4,6 +4,7 @@
  */
 
 let https = require('https');
+let async = require('async');
 let token = require('../../auth').token;
 let Logger = require('../Logger');
 let DateHelper = require('../utils/DateHelper');
@@ -33,11 +34,43 @@ module.exports = (server, prefix) => {
             Logger.info('Handling request to toggle api');
 
             let req = https.request(options, (res) => {
+                let body = '';
                 res.setEncoding('utf8');
-                reply(res);
+                res.on('data', (data) => {
+                    body += data;
+                });
+                res.on('end', () => {
+                    let data = JSON.parse(body);
+                    let jiraCalls = data.data.map((entry) => {
+                        return {
+                            id: entry.id,
+                            key: entry.description.split(' ')[0],
+                            fn: JiraHelper.getIssue.bind(JiraHelper, entry.description.split(' ')[0])
+                        };
+                    }).reduce((prev, curr) => {
+                        prev[curr.id] = curr.fn;
+                        return prev;
+                    }, {});
+                    async.parallelLimit(jiraCalls, 2, (err, jiraIssues) => {
+                        console.log(jiraIssues);
+                        data.data = data.data.map((entry) => {
+                            let jiraIssue = jiraIssues[entry.id];
+                            console.log(jiraIssue, entry.id);
+                            if (jiraIssue) {
+                                entry.jira = {
+                                    id: jiraIssue.id,
+                                    key: jiraIssue.key,
+                                    descr: jiraIssue.fields.summary
+                                };
+                            }
+                            return entry;
+                        });
+                        reply(data);
+                    });
+                });
             });
 
-            req.on('error', function(e) {
+            req.on('error', (e) => {
                 Logger.error('problem with request: ' + e.message);
             });
 

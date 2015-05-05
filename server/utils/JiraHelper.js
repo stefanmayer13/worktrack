@@ -24,11 +24,22 @@ module.exports = {
             }
         };
 
-        Logger.info('Handling request to Jira api');
+        Logger.info('Handling request to Jira api', issueKey);
 
         let req = https.request(options, (res) => {
+            let body = '';
             res.setEncoding('utf8');
-            cb(null, res);
+            res.on('data', (data) => {
+                body += data;
+            });
+            res.on('end', () => {
+                let data = JSON.parse(body);
+                if (data.errorMessages) {
+                    cb(null, null);
+                } else {
+                    cb(null, data);
+                }
+            });
         });
 
         req.on('error', function(e) {

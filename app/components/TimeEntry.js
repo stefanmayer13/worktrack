@@ -17,11 +17,15 @@ let TimeEntry = React.createClass({
             entryStyle = {
                 'color': entry.project_color,
                 'background-color': entry.project_hex_color
-            };
+            },
+            jiraInfo = entry.jira ? (
+                <div>{entry.jira.key} {entry.jira.descr}</div>
+            ) : null;
         return (
             <li>
                 <div>{entry.description}</div>
                 <div style={entryStyle}>{entry.project}</div>
+                {jiraInfo}
                 <div>{Time.getTimeFromMs(entry.dur)}</div>
                 <div>{Time.getTimeFromDateString(entry.start)} - {Time.getTimeFromDateString(entry.end)}</div>
             </li>
