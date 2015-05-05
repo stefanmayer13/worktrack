@@ -20,7 +20,8 @@ let TimeEntry = React.createClass({
             },
             jiraInfo = entry.jira ? (
                 <div>{entry.jira.key} {entry.jira.descr}</div>
-            ) : null;
+            ) : null,
+            logged = entry.jira.logged ? <div>Already logged!</div> : null;
         return (
             <li>
                 <div>{entry.description}</div>
@@ -28,6 +29,7 @@ let TimeEntry = React.createClass({
                 {jiraInfo}
                 <div>{Time.getTimeFromMs(entry.dur)}</div>
                 <div>{Time.getTimeFromDateString(entry.start)} - {Time.getTimeFromDateString(entry.end)}</div>
+                {logged}
             </li>
         );
     }

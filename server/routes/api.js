@@ -41,6 +41,9 @@ module.exports = (server, prefix) => {
                 });
                 res.on('end', () => {
                     let data = JSON.parse(body);
+                    if (!data.data) {
+                        return reply(data);
+                    }
                     let jiraCalls = data.data.map((entry) => {
                         return {
                             id: entry.id,
@@ -52,15 +55,17 @@ module.exports = (server, prefix) => {
                         return prev;
                     }, {});
                     async.parallelLimit(jiraCalls, 2, (err, jiraIssues) => {
-                        console.log(jiraIssues);
+                        if (err) {
+                            return reply(err);
+                        }
                         data.data = data.data.map((entry) => {
                             let jiraIssue = jiraIssues[entry.id];
-                            console.log(jiraIssue, entry.id);
                             if (jiraIssue) {
                                 entry.jira = {
                                     id: jiraIssue.id,
                                     key: jiraIssue.key,
-                                    descr: jiraIssue.fields.summary
+                                    descr: jiraIssue.fields.summary,
+                                    logged: JiraHelper.isLogged(entry, jiraIssue.fields.worklog)
                                 };
                             }
                             return entry;

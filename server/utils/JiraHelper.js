@@ -11,7 +11,7 @@ module.exports = {
     getIssue(issueKey, cb) {
         var auth = 'Basic ' + new Buffer(authData.user + ':' + authData.pass).toString('base64');
 
-        let url = `/rest/api/2/issue/${issueKey}?fields=summary`;
+        let url = `/rest/api/2/issue/${issueKey}?fields=summary,worklog`;
 
         let options = {
             hostname: 'jira-new.netconomy.net',
@@ -48,5 +48,26 @@ module.exports = {
         });
 
         req.end();
+    },
+
+    isLogged(entry, worklogData) {
+        if (!worklogData || !worklogData.worklogs) {
+            return false;
+        }
+        let worklogs = worklogData.worklogs,
+            entryDate = new Date(entry.start),
+            dur = Math.round(entry.dur / 60000) * 60;
+        entryDate.setHours(0, 0, 0, 0);
+        let entryDateTime = entryDate.getTime();
+        let foundWorklog = worklogs.filter((worklog) => {
+            let logDate = new Date(worklog.started);
+            logDate.setHours(0, 0, 0, 0);
+            if (entryDateTime === logDate.getTime()) {
+                console.log(dur, worklog.timeSpentSeconds);
+            }
+            return (entryDateTime === logDate.getTime()) && (dur === worklog.timeSpentSeconds);
+        });
+        console.log(foundWorklog.length !== 0);
+        return foundWorklog.length !== 0;
     }
 };
