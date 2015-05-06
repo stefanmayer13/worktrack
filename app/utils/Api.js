@@ -4,8 +4,8 @@
  */
 
 module.exports = {
-    fetch(url) {
-        return Rx.Observable.fromPromise(fetch(url))
+    fetch(url, options) {
+        return Rx.Observable.fromPromise(fetch(url, options))
             .flatMap((response) => {
                 let data = response.json();
                 return Rx.Observable.fromPromise(data);

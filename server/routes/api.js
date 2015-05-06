@@ -61,6 +61,7 @@ module.exports = (server, prefix) => {
                         data.data = data.data.map((entry) => {
                             let jiraIssue = jiraIssues[entry.id];
                             if (jiraIssue) {
+                                console.log('Issue ', jiraIssue.key);
                                 entry.jira = {
                                     id: jiraIssue.id,
                                     key: jiraIssue.key,
@@ -118,6 +119,14 @@ module.exports = (server, prefix) => {
         path: prefix+'/jira/issue/{issuekey}',
         handler(request, reply) {
             JiraHelper.getIssue(request.params.issuekey, reply);
+        }
+    });
+
+    server.route({
+        method: 'POST',
+        path: prefix+'/jira/add',
+        handler(request, reply) {
+            JiraHelper.add(request.payload, reply);
         }
     });
 };
