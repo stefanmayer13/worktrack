@@ -21,16 +21,19 @@ let TimeEntry = React.createClass({
 
     render() {
         let entry = this.props.entry,
+            hasJiraInfo = !!entry.jira,
             entryStyle = {
                 'color': entry.project_color,
                 'background-color': entry.project_hex_color
             },
-            jiraInfo = entry.jira ? (
+            jiraInfo = hasJiraInfo ? (
                 <div>{entry.jira.key} {entry.jira.descr}</div>
             ) : null,
-            logged = entry.jira.logged ? <div>Already logged!</div> : <button onClick={this._handleSync}>Sync</button>;
+            warning = !hasJiraInfo ? <div style={{'background-color': 'red'}}>NO JIRA ISSUE FOUND!</div> : null,
+            logged = (hasJiraInfo && entry.jira.logged) ? <div>Already logged!</div> : <button onClick={this._handleSync}>Sync</button>;
         return (
             <li>
+                {warning}
                 <div>{entry.description}</div>
                 <div style={entryStyle}>{entry.project}</div>
                 {jiraInfo}
@@ -51,7 +54,7 @@ let TimeEntry = React.createClass({
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(this.props.entry)
+            body: JSON.stringify([this.props.entry])
         }).subscribe((data) => {
             console.log(data);
             this.setState({

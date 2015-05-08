@@ -126,7 +126,13 @@ module.exports = (server, prefix) => {
         method: 'POST',
         path: prefix+'/jira/add',
         handler(request, reply) {
-            JiraHelper.add(request.payload, reply);
+            let jiraRequests = request.payload.map((entry) => {
+                return JiraHelper.add.bind(JiraHelper, entry);
+            });
+            async.series(jiraRequests, (err, data) => {
+                console.log(err, data);
+                reply(err, data);
+            });
         }
     });
 };

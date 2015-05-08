@@ -72,14 +72,14 @@ module.exports = {
     },
 
     add(entry, cb) {
-        if (!entry || !entry.jira || ! entry.jira.id) {
-            cb(new Error('Problem with entry data'));
+        if (!entry || !entry.jira || !entry.jira.id) {
+            return cb(new Error('Problem with entry data'));
         }
         var auth = 'Basic ' + new Buffer(authData.user + ':' + authData.pass).toString('base64');
         let issueKey = entry.jira.key;
         let isoStartDateStr = new Date(entry.start).toISOString();
         let postData = JSON.stringify({
-            "comment": entry.description,
+            "comment": entry.description.substr(issueKey.length + 1),
             "started": isoStartDateStr.substr(0, isoStartDateStr.length - 1) + '+0100',
             "timeSpentSeconds": entry.dur / 1000
         });
