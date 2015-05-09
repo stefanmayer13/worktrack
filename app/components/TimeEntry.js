@@ -30,7 +30,8 @@ let TimeEntry = React.createClass({
                 <div>{entry.jira.key} {entry.jira.descr}</div>
             ) : null,
             warning = !hasJiraInfo ? <div style={{'background-color': 'red'}}>NO JIRA ISSUE FOUND!</div> : null,
-            logged = (hasJiraInfo && entry.jira.logged) ? <div>Already logged!</div> : <button onClick={this._handleSync}>Sync</button>;
+            logged = (hasJiraInfo && entry.jira.logged)
+                        ? <div>Already logged!</div> : <button onClick={this._handleSync}>Sync</button>;
         return (
             <li>
                 {warning}

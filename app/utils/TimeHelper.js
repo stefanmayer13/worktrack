@@ -9,22 +9,26 @@ module.exports = {
             seconds = timeInSeconds % 60,
             minutes = Math.floor(timeInSeconds/60) % 60,
             hours = Math.floor(timeInSeconds/3600);
-        return (hours < 10 ? '0' + hours : hours) + ':' + ('0' + minutes).slice(-2) + ':' + ('0' + seconds).slice(-2);
+        return `${(hours < 10 ? '0' + hours : hours)}:${this.addLeadingZero(minutes)}:${this.addLeadingZero(seconds)}`;
     },
 
     getTimeFromDateString(dateString) {
         let date = !isNaN(Date.parse(dateString)) ? new Date(dateString) : null;
         if (date) {
-            return date.getHours() + ':' + date.getMinutes();
+            return `${this.addLeadingZero(date.getHours())}:${this.addLeadingZero(date.getMinutes())}`;
         }
         return '';
     },
 
     getDate(date) {
-        return ('0' + date.getDate()).slice(-2) + '.' + ('0' + (date.getMonth() + 1)).slice(-2) + '.' + date.getFullYear();
+        return `${this.addLeadingZero(date.getDate())}.${this.addLeadingZero(date.getMonth())}.${date.getFullYear()}`;
     },
 
     getDateForApi(date) {
-        return date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
+        return `${date.getFullYear()}-${this.addLeadingZero(date.getMonth())}-${this.addLeadingZero(date.getDate())}`;
+    },
+
+    addLeadingZero(nr) {
+        return ('0' + (nr + 1)).slice(-2);
     }
 };
