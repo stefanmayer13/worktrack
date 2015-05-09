@@ -129,9 +129,7 @@ let ReportDetail = React.createClass({
             body: JSON.stringify(this.state.data)
         }).subscribe((data) => {
             console.log(data);
-            this.setState({
-                loading: false
-            });
+            this._getNewData(this.state);
         });
     }
 });
