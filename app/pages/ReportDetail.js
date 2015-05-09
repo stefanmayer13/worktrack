@@ -35,16 +35,10 @@ let ReportDetail = React.createClass({
         return (
             <div className='page'>
                 <p>
-                    <label for="startDate">From:</label>
+                    <label for="startDate">Date:</label>
                     <button onClick={this._onBackwardStart}>-</button>
                     <input type="date" name="startDate" value={Time.getDateForApi(this.state.startDate)} onChange={this._handleDateChange} />
                     <button onClick={this._onForwardStart}>+</button>
-                </p>
-                <p>
-                    <label for="startDate">To:</label>
-                    <button onClick={this._onBackwardEnd}>-</button>
-                    <input type="date" name="endDate" value={Time.getDateForApi(this.state.endDate)} onChange={this._handleDateChange} />
-                    <button onClick={this._onForwardEnd}>+</button>
                 </p>
                 {this.state.loading ? <p>Loading new data ...</p> : null}
                 <p>Total: {Time.getTimeFromMs(this.state.total_grand)}</p>
@@ -62,7 +56,7 @@ let ReportDetail = React.createClass({
         this.setState({
             loading: true
         });
-        Api.fetch(`/api/reports/details?start=${Time.getDateForApi(state.startDate)}&end=${Time.getDateForApi(state.endDate)}`)
+        Api.fetch(`/api/reports/details?start=${Time.getDateForApi(state.startDate)}&end=${Time.getDateForApi(state.startDate)}`)
             .subscribe((data) => {
                 console.log(data);
                 data.loading = false;

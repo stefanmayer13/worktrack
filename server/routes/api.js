@@ -135,4 +135,12 @@ module.exports = (server, prefix) => {
             });
         }
     });
+
+    server.route({
+        method: 'GET',
+        path: prefix+'/jira/issue/{issuekey}/worklog',
+        handler(request, reply) {
+            JiraHelper.getWorklogForIssue(request.params.issuekey, reply);
+        }
+    });
 };
