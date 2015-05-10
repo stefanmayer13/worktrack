@@ -82,7 +82,7 @@ module.exports = {
         let issueKey = entry.jira.key;
         let isoStartDateStr = new Date(entry.start).toISOString();
         let postData = JSON.stringify({
-            "comment": entry.description.substr(issueKey.length + 1),
+            "comment": entry.description,
             "started": isoStartDateStr.substr(0, isoStartDateStr.length - 1) + '+0100',
             "timeSpentSeconds": entry.dur / 1000
         });

@@ -1,0 +1,19 @@
+@charset "UTF-8";
+
+.timeentry {
+    clear: left;
+    list-style-type: none;
+    border-bottom: 0.1rem solid grey;
+    div {
+        margin-right: 0.5rem;
+        float: left;
+    }
+    .project, .descr, .duration, .logged {
+        clear: left;
+    }
+    &:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+}

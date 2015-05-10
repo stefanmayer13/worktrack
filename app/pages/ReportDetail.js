@@ -33,7 +33,7 @@ let ReportDetail = React.createClass({
 
     render() {
         return (
-            <div className='page'>
+            <div className='page report'>
                 <p>
                     <label for="startDate">Date:</label>
                     <button onClick={this._onBackwardStart}>-</button>

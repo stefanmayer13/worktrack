@@ -18,8 +18,10 @@ gulp.task('devserver', getTask('server').rundevserver);
 gulp.task('webpack', getTask('client').webpack);
 
 gulp.task('watch', function () {
-//    gulp.watch('scss/*.scss', ['sass']);
+    gulp.watch('scss/*.scss', ['sass']);
     gulp.watch('app/**/*.js', ['check', 'webpack']);
 });
 
 gulp.task('check', getTask('helper').check);
+
+gulp.task('sass', getTask('sass').sass);

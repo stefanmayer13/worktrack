@@ -23,4 +23,14 @@ module.exports = (server) => {
             }
         }
     });
+
+    server.route({
+        method: 'GET',
+        path: '/styles/{filename}',
+        handler: {
+            file: (request) => {
+                return 'css/' + request.params.filename;
+            }
+        }
+    });
 };

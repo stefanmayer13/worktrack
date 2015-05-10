@@ -3,7 +3,7 @@ node_modules
 .sass-cache
 .idea
 
+css
 tmp
 
-old
 auth.js

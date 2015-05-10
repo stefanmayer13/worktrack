@@ -10,6 +10,7 @@ let ReactRenderer = {
                 <head lang="en"> \
                     <meta charset="UTF-8"> \
                     <title>Test</title> \
+                    <link rel="stylesheet" href="styles/main.css" />\
                     <script defer src="/js/rx.lite.min.js"></script>\
                     <script defer src="/js/react.js"></script>\
                     <script defer src="/js/app.js"></script>\

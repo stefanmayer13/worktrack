@@ -27,19 +27,19 @@ let TimeEntry = React.createClass({
                 'background-color': entry.project_hex_color
             },
             jiraInfo = hasJiraInfo ? (
-                <div>{entry.jira.key} {entry.jira.descr}</div>
+                <div className="jira">{entry.jira.key} {entry.jira.descr}</div>
             ) : null,
             warning = !hasJiraInfo ? <div style={{'background-color': 'red'}}>NO JIRA ISSUE FOUND!</div> : null,
             logged = (hasJiraInfo && entry.jira.logged)
-                        ? <div>Already logged!</div> : <button onClick={this._handleSync}>Sync</button>;
+                        ? <div className="logged">Already logged!</div> : <button onClick={this._handleSync}>Sync</button>;
         return (
-            <li>
+            <li className="timeentry">
                 {warning}
-                <div>{entry.description}</div>
-                <div style={entryStyle}>{entry.project}</div>
+                <div className="project" style={entryStyle}>{entry.project}</div>
                 {jiraInfo}
-                <div>{Time.getTimeFromMs(entry.dur)}</div>
-                <div>{Time.getTimeFromDateString(entry.start)} - {Time.getTimeFromDateString(entry.end)}</div>
+                <div className="descr">{entry.description}</div>
+                <div className="duration">{Time.getTimeFromMs(entry.dur)}</div>
+                <div className="time">{Time.getTimeFromDateString(entry.start)} - {Time.getTimeFromDateString(entry.end)}</div>
                 {logged}
             </li>
         );

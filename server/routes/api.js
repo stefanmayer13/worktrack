@@ -68,6 +68,7 @@ module.exports = (server, prefix) => {
                                     descr: jiraIssue.fields.summary,
                                     logged: JiraHelper.isLogged(entry, jiraIssue.fields.worklog)
                                 };
+                                entry.description = entry.description.substr(jiraIssue.key.length + 1);
                             }
                             return entry;
                         });
