@@ -5,6 +5,9 @@
 
 module.exports = {
     port: 8080,
+    toggl: {
+        workspace: '827413'
+    },
     logger: {
         console: {
             level: 'verbose',

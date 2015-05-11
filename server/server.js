@@ -6,13 +6,18 @@
 let Hapi = require('hapi');
 let Config = require('./Config');
 let Logger = require('./Logger');
+let MongoDBHelper = require('./utils/MongoDBHelper');
 
-var server = new Hapi.Server();
-server.connection({port: Config.port});
+MongoDBHelper.connect().then((db) => {
+    let server = new Hapi.Server();
+    server.connection({port: Config.port});
 
-require('./routes/api')(server, '/api');
-require('./routes/app')(server);
+    require('./routes/api')(server, db, '/api');
+    require('./routes/app')(server);
 
-server.start(function () {
-    Logger.info('Server running at:', server.info.uri);
+    server.start(function () {
+        Logger.info('Server running at:', server.info.uri);
+    });
+}, (err) => {
+    console.log('Error connecting DB!', err);
 });

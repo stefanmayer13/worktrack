@@ -5,83 +5,21 @@
 
 let https = require('https');
 let async = require('async');
-let token = require('../../auth').token;
+
 let Logger = require('../Logger');
 let DateHelper = require('../utils/DateHelper');
 let JiraHelper = require('../utils/JiraHelper');
+let TogglHelper = require('../utils/TogglHelper');
+let token = require('../../auth').token;
 
-module.exports = (server, prefix) => {
+module.exports = (server, db, prefix) => {
     server.route({
         method: 'GET',
         path: prefix+'/reports/details',
         handler(request, reply) {
             let start = request.query.start || DateHelper.getTogglDate(),
-                end = request.query.end || DateHelper.getTogglDate(),
-                url = '/reports/api/v2/details?since=' + start
-                        + '&until=' + end + '&user_agent=worktrack&workspace_id=827413';
-
-            let options = {
-                hostname: 'toggl.com',
-                port: '443',
-                path: url,
-                method: 'GET',
-                auth: token + ':api_token',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            };
-
-            Logger.info('Handling request to toggle api');
-
-            let req = https.request(options, (res) => {
-                let body = '';
-                res.setEncoding('utf8');
-                res.on('data', (data) => {
-                    body += data;
-                });
-                res.on('end', () => {
-                    let data = JSON.parse(body);
-                    if (!data.data) {
-                        return reply(data);
-                    }
-                    let jiraCalls = data.data.map((entry) => {
-                        return {
-                            id: entry.id,
-                            key: entry.description.split(' ')[0],
-                            fn: JiraHelper.getIssue.bind(JiraHelper, entry.description.split(' ')[0])
-                        };
-                    }).reduce((prev, curr) => {
-                        prev[curr.id] = curr.fn;
-                        return prev;
-                    }, {});
-                    async.parallelLimit(jiraCalls, 2, (err, jiraIssues) => {
-                        if (err) {
-                            return reply(err);
-                        }
-                        data.data = data.data.map((entry) => {
-                            let jiraIssue = jiraIssues[entry.id];
-                            if (jiraIssue) {
-                                console.log('Issue ', jiraIssue.key);
-                                entry.jira = {
-                                    id: jiraIssue.id,
-                                    key: jiraIssue.key,
-                                    descr: jiraIssue.fields.summary,
-                                    logged: JiraHelper.isLogged(entry, jiraIssue.fields.worklog)
-                                };
-                                entry.description = entry.description.substr(jiraIssue.key.length + 1);
-                            }
-                            return entry;
-                        });
-                        reply(data);
-                    });
-                });
-            });
-
-            req.on('error', (e) => {
-                Logger.error('problem with request: ' + e.message);
-            });
-
-            req.end();
+                end = request.query.end || DateHelper.getTogglDate();
+            TogglHelper.getDetail(start, end).then(reply, reply);
         }
     });
 
@@ -142,6 +80,14 @@ module.exports = (server, prefix) => {
         path: prefix+'/jira/issue/{issuekey}/worklog',
         handler(request, reply) {
             JiraHelper.getWorklogForIssue(request.params.issuekey, reply);
+        }
+    });
+
+    server.route({
+        method: 'GET',
+        path: prefix+'/toggl/sync',
+        handler(request, reply) {
+
         }
     });
 };

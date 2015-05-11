@@ -11,7 +11,7 @@ function getTask(name) {
     return require('./tasks/' + name);
 }
 
-gulp.task('default', ['check', 'webpack', 'devserver', 'watch']);
+gulp.task('default', ['check', 'sass', 'webpack', 'devserver', 'watch']);
 
 gulp.task('devserver', getTask('server').rundevserver);
 
