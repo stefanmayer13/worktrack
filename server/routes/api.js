@@ -87,7 +87,21 @@ module.exports = (server, db, prefix) => {
         method: 'GET',
         path: prefix+'/toggl/sync',
         handler(request, reply) {
-
+            let start = request.query.start || DateHelper.getTogglDate(),
+                end = request.query.end || DateHelper.getTogglDate();
+            TogglHelper.getDetail(start, end).then((data) => {
+                if (data && data.data) {
+                    let collection = db.collection('toggl');
+                    let inserts = data.data.map((entry) => {
+                        return collection.insertOne.bind(collection, entry);
+                    });
+                    async.parallel(inserts, () => {
+                        reply(`${inserts.length} entries added`);
+                    });
+                } else {
+                    reply('No data');
+                }
+            }, reply);
         }
     });
 };
