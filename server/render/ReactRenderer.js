@@ -16,7 +16,6 @@ let ReactRenderer = {
                     <script defer src="/js/app.js"></script>\
                 </head> \
                 <body> \
-                    <div id="app" />\
                 </body> \
             </html>\
         ';

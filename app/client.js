@@ -5,8 +5,10 @@
 require('es6-promise').polyfill();
 require('whatwg-fetch');
 
-let React = require('react/addons');
+const React = require('react/addons');
+const Router = require('react-router');
+const routes = require('./routes');
 
-let ReportDetail = require('./pages/ReportDetail');
-
-React.render(<ReportDetail />, document.getElementById('app'));
+Router.run(routes, (Handler) => {
+    React.render(<Handler/>, document.body);
+});

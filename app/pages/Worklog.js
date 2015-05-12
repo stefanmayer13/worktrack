@@ -8,7 +8,7 @@ let Api = require('../utils/Api');
 let Time = require('../utils/TimeHelper');
 let TimeEntry = require('../components/TimeEntry');
 
-let ReportDetail = React.createClass({
+let Worklog = React.createClass({
 
     getInitialState() {
         let start = new Date(),
@@ -34,6 +34,7 @@ let ReportDetail = React.createClass({
     render() {
         return (
             <div className='page report'>
+                <button onClick={this._onBack}>Back</button>
                 <p>
                     <label for="startDate">Date:</label>
                     <button onClick={this._onBackwardStart}>-</button>
@@ -43,7 +44,7 @@ let ReportDetail = React.createClass({
                     <button onClick={this._onForwardStart}>+</button>
                 </p>
                 {this.state.loading ? <p>Loading new data ...</p> : null}
-                <p>Total: {Time.getTimeFromMs(this.state.total_grand)}</p>
+                <p>Total: {Time.getTimeFromMs(this.state.total)}</p>
                 <p><button onClick={this._handleSync}>Sync all</button></p>
                 <ul>
                     {this.state.data.map((data) => {
@@ -59,7 +60,7 @@ let ReportDetail = React.createClass({
             loading: true
         });
         let params = `start=${Time.getDateForApi(state.startDate)}&end=${Time.getDateForApi(state.startDate)}`;
-        Api.fetch(`/api/reports/details?${params}`)
+        Api.fetch(`/api/logs?${params}`)
             .subscribe((data) => {
                 console.log(data);
                 data.loading = false;
@@ -131,7 +132,11 @@ let ReportDetail = React.createClass({
             console.log(data);
             this._getNewData(this.state);
         });
+    },
+
+    _onBack() {
+        history.back();
     }
 });
 
-module.exports = ReportDetail;
+module.exports = Worklog;
