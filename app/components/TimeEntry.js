@@ -39,7 +39,7 @@ let TimeEntry = React.createClass({
                 <div className="project" style={entryStyle}>{entry.project}</div>
                 {jiraInfo}
                 <div className="descr">{entry.description}</div>
-                <div className="duration">{Time.getTimeFromMs(entry.dur)}</div>
+                <div className="duration">{Time.getTimeFromMs(entry.dur || entry.duration)}</div>
                 <div className="time">
                     {Time.getTimeFromDateString(entry.start)} - {Time.getTimeFromDateString(entry.end)}
                 </div>

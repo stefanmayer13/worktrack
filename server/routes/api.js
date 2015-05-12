@@ -18,8 +18,21 @@ module.exports = (server, db, prefix) => {
         method: 'GET',
         path: prefix+'/logs',
         handler(request, reply) {
-            const start = request.query.start || DateHelper.getTogglDate(),
-                end = request.query.end || DateHelper.getTogglDate();
+            let start = request.query.start,
+                end = request.query.end;
+            if (isNaN(Date.parse(start))) {
+                start = new Date();
+            } else {
+                start = new Date(start);
+            }
+            if (isNaN(Date.parse(end))) {
+                end = new Date();
+            } else {
+                end = new Date(end);
+            }
+            if (start > end) {
+                start = end;
+            }
             MongoDBHelper.getLogs(db, start, end).then(reply, reply);
         }
     });
