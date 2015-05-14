@@ -78,15 +78,18 @@ module.exports = (server, db, prefix) => {
     });
 
     server.route({
-        method: 'GET',
+        method: 'POST',
         path: prefix+'/toggl/sync',
         handler(request, reply) {
             const start = request.query.start || DateHelper.getTogglDate(),
                 end = request.query.end || DateHelper.getTogglDate();
+            console.log(start, end);
             TogglHelper.getDetail(start, end).then((data) => {
                 if (data && data.data) {
                     MongoDBHelper.sync(db, data.data).then((inserts) => {
-                        reply(`${inserts.length} entries added`);
+                        reply({
+                            success: `${inserts.length} entries added`
+                        });
                     }, reply);
                 } else {
                     reply('No data');

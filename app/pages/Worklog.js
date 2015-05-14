@@ -45,7 +45,7 @@ let Worklog = React.createClass({
                 </p>
                 {this.state.loading ? <p>Loading new data ...</p> : null}
                 <p>Total: {Time.getTimeFromMs(this.state.total)}</p>
-                <p><button onClick={this._handleSync}>Sync all</button></p>
+                <p><button onClick={this._handleSync}>Sync from Toggl</button></p>
                 <ul>
                     {this.state.data.map((data) => {
                         return <TimeEntry key={data.id} entry={data} />;
@@ -121,13 +121,13 @@ let Worklog = React.createClass({
         this.setState({
             loading: true
         });
-        Api.fetch(`/api/jira/add`, {
+        let params = `start=${Time.getDateForApi(this.state.startDate)}&end=${Time.getDateForApi(this.state.startDate)}`;
+        Api.fetch(`/api/toggl/sync?${params}`, {
             method: 'post',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(this.state.data)
+            }
         }).subscribe((data) => {
             console.log(data);
             this._getNewData(this.state);
