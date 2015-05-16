@@ -61,16 +61,17 @@
         "no-plusplus": 0,
         "no-unused-vars": 1,
         "no-trailing-spaces": 2,
+        "no-alert": 0,
 
         // STYLE
         "max-params": [2, 7],
         "key-spacing": [2, {
-            beforeColon: false,
-            afterColon: true
+            "beforeColon": false,
+            "afterColon": true
         }],
         "indent": [2, 4],
         "brace-style": [2, "1tbs"],
-        "comma-spacing": [2, {before: false, after: true}],
+        "comma-spacing": [2, {"before": false, "after": true}],
         "comma-style": [2, "last"],
         "consistent-this": [1, "self"],
         "eol-last": 0,

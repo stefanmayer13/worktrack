@@ -3,15 +3,12 @@
  * @author <a href="mailto:stefanmayer13@gmail.com">Stefan Mayer</a>
  */
 
-const https = require('https');
 const async = require('async');
 
-const Logger = require('../Logger');
 const DateHelper = require('../utils/DateHelper');
 const JiraHelper = require('../utils/JiraHelper');
 const MongoDBHelper = require('../utils/MongoDBHelper');
 const TogglHelper = require('../utils/TogglHelper');
-const token = require('../../auth').token;
 
 module.exports = (server, db, prefix) => {
     server.route({
@@ -86,9 +83,18 @@ module.exports = (server, db, prefix) => {
             console.log(start, end);
             TogglHelper.getDetail(start, end).then((data) => {
                 if (data && data.data) {
-                    MongoDBHelper.sync(db, data.data).then((inserts) => {
+                    MongoDBHelper.sync(db, data.data).then((changes) => {
+                        let updates = changes.filter((entry) => {
+                            return !!entry.modifiedCount;
+                        });
+                        let inserts = changes.filter((entry) => {
+                            return !!entry.upsertedCount;
+                        });
                         reply({
-                            success: `${inserts.length} entries added`
+                            success: {
+                                inserts: inserts.length,
+                                updates: updates.length
+                            }
                         });
                     }, reply);
                 } else {

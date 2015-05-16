@@ -121,7 +121,8 @@ let Worklog = React.createClass({
         this.setState({
             loading: true
         });
-        let params = `start=${Time.getDateForApi(this.state.startDate)}&end=${Time.getDateForApi(this.state.startDate)}`;
+        let params = `start=${Time.getDateForApi(this.state.startDate)}`
+                    + `&end=${Time.getDateForApi(this.state.startDate)}`;
         Api.fetch(`/api/toggl/sync?${params}`, {
             method: 'post',
             headers: {
@@ -129,8 +130,32 @@ let Worklog = React.createClass({
                 'Content-Type': 'application/json'
             }
         }).subscribe((data) => {
-            console.log(data);
-            this._getNewData(this.state);
+            let message, update = false;
+            if (data.success) {
+                if (!data.success.inserts && !data.success.updates) {
+                    message = 'There were no changes.';
+                } else {
+                    update = true;
+                    message = '';
+                    if (data.success.inserts) {
+                        message += `There were ${data.success.inserts} inserts`;
+                    }
+                    if (data.success.updates) {
+                        if (message !== '') {
+                            message += ' and ';
+                        } else {
+                            message += 'There were ';
+                        }
+                        message += `${data.success.updates} updates`;
+                    }
+                }
+            } else {
+                message = `There was a problem syncing your data: ${data}`;
+            }
+            if (update) {
+                this._getNewData(this.state);
+            }
+            alert(message);
         });
     },
 

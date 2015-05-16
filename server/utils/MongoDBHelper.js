@@ -47,7 +47,11 @@ module.exports = {
                 jira: entry.jira
             };
 
-            return collection.insertOne.bind(collection, dbEntry);
+            return collection.updateOne.bind(collection, {
+                _id: dbEntry._id
+            }, dbEntry, {
+                upsert: true
+            });
         });
 
         return Q.nfcall(async.parallel.bind(async, inserts));
