@@ -54,13 +54,30 @@ module.exports = (server, db, prefix) => {
 
     server.route({
         method: 'POST',
-        path: prefix+'/jira/add',
+        path: prefix+'/jira/toggl/add',
         handler(request, reply) {
             const jiraRequests = request.payload.map((entry) => {
-                return JiraHelper.add.bind(JiraHelper, entry);
+                return JiraHelper.addCb.bind(JiraHelper, entry);
             });
             async.series(jiraRequests, (err, data) => {
                 console.log(err, data);
+                reply(err, data);
+            });
+        }
+    });
+
+    server.route({
+        method: 'POST',
+        path: prefix+'/jira/add',
+        handler(request, reply) {
+            MongoDBHelper.getEntries(db, request.payload)
+            .flatMap((entry) => {
+                return JiraHelper.add(entry).flatMap((worklog) => {
+                    return MongoDBHelper.addWorklog(db, entry._id, worklog.id);
+                });
+            })
+            .toArray()
+            .subscribe((err, data) => {
                 reply(err, data);
             });
         }
@@ -83,17 +100,18 @@ module.exports = (server, db, prefix) => {
             console.log(start, end);
             TogglHelper.getDetail(start, end).then((data) => {
                 if (data && data.data) {
-                    MongoDBHelper.sync(db, data.data).then((changes) => {
-                        let updates = changes.filter((entry) => {
+                    MongoDBHelper.sync(db, data.data).then((entries) => {
+                        let updates = entries.filter((entry) => {
                             return !!entry.modifiedCount;
                         });
-                        let inserts = changes.filter((entry) => {
+                        let inserts = entries.filter((entry) => {
                             return !!entry.upsertedCount;
                         });
                         reply({
                             success: {
                                 inserts: inserts.length,
-                                updates: updates.length
+                                updates: updates.length,
+                                entries: entries.length
                             }
                         });
                     }, reply);

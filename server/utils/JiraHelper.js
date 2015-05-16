@@ -6,6 +6,7 @@
 let https = require('https');
 let Logger = require('../Logger');
 let authData = require('../../auth').jira;
+let Rx = require('rx');
 
 module.exports = {
     getIssue(issueKey, cb) {
@@ -74,17 +75,22 @@ module.exports = {
         return foundWorklog.length !== 0;
     },
 
-    add(entry, cb) {
+    add(entry) {
+        return Rx.Observable.fromNodeCallback(this.addCb)(entry);
+    },
+
+    addCb(entry, cb) {
         if (!entry || !entry.jira || !entry.jira.id) {
             return cb(new Error('Problem with entry data'));
         }
+        const duration = entry.dur || entry.duration;
         var auth = 'Basic ' + new Buffer(authData.user + ':' + authData.pass).toString('base64');
         let issueKey = entry.jira.key;
         let isoStartDateStr = new Date(entry.start).toISOString();
         let postData = JSON.stringify({
             "comment": entry.description,
             "started": isoStartDateStr.substr(0, isoStartDateStr.length - 1) + '+0100',
-            "timeSpentSeconds": entry.dur / 1000
+            "timeSpentSeconds": duration / 1000
         });
 
         let url = `/rest/api/2/issue/${issueKey}/worklog`;
@@ -110,7 +116,6 @@ module.exports = {
                 body += data;
             });
             res.on('end', () => {
-                console.log(body);
                 let data = JSON.parse(body);
                 if (data.errorMessages) {
                     cb(null, null);
@@ -124,7 +129,6 @@ module.exports = {
             Logger.error('problem with request: ' + e.message);
             cb(e);
         });
-        console.log(postData);
         req.write(postData);
 
         req.end();

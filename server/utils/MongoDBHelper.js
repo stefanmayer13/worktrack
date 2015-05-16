@@ -6,6 +6,7 @@
 const MongoClient = require('mongodb').MongoClient;
 const Q = require('q');
 const async = require('async');
+const Rx = require('rx');
 
 module.exports = {
     connect() {
@@ -20,7 +21,7 @@ module.exports = {
         const results = collection.find({start: {$gt: start}, end: {$lt: end}});
         return Q.nfcall(results.toArray.bind(results)).then((data) => {
             const total = data.reduce((subtotal, entry) => {
-                return subtotal + entry.dur;
+                return subtotal + entry.duration;
             }, 0);
             return {
                 total: total,
@@ -55,5 +56,31 @@ module.exports = {
         });
 
         return Q.nfcall(async.parallel.bind(async, inserts));
+    },
+
+    getEntries(db, entryIds) {
+        const collection = db.collection('worklogs');
+        return Rx.Observable.fromNodeCallback(collection.find.bind(collection))({
+            _id: {
+                $in: entryIds
+            }
+        }).flatMap((result) => {
+            return Rx.Observable.fromNodeCallback(result.toArray.bind(result))();
+        }).flatMap((entries) => {
+            return entries;
+        });
+    },
+
+    addWorklog(db, entryId, worklogId) {
+        const collection = db.collection('worklogs');
+        console.log('Updating worklog for', entryId);
+
+        return Rx.Observable.fromNodeCallback(collection.updateOne.bind(collection))({
+            _id: entryId
+        }, {
+            $set: {
+                worklog: worklogId
+            }
+        });
     }
 };

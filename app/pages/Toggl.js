@@ -48,7 +48,7 @@ let Toggl = React.createClass({
                 <p><button onClick={this._handleSync}>Sync all</button></p>
                 <ul>
                     {this.state.data.map((data) => {
-                        return <TimeEntry key={data.id} entry={data} />;
+                        return <TimeEntry key={data.id} entry={data} sync={this._handleSingleSync} />;
                     })}
                 </ul>
             </div>
@@ -114,6 +114,25 @@ let Toggl = React.createClass({
         this.setState({
             startDate: startdate,
             endDate: enddate
+        });
+    },
+
+    _handleSingleSync(entry) {
+        this.setState({
+            loading: true
+        });
+        Api.fetch(`/api/jira/toggl/add`, {
+            method: 'post',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify([entry])
+        }).subscribe((data) => {
+            console.log(data);
+            this.setState({
+                loading: false
+            });
         });
     },
 

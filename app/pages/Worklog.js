@@ -48,7 +48,7 @@ let Worklog = React.createClass({
                 <p><button onClick={this._handleSync}>Sync from Toggl</button></p>
                 <ul>
                     {this.state.data.map((data) => {
-                        return <TimeEntry key={data.id} entry={data} />;
+                        return <TimeEntry key={data._id} entry={data} sync={this._handleSingleSync} />;
                     })}
                 </ul>
             </div>
@@ -132,7 +132,9 @@ let Worklog = React.createClass({
         }).subscribe((data) => {
             let message, update = false;
             if (data.success) {
-                if (!data.success.inserts && !data.success.updates) {
+                if (!data.success.entries) {
+                    message = 'No entries found.';
+                } else if (!data.success.inserts && !data.success.updates) {
                     message = 'There were no changes.';
                 } else {
                     update = true;
@@ -148,6 +150,7 @@ let Worklog = React.createClass({
                         }
                         message += `${data.success.updates} updates`;
                     }
+                    message += '.';
                 }
             } else {
                 message = `There was a problem syncing your data: ${data}`;
@@ -156,6 +159,21 @@ let Worklog = React.createClass({
                 this._getNewData(this.state);
             }
             alert(message);
+        });
+    },
+
+    _handleSingleSync(entry) {
+        console.log(entry._id);
+        Api.fetch(`/api/jira/add`, {
+            method: 'post',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify([entry._id])
+        }).subscribe((data) => {
+            console.log(data);
+            this._getNewData(this.state);
         });
     },
 

@@ -22,21 +22,17 @@ let TimeEntry = React.createClass({
     render() {
         let entry = this.props.entry,
             hasJiraInfo = !!entry.jira,
-            entryStyle = {
-                'color': entry.project_color,
-                'background-color': entry.project_hex_color
-            },
             jiraInfo = hasJiraInfo ? (
                 <div className="jira">{entry.jira.key} {entry.jira.descr}</div>
             ) : null,
-            warning = !hasJiraInfo ? <div style={{'background-color': 'red'}}>NO JIRA ISSUE FOUND!</div> : null,
-            logged = (hasJiraInfo && entry.jira.logged)
+            warning = !hasJiraInfo ? <div style={{'backgroundColor': 'red'}}>NO JIRA ISSUE FOUND!</div> : null,
+            logged = (hasJiraInfo && (entry.jira.logged || entry.worklog))
                         ? <div className="logged">Already logged!</div>
-                        : <button onClick={this._handleSync}>Sync</button>;
+                        : this.props.sync ? <button onClick={this.props.sync.bind(null, this.props.entry)}>Sync</button> : null;
         return (
             <li className="timeentry">
                 {warning}
-                <div className="project" style={entryStyle}>{entry.project}</div>
+                <div className="project">{entry.project}</div>
                 {jiraInfo}
                 <div className="descr">{entry.description}</div>
                 <div className="duration">{Time.getTimeFromMs(entry.dur || entry.duration)}</div>
@@ -46,25 +42,6 @@ let TimeEntry = React.createClass({
                 {logged}
             </li>
         );
-    },
-
-    _handleSync() {
-        this.setState({
-            loading: true
-        });
-        Api.fetch(`/api/jira/add`, {
-            method: 'post',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify([this.props.entry])
-        }).subscribe((data) => {
-            console.log(data);
-            this.setState({
-                loading: false
-            });
-        });
     }
 });
 
