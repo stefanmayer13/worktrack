@@ -4,48 +4,57 @@
  */
 
 let React = require('react/addons');
+let Router = require('react-router');
+let Link = Router.Link;
+
 let Api = require('../utils/Api');
 let Time = require('../utils/TimeHelper');
 let TimeEntry = require('../components/TimeEntry');
+let DateInput = require('../components/DateInput');
 
 let Worklog = React.createClass({
+    mixins: [Router.Navigation],
 
     getInitialState() {
-        let start = new Date(),
-            end = new Date();
         return {
             data: [],
-            startDate: start,
-            endDate: end,
             loading: false
         };
     },
 
     componentWillMount() {
-        this._getNewData(this.state);
+        this._getNewData(Time.getDateFromParam(this.props.params.date));
     },
 
-    componentWillUpdate(nextProps, nextState) {
-        if (nextState.startDate !== this.state.startDate || nextState.endDate !== this.state.endDate) {
-            this._getNewData(nextState);
-        }
+    componentWillReceiveProps(nextProps) {
+        this._getNewData(Time.getDateFromParam(nextProps.params.date));
     },
 
     render() {
+        let toSync = this.state.data.filter((entry) => {
+            return !entry.worklog;
+        });
+        let previous = Time.getDateFromParam(this.props.params.date);
+        previous.setDate(previous.getDate() - 1);
+        let next = Time.getDateFromParam(this.props.params.date);
+        next.setDate(next.getDate() + 1);
         return (
             <div className='page report'>
-                <button onClick={this._onBack}>Back</button>
+                <Link to="/"><button>Back</button></Link>
                 <p>
-                    <label for="startDate">Date:</label>
-                    <button onClick={this._onBackwardStart}>-</button>
-                    <input type="date" name="startDate"
-                           value={Time.getDateForApi(this.state.startDate)}
-                           onChange={this._handleDateChange} />
-                    <button onClick={this._onForwardStart}>+</button>
+                    <label htmlFor="date">Date:</label>
+                    <Link to={`/worklog/${Time.getDateForApi(previous)}`}><button>-</button></Link>
+                    <DateInput name="date"
+                           value={Time.getDateFromParam(this.props.params.date)}
+                           onSubmit={this._handleDateChange} />
+                    <Link to={`/worklog/${Time.getDateForApi(next)}`}><button>+</button></Link>
                 </p>
                 {this.state.loading ? <p>Loading new data ...</p> : null}
                 <p>Total: {Time.getTimeFromMs(this.state.total)}</p>
                 <p><button onClick={this._handleSync}>Sync from Toggl</button></p>
+                {toSync.length > 0
+                    ? <p><button onClick={this._handleJiraSync.bind(this, toSync)}>Sync to Jira</button></p>
+                    : null}
                 <ul>
                     {this.state.data.map((data) => {
                         return <TimeEntry key={data._id} entry={data} sync={this._handleSingleSync} />;
@@ -55,74 +64,29 @@ let Worklog = React.createClass({
         );
     },
 
-    _getNewData(state) {
+    _getNewData(date) {
         this.setState({
             loading: true
         });
-        let params = `start=${Time.getDateForApi(state.startDate)}&end=${Time.getDateForApi(state.startDate)}`;
+        let apiDate = Time.getDateForApi(date);
+        let params = `start=${apiDate}&end=${apiDate}`;
         Api.fetch(`/api/logs?${params}`)
             .subscribe((data) => {
-                console.log(data);
                 data.loading = false;
                 this.setState(data);
             });
     },
 
-    _handleDateChange(e) {
-        this.setState({
-            [e.target.name]: new Date(e.target.value)
-        });
-    },
-
-    _onForwardStart() {
-        this._changeDate('startDate', +1);
-    },
-
-    _onBackwardStart() {
-        this._changeDate('startDate', -1);
-    },
-
-    _onForwardEnd() {
-        this._changeDate('endDate', +1);
-    },
-
-    _onBackwardEnd() {
-        this._changeDate('endDate', -1);
-    },
-
-    _changeDate(datetype, dir) {
-        let date = new Date(this.state[datetype]);
-        date.setDate(date.getDate() + dir);
-        this._setDate(datetype, date);
-    },
-
-    _setDate(datetype, date) {
-        let startdate, enddate;
-        if (datetype === 'startDate') {
-            startdate = date;
-            enddate = this.state.endDate;
-            if (enddate < startdate) {
-                enddate = new Date(startdate);
-            }
-        } else {
-            startdate = this.state.startDate;
-            enddate = date;
-            if (enddate < startdate) {
-                startdate = new Date(enddate);
-            }
-        }
-        this.setState({
-            startDate: startdate,
-            endDate: enddate
-        });
+    _handleDateChange(date) {
+        this.replaceWith(`/worklog/${Time.getDateForApi(date)}`);
     },
 
     _handleSync() {
         this.setState({
             loading: true
         });
-        let params = `start=${Time.getDateForApi(this.state.startDate)}`
-                    + `&end=${Time.getDateForApi(this.state.startDate)}`;
+        let params = `start=${Time.getDateForApi(this.props.params.date)}`
+                    + `&end=${Time.getDateForApi(this.props.params.date)}`;
         Api.fetch(`/api/toggl/sync?${params}`, {
             method: 'post',
             headers: {
@@ -162,23 +126,24 @@ let Worklog = React.createClass({
         });
     },
 
-    _handleSingleSync(entry) {
-        console.log(entry._id);
+    _handleJiraSync(entries) {
+        let entryIds = entries.map((entry) => {
+            return entry._id;
+        });
         Api.fetch(`/api/jira/add`, {
             method: 'post',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify([entry._id])
-        }).subscribe((data) => {
-            console.log(data);
+            body: JSON.stringify(entryIds)
+        }).subscribe(() => {
             this._getNewData(this.state);
         });
     },
 
-    _onBack() {
-        history.back();
+    _handleSingleSync(entry) {
+        this._handleJiraSync([entry]);
     }
 });
 

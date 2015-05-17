@@ -5,7 +5,6 @@
 
 let React = require('react/addons');
 let Time = require('../utils/TimeHelper');
-let Api = require('../utils/Api');
 
 let TimeEntry = React.createClass({
 
@@ -27,8 +26,10 @@ let TimeEntry = React.createClass({
             ) : null,
             warning = !hasJiraInfo ? <div style={{'backgroundColor': 'red'}}>NO JIRA ISSUE FOUND!</div> : null,
             logged = (hasJiraInfo && (entry.jira.logged || entry.worklog))
-                        ? <div className="logged">Already logged!</div>
-                        : this.props.sync ? <button onClick={this.props.sync.bind(null, this.props.entry)}>Sync</button> : null;
+                    ? <div className="logged">Already logged!</div>
+                    : (this.props.sync
+                        ? <button onClick={this.props.sync.bind(null, this.props.entry)}>Sync</button>
+                        : null);
         return (
             <li className="timeentry">
                 {warning}

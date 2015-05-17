@@ -9,6 +9,6 @@ const React = require('react/addons');
 const Router = require('react-router');
 const routes = require('./routes');
 
-Router.run(routes, (Handler) => {
+Router.run(routes, Router.HistoryLocation, (Handler) => {
     React.render(<Handler/>, document.body);
 });

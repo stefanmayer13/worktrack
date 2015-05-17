@@ -30,6 +30,7 @@ module.exports = (server, db, prefix) => {
             if (start > end) {
                 start = end;
             }
+            console.log(`Getting logs for ${start} to ${end}.`);
             MongoDBHelper.getLogs(db, start, end).then(reply, reply);
         }
     });

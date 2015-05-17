@@ -17,8 +17,8 @@ const NotFound = require('./pages/NotFound');
 
 module.exports = (
     <Route handler={App} path="/">
-        <DefaultRoute handler={Home} />
-        <Route name="worklog" handler={Worklog} />
+        <DefaultRoute name="home" handler={Home} />
+        <Route name="worklog" path="worklog/?:date?" handler={Worklog} />
         <Route name="toggl" handler={Toggl} />
         <NotFoundRoute handler={NotFound}/>
     </Route>
