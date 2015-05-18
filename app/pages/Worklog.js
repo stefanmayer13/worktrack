@@ -85,8 +85,9 @@ let Worklog = React.createClass({
         this.setState({
             loading: true
         });
-        let params = `start=${Time.getDateForApi(this.props.params.date)}`
-                    + `&end=${Time.getDateForApi(this.props.params.date)}`;
+        let date = Time.getDateFromParam(this.props.params.date);
+        let params = `start=${Time.getDateForApi(date)}`
+                    + `&end=${Time.getDateForApi(date)}`;
         Api.fetch(`/api/toggl/sync?${params}`, {
             method: 'post',
             headers: {
@@ -120,7 +121,11 @@ let Worklog = React.createClass({
                 message = `There was a problem syncing your data: ${data}`;
             }
             if (update) {
-                this._getNewData(this.state);
+                this._getNewData(Time.getDateFromParam(this.props.params.date));
+            } else {
+                this.setState({
+                    loading: false
+                });
             }
             alert(message);
         });
@@ -138,7 +143,7 @@ let Worklog = React.createClass({
             },
             body: JSON.stringify(entryIds)
         }).subscribe(() => {
-            this._getNewData(this.state);
+            this._getNewData(Time.getDateFromParam(this.props.params.date));
         });
     },
 
