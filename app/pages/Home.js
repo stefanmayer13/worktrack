@@ -17,6 +17,7 @@ const Home = React.createClass({
                     The following pages are currently available:
                     <ul>
                         <li><Link to="worklog">Worklog</Link></li>
+                        <li><Link to="worklogchart">Chart</Link></li>
                         <li><Link to="toggl">Toggl</Link></li>
                     </ul>
                 </p>
