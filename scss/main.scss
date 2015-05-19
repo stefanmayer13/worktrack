@@ -4,16 +4,28 @@
     clear: left;
     list-style-type: none;
     border-bottom: 0.1rem solid grey;
-    div {
+    display: flex;
+    button {
         margin-right: 0.5rem;
         float: left;
     }
-    .project, .descr, .duration, .logged {
-        clear: left;
+    div {
+        padding-left: 0.5rem;
+        float: left;
+        border-left: 0.1rem solid grey;
+        &:last-child {
+            border-right: 0.1rem solid grey;
+        }
     }
     &:after {
         content: "";
         display: table;
         clear: both;
+    }
+    div {
+        flex: 1;
+    }
+    &:first-child {
+        border-top: 0.1rem solid grey;
     }
 }

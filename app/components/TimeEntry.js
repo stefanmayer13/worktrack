@@ -26,12 +26,13 @@ let TimeEntry = React.createClass({
             ) : null,
             warning = !hasJiraInfo ? <div style={{'backgroundColor': 'red'}}>NO JIRA ISSUE FOUND!</div> : null,
             logged = (hasJiraInfo && (entry.jira.logged || entry.worklog))
-                    ? <div className="logged">Already logged!</div>
+                    ? <div className="log">Already logged!</div>
                     : (this.props.sync
-                        ? <button onClick={this.props.sync.bind(null, this.props.entry)}>Sync</button>
+                        ? <button className="log" onClick={this.props.sync.bind(null, this.props.entry)}>Sync</button>
                         : null);
         return (
             <li className="timeentry">
+                {logged}
                 {warning}
                 <div className="project">{entry.project}</div>
                 {jiraInfo}
@@ -40,7 +41,6 @@ let TimeEntry = React.createClass({
                 <div className="time">
                     {Time.getTimeFromDateString(entry.start)} - {Time.getTimeFromDateString(entry.end)}
                 </div>
-                {logged}
             </li>
         );
     }
