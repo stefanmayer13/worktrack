@@ -36,24 +36,33 @@ module.exports = {
     sync(db, entries) {
         const collection = db.collection('worklogs');
         console.log('Adding entries to DB', entries.length);
-        const inserts = entries.map((entry) => {
-            const dbEntry = {
-                _id: entry.id,
-                client: entry.client,
-                project: entry.project,
-                description: entry.description,
-                start: new Date(entry.start),
-                end: new Date(entry.end),
-                duration: entry.dur,
-                jira: entry.jira
-            };
-
-            return collection.updateOne.bind(collection, {
-                _id: dbEntry._id
-            }, dbEntry, {
-                upsert: true
+        const inserts = entries
+            .map((entry) => {
+                return {
+                    id: entry.id,
+                    entry: {
+                        client: entry.client,
+                        project: entry.project,
+                        description: entry.description,
+                        start: new Date(entry.start),
+                        end: new Date(entry.end),
+                        duration: entry.dur,
+                        jira: entry.jira
+                    }
+                };
+            })
+            .map((entry) => {
+                return collection.updateOne.bind(collection, {
+                    _id: entry.id
+                }, {
+                    $set: entry.entry,
+                    $setOnInsert: {
+                        _id: entry.id
+                    }
+                }, {
+                    upsert: true
+                });
             });
-        });
 
         return Q.nfcall(async.parallel.bind(async, inserts));
     },

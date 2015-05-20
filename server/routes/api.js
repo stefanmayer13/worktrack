@@ -115,7 +115,10 @@ module.exports = (server, db, prefix) => {
                                 entries: entries.length
                             }
                         });
-                    }, reply);
+                    }, (err) => {
+                        console.log(err);
+                        reply(err);
+                    });
                 } else {
                     reply('No data');
                 }
