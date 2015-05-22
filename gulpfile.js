@@ -25,3 +25,7 @@ gulp.task('watch', function () {
 gulp.task('check', getTask('helper').check);
 
 gulp.task('sass', getTask('sass').sass);
+
+gulp.task('test', getTask('karma').test);
+
+gulp.task('watch-test', getTask('karma').watchtest);

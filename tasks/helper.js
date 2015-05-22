@@ -10,7 +10,7 @@ let gulp = require('gulp');
 module.exports = {
     check() {
         gutil.log('running eslint');
-        return gulp.src(['config/**/*.js', 'app/**/*.js', 'server/**/*.js', '__tests__/**/*.js', 'testutils/**/*.js'])
+        return gulp.src(['config/**/*.js', 'app/**/*.js', 'server/**/*.js', 'tests/**/*.js'])
             .pipe(eslint({
                 rulePaths: [
                     './'
