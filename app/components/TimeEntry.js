@@ -24,7 +24,7 @@ let TimeEntry = React.createClass({
             jiraInfo = hasJiraInfo ? (
                 <div className="jira">{entry.jira.key} {entry.jira.descr}</div>
             ) : null,
-            warning = !hasJiraInfo ? <div style={{'backgroundColor': 'red'}}>NO JIRA ISSUE FOUND!</div> : null,
+            warning = !hasJiraInfo ? <div className="jiraerror">NO JIRA ISSUE FOUND!</div> : null,
             logged = (hasJiraInfo && (entry.jira.logged || entry.worklog))
                     ? <div className="log">Already logged!</div>
                     : (this.props.sync
@@ -33,8 +33,8 @@ let TimeEntry = React.createClass({
         return (
             <li className="timeentry">
                 {logged}
-                {warning}
                 <div className="project">{entry.project}</div>
+                {warning}
                 {jiraInfo}
                 <div className="descr">{entry.description}</div>
                 <div className="duration">{Time.getTimeFromMs(entry.dur || entry.duration)}</div>

@@ -8,7 +8,7 @@
         float: left;
         padding: 0 0 0 0.3rem;
         margin: 0.2rem;
-        flex: 2;
+        flex: 1;
         background-color: lightgrey;
         border: none;
         border-radius: 8px;
@@ -36,6 +36,10 @@
         }
         &.time, &.duration {
             flex: 1;
+        }
+        &.jiraerror {
+            flex: 4;
+            background-color: red;
         }
         border-bottom: 0.1rem solid grey;
     }
