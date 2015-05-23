@@ -3,6 +3,7 @@
  * @author <a href="mailto:stefanmayer13@gmail.com">Stefan Mayer</a>
  */
 var webpack = require('webpack');
+var RewirePlugin = require("rewire-webpack");
 
 module.exports = function(config) {
     config.set({
@@ -23,7 +24,6 @@ module.exports = function(config) {
             dir: 'build/coverage/',
             includeAllSources: true
         },
-        singleRun: true,
         webpack: {
             devtool: 'inline-source-map',
             module: {
@@ -39,7 +39,10 @@ module.exports = function(config) {
                     exclude: /(tests|tmp|node_modules)/,
                     loader: 'istanbul-instrumenter'
                 }]
-            }
+            },
+            plugins: [
+                new RewirePlugin()
+            ]
         },
         webpackServer: {
             noInfo: true
