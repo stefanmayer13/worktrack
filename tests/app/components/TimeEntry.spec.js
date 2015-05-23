@@ -2,7 +2,6 @@
 /**
  * @author <a href="mailto:stefanmayer13@gmail.com">Stefan Mayer</a>
  */
-
 const React = require('react/addons');
 const expect = require('chai').expect;
 const TimeEntry = require('../../../app/components/TimeEntry');

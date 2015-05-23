@@ -3,15 +3,13 @@
  * @author <a href="mailto:stefanmayer13@gmail.com">Stefan Mayer</a>
  */
 
-if (require.context) {
-    const context = require.context('./tests', true, /.spec\.js$/);
-    context.keys().forEach(context);
+let testsContext = require.context('./tests', true, /.spec\.js$/);
+testsContext .keys().forEach(testsContext );
 
-    const projectModuleIds = context.keys().map(module =>
-        String(context.resolve(module)));
+const projectModuleIds = testsContext .keys().map(module =>
+    String(testsContext .resolve(module)));
 
-    beforeEach(() => {
-        // Remove our modules from the require cache before each test case.
-        projectModuleIds.forEach(id => delete require.cache[id]);
-    });
-}
+beforeEach(() => {
+    // Remove our modules from the require cache before each test case.
+    projectModuleIds.forEach(id => delete require.cache[id]);
+});

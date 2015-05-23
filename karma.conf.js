@@ -2,6 +2,7 @@
 /**
  * @author <a href="mailto:stefanmayer13@gmail.com">Stefan Mayer</a>
  */
+var webpack = require('webpack');
 
 module.exports = function(config) {
     config.set({
@@ -12,19 +13,32 @@ module.exports = function(config) {
         ],
         frameworks: ['jasmine'],
         preprocessors: {
-            'tests.webpack.js': ['webpack']
+            'tests.webpack.js': ['webpack'],
+            'app/**/*.js': ['coverage'],
+            'server/**/*.js': ['coverage']
         },
-        reporters: ['dots'],
+        reporters: ['spec', 'coverage'],
+        coverageReporter: {
+            type: 'html',
+            dir: 'build/coverage/',
+            includeAllSources: true
+        },
         singleRun: true,
         webpack: {
+            devtool: 'inline-source-map',
             module: {
                 loaders: [
                     {
                         test: /\.js?$/,
-                        exclude: /node_modules/,
+                        exclude: /(tmp|node_modules)/,
                         loader: 'babel-loader'
                     }
-                ]
+                ],
+                postLoaders: [{
+                    test: /\.js?$/,
+                    exclude: /(tests|tmp|node_modules)/,
+                    loader: 'istanbul-instrumenter'
+                }]
             }
         },
         webpackServer: {
