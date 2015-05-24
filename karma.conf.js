@@ -10,11 +10,11 @@ module.exports = function(config) {
         browsers: ['PhantomJS'],
         files: [
             './node_modules/phantomjs-polyfill/bind-polyfill.js',
-            './tests/tests.webpack.js'
+            './testhelper/tests.webpack.js'
         ],
         frameworks: ['jasmine'],
         preprocessors: {
-            'tests.webpack.js': ['webpack'],
+            './testhelper/tests.webpack.js': ['webpack'],
             'app/**/*.js': ['coverage'],
             'server/**/*.js': ['coverage']
         },
