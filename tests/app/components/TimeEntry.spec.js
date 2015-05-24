@@ -5,7 +5,8 @@
 const rewire = require('rewire');
 const React = require('react/addons');
 const expect = require('chai').expect;
-const TimeEntry = rewire("../../../app/components/TimeEntry.js")
+const TimeEntry = rewire("../../../app/components/TimeEntry.js");
+
 TimeEntry.__set__("Time", {
     getTimeFromMs(t) {
         return t;
@@ -66,7 +67,7 @@ describe("TimeEntry", () => {
 
         const entryNode = TestUtils.renderIntoDocument(<TimeEntry key="key" entry={entry} sync={() => {}} />);
 
-        const node = TestUtils.findRenderedDOMComponentWithTag (entryNode, 'button');
+        const node = TestUtils.findRenderedDOMComponentWithTag(entryNode, 'button');
         expect(node).to.not.be.undefined;
     });
 
@@ -75,7 +76,7 @@ describe("TimeEntry", () => {
 
         const entryNode = TestUtils.renderIntoDocument(<TimeEntry key="key" entry={entry}/>);
 
-        const node = TestUtils.scryRenderedDOMComponentsWithTag (entryNode, 'button');
+        const node = TestUtils.scryRenderedDOMComponentsWithTag(entryNode, 'button');
         expect(node).to.deep.equal([]);
     });
 
@@ -87,10 +88,10 @@ describe("TimeEntry", () => {
 
         const entryNode = TestUtils.renderIntoDocument(<TimeEntry key="key" entry={entry} sync={() => {}} />);
 
-        const button = TestUtils.scryRenderedDOMComponentsWithTag (entryNode, 'button');
+        const button = TestUtils.scryRenderedDOMComponentsWithTag(entryNode, 'button');
         expect(button).to.deep.equal([]);
 
-        const node = TestUtils.findRenderedDOMComponentWithClass (entryNode, 'log');
+        const node = TestUtils.findRenderedDOMComponentWithClass(entryNode, 'log');
         expect(node).to.not.be.undefined;
         expect(node.tagName).to.be.equal('DIV');
     });

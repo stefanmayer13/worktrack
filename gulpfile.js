@@ -19,7 +19,8 @@ gulp.task('webpack', getTask('client').webpack);
 
 gulp.task('watch', function () {
     gulp.watch('scss/*.scss', ['sass']);
-    gulp.watch('app/**/*.js', ['check', 'webpack']);
+    gulp.watch('app/**/*.js', ['webpack']);
+    gulp.watch('**/*.js', ['check']);
 });
 
 gulp.task('check', getTask('helper').check);
