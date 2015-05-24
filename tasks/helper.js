@@ -13,7 +13,7 @@ module.exports = {
         return gulp.src(['config/**/*.js', 'app/**/*.js', 'server/**/*.js', 'tests/**/*.js'])
             .pipe(eslint({
                 rulePaths: [
-                    './'
+                    '.'
                 ]}))
             .pipe(eslint.format())
             .pipe(eslint.failAfterError());

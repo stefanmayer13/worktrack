@@ -10,7 +10,7 @@ module.exports = function(config) {
         browsers: ['PhantomJS'],
         files: [
             './node_modules/phantomjs-polyfill/bind-polyfill.js',
-            'tests.webpack.js'
+            './tests/tests.webpack.js'
         ],
         frameworks: ['jasmine'],
         preprocessors: {
