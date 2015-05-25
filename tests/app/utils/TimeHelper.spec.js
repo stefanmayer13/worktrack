@@ -88,7 +88,8 @@ describe("TimeHelper", () => {
     describe("getDateFromParam", () => {
         it("returns date if valid", function () {
             expect(TimeHelper.getDateFromParam('1/1/2000 10:20')).to.be.deep.equal(new Date('1/1/2000 10:20'));
-            expect(TimeHelper.getDateFromParam('2015-05-22T11:30:00.000Z')).to.be.deep.equal(new Date('2015-05-22T11:30:00.000Z'));
+            expect(TimeHelper.getDateFromParam('2015-05-22T11:30:00.000Z'))
+                .to.be.deep.equal(new Date('2015-05-22T11:30:00.000Z'));
             expect(TimeHelper.getDateFromParam('1/1/2000 20:10:01')).to.be.deep.equal(new Date('1/1/2000 20:10:01'));
         });
 

@@ -4,6 +4,7 @@
  */
 var webpack = require('webpack');
 var RewirePlugin = require("rewire-webpack");
+var path = require('path');
 
 module.exports = function(config) {
     config.set({

@@ -35,7 +35,7 @@ let DateInput = React.createClass({
 
     render() {
         return (
-            <input type="date" name="date"
+            <input type="date" name={this.props.name}
                    value={this.state.value}
                    onChange={this._onChange}
                    onKeyDown={this._onKeyDown} />
