@@ -27,6 +27,7 @@
         &.log {
             padding-right: 0.2rem;
             border: none;
+            flex: 1;
         }
         &.project {
             flex: 1;
@@ -50,5 +51,8 @@
     }
     &:first-child div {
         border-top: 0.1rem solid grey;
+        &.log {
+            border: none;
+        }
     }
 }

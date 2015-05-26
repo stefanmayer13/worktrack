@@ -79,6 +79,7 @@ module.exports = (server, db, prefix) => {
             })
             .toArray()
             .subscribe((err, data) => {
+                console.log(err, data);
                 reply(err, data);
             });
         }
@@ -102,18 +103,13 @@ module.exports = (server, db, prefix) => {
             TogglHelper.getDetail(start, end).then((data) => {
                 if (data && data.data) {
                     MongoDBHelper.sync(db, data.data).then((entries) => {
-                        console.log(entries);
-                        let updates = entries.filter((entry) => {
-                            return !!entry.modifiedCount;
-                        });
                         let inserts = entries.filter((entry) => {
                             return !!entry.upsertedCount;
                         });
                         reply({
                             success: {
                                 inserts: inserts.length,
-                                updates: updates.length,
-                                entries: entries.length
+                                updates: entries.length - inserts.length
                             }
                         });
                     }, (err) => {

@@ -97,7 +97,7 @@ let Worklog = React.createClass({
         }).subscribe((data) => {
             let message, update = false;
             if (data.success) {
-                if (!data.success.entries) {
+                if (!data.success) {
                     message = 'No entries found.';
                 } else if (!data.success.inserts && !data.success.updates) {
                     message = 'There were no changes.';

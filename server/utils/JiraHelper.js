@@ -88,7 +88,7 @@ module.exports = {
         let issueKey = entry.jira.key;
         let isoStartDateStr = new Date(entry.start).toISOString();
         let postData = JSON.stringify({
-            "comment": entry.description,
+            "comment": encodeURIComponent(entry.description),
             "started": isoStartDateStr.substr(0, isoStartDateStr.length - 1) + '+0100',
             "timeSpentSeconds": duration / 1000
         });
@@ -118,7 +118,7 @@ module.exports = {
             res.on('end', () => {
                 let data = JSON.parse(body);
                 if (data.errorMessages) {
-                    cb(null, null);
+                    cb(new Error(data.errorMessages[0]), null);
                 } else {
                     cb(null, data);
                 }
