@@ -55,10 +55,7 @@ module.exports = {
                 return collection.updateOne.bind(collection, {
                     _id: entry.id
                 }, {
-                    $set: entry.entry,
-                    $setOnInsert: {
-                        _id: entry.id
-                    }
+                    $set: entry.entry
                 }, {
                     upsert: true
                 });

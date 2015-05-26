@@ -102,6 +102,7 @@ module.exports = (server, db, prefix) => {
             TogglHelper.getDetail(start, end).then((data) => {
                 if (data && data.data) {
                     MongoDBHelper.sync(db, data.data).then((entries) => {
+                        console.log(entries);
                         let updates = entries.filter((entry) => {
                             return !!entry.modifiedCount;
                         });
