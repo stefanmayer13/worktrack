@@ -18,7 +18,7 @@ module.exports = {
         start.setHours(0, 0, 0);
         end.setHours(23, 59, 59);
         const collection = db.collection('worklogs');
-        const results = collection.find({start: {$gt: start}, end: {$lt: end}});
+        const results = collection.find({start: {$gt: start}, end: {$lt: end}}).sort({start: -1});
         return Q.nfcall(results.toArray.bind(results)).then((data) => {
             const total = data.reduce((subtotal, entry) => {
                 return subtotal + entry.duration;

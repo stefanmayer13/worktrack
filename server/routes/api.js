@@ -79,7 +79,6 @@ module.exports = (server, db, prefix) => {
             })
             .toArray()
             .subscribe((err, data) => {
-                console.log(err, data);
                 reply(err, data);
             });
         }

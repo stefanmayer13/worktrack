@@ -83,12 +83,15 @@ module.exports = {
         if (!entry || !entry.jira || !entry.jira.id) {
             return cb(new Error('Problem with entry data'));
         }
-        const duration = entry.dur || entry.duration;
+        let duration = entry.dur || entry.duration;
+        if (duration < 60000) {
+            duration = 60000;
+        }
         var auth = 'Basic ' + new Buffer(authData.user + ':' + authData.pass).toString('base64');
         let issueKey = entry.jira.key;
         let isoStartDateStr = new Date(entry.start).toISOString();
         let postData = JSON.stringify({
-            "comment": encodeURIComponent(entry.description),
+            "comment": entry.description,
             "started": isoStartDateStr.substr(0, isoStartDateStr.length - 1) + '+0100',
             "timeSpentSeconds": duration / 1000
         });
@@ -103,9 +106,11 @@ module.exports = {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': auth,
-                'Content-Length': postData.length
+                'Content-Length': Buffer.byteLength(postData)
             }
         };
+
+        console.log(Buffer.byteLength(postData), postData.length, postData);
 
         Logger.info('Handling request to Jira api, adding worklog to ', issueKey);
 
