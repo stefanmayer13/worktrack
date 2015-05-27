@@ -27,6 +27,9 @@ gulp.task('check', getTask('helper').check);
 
 gulp.task('sass', getTask('sass').sass);
 
-gulp.task('test', getTask('testing').test);
+gulp.task('test', ['karmaTests', 'mochaTests']);
+
+gulp.task('karmaTests', getTask('testing').karmaTests);
+gulp.task('mochaTests', getTask('testing').mochaTests);
 
 gulp.task('watch-test', getTask('testing').watchtest);
