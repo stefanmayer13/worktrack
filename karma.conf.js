@@ -13,11 +13,10 @@ module.exports = function(config) {
             './node_modules/phantomjs-polyfill/bind-polyfill.js',
             './testhelper/tests.webpack.js'
         ],
-        frameworks: ['jasmine'],
+        frameworks: ['mocha'],
         preprocessors: {
             './testhelper/tests.webpack.js': ['webpack'],
-            'app/**/*.js': ['coverage'],
-            'server/**/*.js': ['coverage']
+            'app/**/*.js': ['coverage']
         },
         reporters: ['spec', 'coverage'],
         coverageReporter: {
@@ -28,13 +27,11 @@ module.exports = function(config) {
         webpack: {
             devtool: 'inline-source-map',
             module: {
-                loaders: [
-                    {
-                        test: /\.js?$/,
-                        exclude: /(tmp|node_modules)/,
-                        loader: 'babel-loader'
-                    }
-                ],
+                loaders: [{
+                    test: /\.js?$/,
+                    exclude: /(tmp|node_modules)/,
+                    loader: 'babel-loader'
+                }],
                 postLoaders: [{
                     test: /\.js?$/,
                     exclude: /(tests|tmp|node_modules)/,

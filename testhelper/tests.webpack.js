@@ -3,7 +3,7 @@
  * @author <a href="mailto:stefanmayer13@gmail.com">Stefan Mayer</a>
  */
 
-let testsContext = require.context('../tests', true, /.spec\.js$/);
+let testsContext = require.context('../tests/app', true, /.spec\.js$/);
 testsContext.keys().forEach(testsContext );
 
 const projectModuleIds = testsContext.keys().map(module =>
