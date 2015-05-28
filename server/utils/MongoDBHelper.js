@@ -27,9 +27,9 @@ module.exports = {
                 total: total,
                 data: data
             };
-        }, (err) => {
+        }).catch((err) => {
             console.log(err);
-            return err;
+            throw err;
         });
     },
 
