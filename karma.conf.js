@@ -8,7 +8,7 @@ var path = require('path');
 
 module.exports = function(config) {
     config.set({
-        browsers: ['PhantomJS'],
+        browsers: ['PhantomJS', 'Chrome'],
         files: [
             './node_modules/phantomjs-polyfill/bind-polyfill.js',
             './testhelper/tests.webpack.js'

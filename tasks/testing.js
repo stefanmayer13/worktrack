@@ -5,7 +5,7 @@
 
 const gulp = require('gulp');
 const karma = require('karma').server;
-const mocha = require('gulp-mocha');
+const shell = require('gulp-shell');
 //const coverage = require('gulp-coverage');
 
 module.exports = {
@@ -21,21 +21,8 @@ module.exports = {
             singleRun: false
         }, done);
     },
-    mochaTests() {
-        return gulp.src('tests/server/**/*.js', {read: false})
-            //.pipe(coverage.instrument({
-            //    pattern: ['**/*.spec.js'],
-            //    debugDirectory: 'debug'
-            //}))
-            .pipe(mocha({reporter: 'spec'}))
-            //.pipe(coverage.gather())
-            //.pipe(coverage.format())
-            //.pipe(gulp.dest('build/coverage/node'))
-            .once('error', function () {
-                process.exit(1);
-            })
-            .once('end', function () {
-                process.exit();
-            });
-    }
+    mochaTests: shell.task([
+            'istanbul cover --report html --dir build/coverage/node --  ' +
+                'node_modules/mocha/bin/_mocha --color --compilers js:babel/register tests/server/**/*.spec.js'
+    ])
 };

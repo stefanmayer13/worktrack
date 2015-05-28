@@ -25,6 +25,8 @@
         "react"
     ],
     "globals": {
+        "before": true,
+        "after": true,
         "async": true,
         "jest": true,
         "describe": true,

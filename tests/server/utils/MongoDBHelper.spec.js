@@ -5,11 +5,10 @@
 
 const rewire = require('rewire');
 const expect = require('chai').expect;
-const sinon = require('sinon');
 const Q = require('q');
 const MongoClient = require('mongodb').MongoClient;
 
-const MongoDBHelper = require('../../../server/utils/MongoDBHelper');
+const MongoDBHelper = rewire('../../../server/utils/MongoDBHelper');
 
 const url = 'mongodb://localhost:27017/worktrack-test';
 
