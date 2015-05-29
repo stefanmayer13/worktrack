@@ -9,13 +9,14 @@ const mui = require('material-ui');
 const Api = require('../utils/Api');
 const Time = require('../utils/TimeHelper');
 const TimeEntry = require('../components/TimeEntry');
-const DateInput = require('../components/DateInput');
+const MaterialUiMixin = require('../mixins/MaterialUiMixin');
 
 const RaisedButton = mui.RaisedButton;
+const DatePicker = mui.DatePicker;
 const Link = Router.Link;
 
 const Worklog = React.createClass({
-    mixins: [Router.Navigation],
+    mixins: [Router.Navigation, MaterialUiMixin],
 
     getInitialState() {
         return {
@@ -44,14 +45,11 @@ const Worklog = React.createClass({
             <div className='page report'>
                 <Link to="/"><RaisedButton label="Back" /></Link>
                 <p>
-                    <label htmlFor="date">Date:</label>
-                    <Link to={`/worklog/${Time.getDateForApi(previous)}`}><button>-</button></Link>
-                    <DateInput name="date"
-                           value={Time.getDateFromParam(this.props.params.date)}
-                           onSubmit={this._handleDateChange} />
-                    <Link to={`/worklog/${Time.getDateForApi(next)}`}><button>+</button></Link>
+                    <DatePicker
+                        defaultDate={Time.getDateFromParam(this.props.params.date)}
+                        autoOk={true}
+                        onChange={this._handleDateChange} />
                 </p>
-                {this.state.loading ? <p>Loading new data ...</p> : null}
                 <p>Total: {Time.getTimeFromMs(this.state.total)}</p>
                 <p><button onClick={this._handleSync}>Sync from Toggl</button></p>
                 {toSync.length > 0
@@ -79,7 +77,7 @@ const Worklog = React.createClass({
             });
     },
 
-    _handleDateChange(date) {
+    _handleDateChange(e, date) {
         this.replaceWith(`/worklog/${Time.getDateForApi(date)}`);
     },
 

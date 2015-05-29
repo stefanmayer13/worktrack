@@ -6,28 +6,13 @@
 const React = require('react/addons');
 const Router = require('react-router');
 const mui = require('material-ui');
-const ThemeManager = require('material-ui/lib/styles/theme-manager')();
-const Colors = require('material-ui/lib/styles/colors');
+const MaterialUiMixin = require('../mixins/MaterialUiMixin');
 
 const RaisedButton = mui.RaisedButton;
 const Link = Router.Link;
 
 const Home = React.createClass({
-    childContextTypes: {
-        muiTheme: React.PropTypes.object
-    },
-
-    getChildContext: function() {
-        return {
-            muiTheme: ThemeManager.getCurrentTheme()
-        };
-    },
-
-    componentWillMount: function() {
-        ThemeManager.setPalette({
-            accent1Color: Colors.deepOrange500
-        });
-    },
+    mixins: [MaterialUiMixin],
 
     render() {
         return (
