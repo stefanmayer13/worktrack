@@ -5,20 +5,40 @@
 
 const React = require('react/addons');
 const Router = require('react-router');
+const mui = require('material-ui');
+const ThemeManager = require('material-ui/lib/styles/theme-manager')();
+const Colors = require('material-ui/lib/styles/colors');
 
+const RaisedButton = mui.RaisedButton;
 const Link = Router.Link;
 
 const Home = React.createClass({
+    childContextTypes: {
+        muiTheme: React.PropTypes.object
+    },
+
+    getChildContext: function() {
+        return {
+            muiTheme: ThemeManager.getCurrentTheme()
+        };
+    },
+
+    componentWillMount: function() {
+        ThemeManager.setPalette({
+            accent1Color: Colors.deepOrange500
+        });
+    },
+
     render() {
         return (
             <div className='page'>
                 <h1>Welcome to Worktrack</h1>
                 <p>
                     The following pages are currently available:
-                    <ul>
-                        <li><Link to="worklog">Worklog</Link></li>
-                        <li><Link to="worklogchart">Chart</Link></li>
-                        <li><Link to="toggl">Toggl</Link></li>
+                    <ul className="nav">
+                        <li><Link to="worklog"><RaisedButton label="Worklog" primary={true} /></Link></li>
+                        <li><Link to="worklogchart"><RaisedButton label="Chart" secondary={true} /></Link></li>
+                        <li><Link to="toggl"><RaisedButton label="Toggl" secondary={true} /></Link></li>
                     </ul>
                 </p>
             </div>

@@ -1,5 +1,21 @@
 @charset "UTF-8";
 
+.page {
+    ul.nav {
+        clear: left;
+        padding: 0;
+        li {
+            list-style-type: none;
+            float: left;
+            margin: 0 0.5rem 0.5rem 0;
+            &:last-child {
+                float: none;
+                margin: 0.5rem;
+            }
+        }
+    }
+}
+
 .timeentry {
     clear: left;
     list-style-type: none;

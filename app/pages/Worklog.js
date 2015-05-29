@@ -3,16 +3,18 @@
  * @author <a href="mailto:stefanmayer13@gmail.com">Stefan Mayer</a>
  */
 
-let React = require('react/addons');
-let Router = require('react-router');
-let Link = Router.Link;
+const React = require('react/addons');
+const Router = require('react-router');
+const mui = require('material-ui');
+const Api = require('../utils/Api');
+const Time = require('../utils/TimeHelper');
+const TimeEntry = require('../components/TimeEntry');
+const DateInput = require('../components/DateInput');
 
-let Api = require('../utils/Api');
-let Time = require('../utils/TimeHelper');
-let TimeEntry = require('../components/TimeEntry');
-let DateInput = require('../components/DateInput');
+const RaisedButton = mui.RaisedButton;
+const Link = Router.Link;
 
-let Worklog = React.createClass({
+const Worklog = React.createClass({
     mixins: [Router.Navigation],
 
     getInitialState() {
@@ -31,16 +33,16 @@ let Worklog = React.createClass({
     },
 
     render() {
-        let toSync = this.state.data.filter((entry) => {
+        const toSync = this.state.data.filter((entry) => {
             return !entry.worklog;
         });
-        let previous = Time.getDateFromParam(this.props.params.date);
+        const previous = Time.getDateFromParam(this.props.params.date);
         previous.setDate(previous.getDate() - 1);
-        let next = Time.getDateFromParam(this.props.params.date);
+        const next = Time.getDateFromParam(this.props.params.date);
         next.setDate(next.getDate() + 1);
         return (
             <div className='page report'>
-                <Link to="/"><button>Back</button></Link>
+                <Link to="/"><RaisedButton label="Back" /></Link>
                 <p>
                     <label htmlFor="date">Date:</label>
                     <Link to={`/worklog/${Time.getDateForApi(previous)}`}><button>-</button></Link>
@@ -68,8 +70,8 @@ let Worklog = React.createClass({
         this.setState({
             loading: true
         });
-        let apiDate = Time.getDateForApi(date);
-        let params = `start=${apiDate}&end=${apiDate}`;
+        const apiDate = Time.getDateForApi(date);
+        const params = `start=${apiDate}&end=${apiDate}`;
         Api.fetch(`/api/logs?${params}`)
             .subscribe((data) => {
                 data.loading = false;
@@ -85,8 +87,8 @@ let Worklog = React.createClass({
         this.setState({
             loading: true
         });
-        let date = Time.getDateFromParam(this.props.params.date);
-        let params = `start=${Time.getDateForApi(date)}`
+        const date = Time.getDateFromParam(this.props.params.date);
+        const params = `start=${Time.getDateForApi(date)}`
                     + `&end=${Time.getDateForApi(date)}`;
         Api.fetch(`/api/toggl/sync?${params}`, {
             method: 'post',
@@ -132,7 +134,7 @@ let Worklog = React.createClass({
     },
 
     _handleJiraSync(entries) {
-        let entryIds = entries.map((entry) => {
+        const entryIds = entries.map((entry) => {
             return entry._id;
         });
         Api.fetch(`/api/jira/add`, {
