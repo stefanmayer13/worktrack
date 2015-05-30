@@ -1,4 +1,13 @@
 {
+    "parser": "babel-eslint",
+    "plugins": [
+        "react"
+    ],
+    "env": {
+        "es6": true,
+        "browser": true,
+        "node": true
+    },
     "settings" : {
         "ecmascript": 6,
         "jsx": true
@@ -21,9 +30,6 @@
         "browser": true,
         "node": true
     },
-    "plugins": [
-        "react"
-    ],
     "globals": {
         "async": true,
         "jest": true,
@@ -42,7 +48,7 @@
     },
     "rules": {
         "no-multi-str": 0,
-        "no-multi-spaces": 2,
+        "no-multi-spaces": 1,
         "no-underscore-dangle": 0,
         "no-bitwise": 1,
         "no-comma-dangle": 2,

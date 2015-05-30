@@ -5,14 +5,14 @@
 
 const React = require('react/addons');
 const Router = require('react-router');
-const mui = require('material-ui');
+const Mui = require('material-ui');
 const Api = require('../utils/Api');
 const Time = require('../utils/TimeHelper');
 const TimeEntry = require('../components/TimeEntry');
 const MaterialUiMixin = require('../mixins/MaterialUiMixin');
 
-const RaisedButton = mui.RaisedButton;
-const DatePicker = mui.DatePicker;
+const RaisedButton = Mui.RaisedButton;
+const DatePicker = Mui.DatePicker;
 const Link = Router.Link;
 
 const Worklog = React.createClass({
@@ -44,17 +44,26 @@ const Worklog = React.createClass({
         return (
             <div className='page report'>
                 <Link to="/"><RaisedButton label="Back" /></Link>
-                <p>
+                <div style={{marginTop: '1rem'}}>
+                    <Link to={`/worklog/${Time.getDateForApi(previous)}`}>
+                        <RaisedButton style={{float: 'left'}} label="-" />
+                    </Link>
                     <DatePicker
+                        style={{float: 'left'}}
                         defaultDate={Time.getDateFromParam(this.props.params.date)}
                         autoOk={true}
                         onChange={this._handleDateChange} />
-                </p>
+                    <Link to={`/worklog/${Time.getDateForApi(next)}`}>
+                        <RaisedButton style={{float: 'left'}} label="+" />
+                    </Link>
+                    <div style={{clear: 'left'}}></div>
+                </div>
                 <p>Total: {Time.getTimeFromMs(this.state.total)}</p>
-                <p><button onClick={this._handleSync}>Sync from Toggl</button></p>
-                {toSync.length > 0
-                    ? <p><button onClick={this._handleJiraSync.bind(this, toSync)}>Sync to Jira</button></p>
+                <p><RaisedButton onClick={this._handleSync} label="Sync from Toggl" /></p>
+                <p>{toSync.length > 0
+                    ? <RaisedButton onClick={this._handleJiraSync.bind(this, toSync)} label="Sync to Jira" />
                     : null}
+                </p>
                 <ul>
                     {this.state.data.map((data) => {
                         return <TimeEntry key={data._id} entry={data} sync={this._handleSingleSync} />;

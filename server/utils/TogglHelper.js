@@ -3,14 +3,14 @@
  * @author <a href="mailto:stefanmayer13@gmail.com">Stefan Mayer</a>
  */
 
-let Q = require('q');
-let https = require('https');
-let async = require('async');
+const Q = require('q');
+const https = require('https');
+const async = require('async');
 
-let Config = require('../Config');
-let token = require('../../auth').token;
-let Logger = require('../Logger');
-let JiraHelper = require('../utils/JiraHelper');
+const Config = require('../Config');
+const token = require('../../auth').token;
+const Logger = require('../Logger');
+const JiraHelper = require('../utils/JiraHelper');
 
 module.exports = {
     getDetail(start, end) {

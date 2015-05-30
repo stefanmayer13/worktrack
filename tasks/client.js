@@ -3,25 +3,41 @@
  * @author <a href="mailto:stefanmayer13@gmail.com">Stefan Mayer</a>
  */
 
-let webpack = require('webpack');
-let gutil = require('gulp-util');
+const webpack = require('webpack');
+const gulp    = require('gulp');
+const gutil   = require('gulp-util');
+const nodemon = require('nodemon');
+const path    = require('path');
 
-let webpackConfig = require("../webpack.config.js");
-let webpackDevConfig = Object.create(webpackConfig);
-webpackDevConfig.devtool = "sourcemap";
-webpackDevConfig.debug = true;
-let devCompiler = webpack(webpackDevConfig);
+const webpackConfig = require("../webpack.config.js");
+let cache = {};
+
+if (process.env.NODE_ENV !== 'production') {
+    webpackConfig.devtool = '#eval-source-map';
+    webpackConfig.debug = true;
+    webpackConfig.cache = cache;
+    webpackConfig.noParse = [
+        path.join(__dirname, 'node_modules', 'react'),
+        path.join(__dirname, 'node_modules', 'material-ui')
+    ];
+}
+
+const afterBuild = (cb) => {
+    return function webpackOnBuild (err, stats) {
+        if (err) {
+            throw new gutil.PluginError("webpack:build-dev", err);
+        }
+        gutil.log("[webpack:build-dev]", stats.toString({
+            colors: true
+        }));
+        if ((typeof cb) === 'function') {
+            cb();
+        }
+    };
+};
 
 module.exports = {
     webpack(cb) {
-        devCompiler.run(function(err, stats) {
-            if (err) {
-                throw new gutil.PluginError("webpack:build-dev", err);
-            }
-            gutil.log("[webpack:build-dev]", stats.toString({
-                colors: true
-            }));
-            cb();
-        });
+        webpack(webpackConfig).run(afterBuild(cb));
     }
-}
+};

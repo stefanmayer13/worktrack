@@ -3,10 +3,15 @@
  * @author <a href="mailto:stefanmayer13@gmail.com">Stefan Mayer</a>
  */
 
-let React = require('react/addons');
-let Time = require('../utils/TimeHelper');
+const React = require('react/addons');
+const Time = require('../utils/TimeHelper');
+const Mui = require('material-ui');
+const MaterialUiMixin = require('../mixins/MaterialUiMixin');
 
-let TimeEntry = React.createClass({
+const RaisedButton = Mui.RaisedButton;
+
+const TimeEntry = React.createClass({
+    mixins: [MaterialUiMixin],
 
     getInitialState() {
         return {
@@ -26,9 +31,12 @@ let TimeEntry = React.createClass({
             ) : null,
             warning = !hasJiraInfo ? <div className="jiraerror">NO JIRA ISSUE FOUND!</div> : null,
             logged = (hasJiraInfo && (entry.jira.logged || entry.worklog))
-                    ? <div className="log">Already logged!</div>
+                    ? <div className="log"><RaisedButton label="Logged" disabled={true} /></div>
                     : (this.props.sync
-                        ? <button className="log" onClick={this.props.sync.bind(null, this.props.entry)}>Sync</button>
+                        ? <div className="log"><RaisedButton
+                            className="logbutton"
+                            onClick={this.props.sync.bind(null, this.props.entry)}
+                            label="Sync"/></div>
                         : null);
         return (
             <li className="timeentry">

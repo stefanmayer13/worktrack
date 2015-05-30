@@ -4,7 +4,7 @@ var path = require('path'),
 module.exports = {
     entry: {
         app: './app/client.js',
-        react: ["react"]
+        libs: ["react"]
     },
     output: {
         path: path.join(__dirname, "tmp"),
@@ -26,7 +26,7 @@ module.exports = {
 
     plugins: [
         //new webpack.optimize.DedupePlugin(),
-        new webpack.optimize.CommonsChunkPlugin(/* chunkName= */"react", /* filename= */"react.js")
+        //new webpack.optimize.CommonsChunkPlugin('libs', 'libs.js', Infinity)
         //new webpack.optimize.UglifyJsPlugin()
     ]
 };
