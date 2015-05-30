@@ -7,7 +7,7 @@
     "d3": "^3.5.5",
     "es6-promise": "^2.1.1",
     "install": "^0.1.8",
-    "material-ui": "^0.8.0",
+    "material-ui": "git://github.com/stefanmayer13/material-ui",
     "mongodb": "^2.0.31",
     "npm": "^2.8.4",
     "q": "^1.2.0",

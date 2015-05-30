@@ -1,5 +1,9 @@
 @charset "UTF-8";
 
+body {
+    font-family: Roboto, sans-serif;
+}
+
 .page {
     ul.nav {
         clear: left;
@@ -16,65 +20,73 @@
     }
 }
 
+.datepicker {
+    input {
+        text-align: center;
+    }
+}
+
+.entrylist {
+    padding-left: 0;
+}
+
 .timeentry {
     clear: left;
     list-style-type: none;
     display: flex;
-    >button {
-        float: left;
-        padding: 0 0 0 0.3rem;
-        margin: 0.2rem;
-        flex: 1;
-        background-color: lightgrey;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        box-shadow: rgba(0,0,0,.7)1px 1px 5px 0;
-        min-height: 1.2rem;
-    }
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+    border: 0.1rem solid grey;
+    border-radius: 0.5rem;
+    box-shadow: rgba(0,0,0,.7)1px 1px 5px 0;
     >div {
         flex: 2;
-        padding-left: 0.5rem;
-        padding-top: 0.5rem;
+        padding: 0.5rem 0 0.5rem 0.5rem;
         float: left;
-        border-left: 0.1rem solid grey;
         font-size: 1.1rem;
         min-height: 2rem;
-        &:last-child {
-            border-right: 0.1rem solid grey;
+        &.descr {
+            min-width: 10rem;
         }
         &.log {
             padding-right: 0.2rem;
             border: none;
             flex: 1;
-            padding-top: 0;
             padding-bottom: 0.5rem;
             text-align: center;
+            min-width: 6rem;
         }
         &.project {
             flex: 1;
+            min-width: 8rem;
         }
         &.jira {
             flex: 4;
+            min-width: 10rem;
         }
         &.time, &.duration {
             flex: 1;
+            min-width: 7rem;
         }
         &.jiraerror {
             flex: 4;
             background-color: red;
         }
-        border-bottom: 0.1rem solid grey;
     }
     &:after {
         content: "";
         display: table;
         clear: both;
     }
-    &:first-child>div {
-        border-top: 0.1rem solid grey;
-        &.log {
-            border: none;
-        }
+}
+
+.backbutton {
+    float: left;
+    margin-right: 2rem;
+}
+
+@media only screen and (max-width: 600px) {
+    .backbutton {
+        float: none;
     }
 }

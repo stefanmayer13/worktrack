@@ -13,6 +13,7 @@ const MaterialUiMixin = require('../mixins/MaterialUiMixin');
 
 const RaisedButton = Mui.RaisedButton;
 const DatePicker = Mui.DatePicker;
+const Paper = Mui.Paper;
 const Link = Router.Link;
 
 const Worklog = React.createClass({
@@ -43,12 +44,15 @@ const Worklog = React.createClass({
         next.setDate(next.getDate() + 1);
         return (
             <div className='page report'>
-                <Link to="/"><RaisedButton label="Back" /></Link>
-                <div style={{marginTop: '1rem'}}>
+                <div className="backbutton">
+                    <Link to="/"><RaisedButton label="Back" /></Link>
+                </div>
+                <div style={{marginTop: '1rem', marginBottom: '1rem'}}>
                     <Link to={`/worklog/${Time.getDateForApi(previous)}`}>
                         <RaisedButton style={{float: 'left'}} label="-" />
                     </Link>
                     <DatePicker
+                        className="datepicker"
                         style={{float: 'left'}}
                         defaultDate={Time.getDateFromParam(this.props.params.date)}
                         autoOk={true}
@@ -58,13 +62,15 @@ const Worklog = React.createClass({
                     </Link>
                     <div style={{clear: 'left'}}></div>
                 </div>
-                <p>Total: {Time.getTimeFromMs(this.state.total)}</p>
+                <Paper zDepth={2} style={{display: 'inline-block', padding: '0 1rem'}}>
+                    <p>Total: {Time.getTimeFromMs(this.state.total)}</p>
+                </Paper>
                 <p><RaisedButton onClick={this._handleSync} label="Sync from Toggl" /></p>
                 <p>{toSync.length > 0
                     ? <RaisedButton onClick={this._handleJiraSync.bind(this, toSync)} label="Sync to Jira" />
                     : null}
                 </p>
-                <ul>
+                <ul className="entrylist">
                     {this.state.data.map((data) => {
                         return <TimeEntry key={data._id} entry={data} sync={this._handleSingleSync} />;
                     })}
