@@ -66,6 +66,7 @@ const Worklog = React.createClass({
                     <p>Total: {Time.getTimeFromMs(this.state.total)}</p>
                 </Paper>
                 <p><RaisedButton onClick={this._handleSync} label="Sync from Toggl" /></p>
+                <p>{this.state.loading ? 'loading...' : null}</p>
                 <p>{toSync.length > 0
                     ? <RaisedButton onClick={this._handleJiraSync.bind(this, toSync)} label="Sync to Jira" />
                     : null}
