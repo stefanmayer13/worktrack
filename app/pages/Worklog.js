@@ -111,39 +111,13 @@ const Worklog = React.createClass({
                 'Content-Type': 'application/json'
             }
         }).subscribe((data) => {
-            let message, update = false;
             if (data.success) {
-                if (!data.success) {
-                    message = 'No entries found.';
-                } else if (!data.success.inserts && !data.success.updates) {
-                    message = 'There were no changes.';
-                } else {
-                    update = true;
-                    message = '';
-                    if (data.success.inserts) {
-                        message += `There were ${data.success.inserts} inserts`;
-                    }
-                    if (data.success.updates) {
-                        if (message !== '') {
-                            message += ' and ';
-                        } else {
-                            message += 'There were ';
-                        }
-                        message += `${data.success.updates} updates`;
-                    }
-                    message += '.';
-                }
-            } else {
-                message = `There was a problem syncing your data: ${data}`;
-            }
-            if (update) {
                 this._getNewData(Time.getDateFromParam(this.props.params.date));
             } else {
                 this.setState({
                     loading: false
                 });
             }
-            alert(message);
         });
     },
 
