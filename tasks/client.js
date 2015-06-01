@@ -13,13 +13,13 @@ const webpackConfig = require("../webpack.config.js");
 let cache = {};
 
 if (process.env.NODE_ENV !== 'production') {
-    webpackConfig.devtool = '#eval-source-map';
+    webpackConfig.devtool = 'source-map';
     webpackConfig.debug = true;
     webpackConfig.cache = cache;
-    webpackConfig.noParse = [
-        path.join(__dirname, 'node_modules', 'react'),
-        path.join(__dirname, 'node_modules', 'material-ui')
-    ];
+    //webpackConfig.noParse = [
+    //    path.join(__dirname, 'node_modules', 'react'),
+    //    path.join(__dirname, 'node_modules', 'material-ui')
+    //];
 }
 
 const afterBuild = (cb) => {
