@@ -43,8 +43,10 @@ const Home = React.createClass({
                 username: 'a',
                 password: 'b'
             })
-        }).subscribe(() => {
-            console.log(arguments);
+        }).subscribe((data) => {
+            console.log(data);
+        }, (error) => {
+            console.log(error);
         });
     }
 });

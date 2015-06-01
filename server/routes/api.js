@@ -127,10 +127,7 @@ module.exports = (server, db, prefix) => {
         path: prefix+'/jira/login',
         handler(request, reply) {
             JiraHelper.login(request.payload)
-            .subscribe(reply, (error) => {
-                console.log('error', error);
-                reply(error);
-            });
+            .subscribe(reply, reply);
         }
     });
 };
