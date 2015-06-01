@@ -3,12 +3,80 @@
  * @author <a href="mailto:stefanmayer13@gmail.com">Stefan Mayer</a>
  */
 
-let https = require('https');
-let Logger = require('../Logger');
-let authData = require('../../auth').jira;
-let Rx = require('rx');
+const https = require('https');
+const Logger = require('../Logger');
+const authData = require('../../auth').jira;
+const Rx = require('rx');
+const Boom = require('boom');
 
 module.exports = {
+
+    login(payload) {
+        return Rx.Observable.create((observer) => {
+            if (!payload.username || !payload.password) {
+                observer.onError(new Error('Problem with entry data'));
+                observer.onCompleted();
+                return;
+            }
+
+            let postData = JSON.stringify({
+                "username": payload.username,
+                "password": payload.password
+            });
+
+            let url = `/rest/auth/1/session`;
+
+            let options = {
+                hostname: 'jira-new.netconomy.net',
+                port: '443',
+                path: url,
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Content-Length': Buffer.byteLength(postData)
+                }
+            };
+
+            Logger.info('Handling login to Jira', payload.username);
+
+            let req = https.request(options, (res) => {
+                if (res.statusCode === 401) {
+                    return observer.onError(Boom.unauthorized('Username or password wrong'));
+                } else if (res.statusCode === 403) {
+                    return observer.onError(Boom.forbidden('CAPTCHA required'));
+                } else if (res.statusCode !== 200) {
+                    return observer.onError(Boom.create(res.statusCode, res.statusMessage));
+                }
+                res.setEncoding('utf8');
+                res.on('data', (data) => {
+                    observer.onNext(data);
+                });
+                res.on('end', () => {
+                    observer.onCompleted();
+                });
+            });
+
+            req.on('error', function(e) {
+                Logger.error('problem with request: ' + e.message);
+                observer.onError(e);
+                observer.onCompleted();
+            });
+            req.write(postData);
+
+            req.end();
+        }).reduce((prev, current) => {
+            return prev + current;
+        }).map((data) => {
+            return JSON.parse(data);
+        }).map((data) => {
+            if (data.errorMessages) {
+                console.log(data.errorMessages[0]);
+                throw new Error(data.errorMessages[0]);
+            }
+            return data;
+        });
+    },
+
     getIssue(issueKey, cb) {
         var auth = 'Basic ' + new Buffer(authData.user + ':' + authData.pass).toString('base64');
 
