@@ -42,6 +42,7 @@ const Worklog = React.createClass({
         previous.setDate(previous.getDate() - 1);
         const next = Time.getDateFromParam(this.props.params.date);
         next.setDate(next.getDate() + 1);
+
         return (
             <div className='page report'>
                 <div className="backbutton">

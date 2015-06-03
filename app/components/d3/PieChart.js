@@ -44,7 +44,7 @@ const PieChart = {
             })
             .attr("text-anchor", "middle")                          //center the text on it's origin
             .text(function(d, i) {
-                return data[i].jira.key;
+                return data[i].key;
             });
     },
 
