@@ -62,11 +62,10 @@ let WorklogChart = React.createClass({
         Api.fetch(`/api/logs?${params}`)
             .map((data) => {
                 const dataObject = data.data
-                    .map((data) => {
-                        console.log(data);
+                    .map((entry) => {
                         return {
-                            key: data.jira.key,
-                            duration: data.duration
+                            key: entry.jira.key,
+                            duration: entry.duration
                         };
                     })
                     .reduce((prev, cur) => {
