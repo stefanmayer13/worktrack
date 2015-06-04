@@ -25,7 +25,7 @@ const Home = React.createClass({
                         <li><Link to="worklog"><RaisedButton label="Worklog" primary={true} /></Link></li>
                         <li><Link to="worklogchart"><RaisedButton label="Chart" secondary={true} /></Link></li>
                         <li><Link to="toggl"><RaisedButton label="Toggl" secondary={true} /></Link></li>
-                        <li><RaisedButton label="Login" onClick={this._login} /></li>
+                        <li><Link to="login"><RaisedButton label="Login" /></Link></li>
                     </ul>
                 </p>
             </div>
