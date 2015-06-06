@@ -43,6 +43,7 @@ const Home = React.createClass({
                         ref="password" />
                     <br />
                     <RaisedButton label="Login" primary={true} onClick={this._onSubmit} />
+                    <RaisedButton label="IsLoggedIn?" secondary={true} onClick={this._checkLogin} />
                 </p>
             </div>
         );
@@ -64,6 +65,10 @@ const Home = React.createClass({
         const user = this.refs.username.getValue();
         const password = this.refs.password.getValue();
 
+        if (!user || !password) {
+            return;
+        }
+
         Api.fetch(`/api/jira/login`, {
             method: 'post',
             headers: {
@@ -78,6 +83,22 @@ const Home = React.createClass({
             console.log(data);
         }, (error) => {
             console.log(error);
+        });
+    },
+
+    _checkLogin() {
+        Api.fetch(`/api/jira/login`, {
+            method: 'get',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }).subscribe((data) => {
+            console.log(data);
+            alert('Logged in!');
+        }, (error) => {
+            console.log(error);
+            alert('Not logged in!');
         });
     }
 });

@@ -15,6 +15,11 @@ MongoDBHelper.connect().then((db) => {
     require('./routes/api')(server, db, '/api');
     require('./routes/app')(server);
 
+    server.state('jiracookie', {
+        isSecure: true,
+        encoding: 'base64json'
+    });
+
     server.start(function () {
         Logger.info('Server running at:', server.info.uri);
     });

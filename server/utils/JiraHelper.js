@@ -47,6 +47,11 @@ module.exports = {
                 } else if (res.statusCode !== 200) {
                     return observer.onError(Boom.create(res.statusCode, res.statusMessage));
                 }
+
+                observer.onNext({
+                    'setCookie': res.headers['set-cookie']
+                });
+
                 res.setEncoding('utf8');
                 res.on('data', (data) => {
                     observer.onNext(data);
@@ -62,6 +67,64 @@ module.exports = {
                 observer.onCompleted();
             });
             req.write(postData);
+
+            req.end();
+        }).reduce((prev, current) => {
+            if (current.setCookie) {
+                prev.setCookie = current.setCookie;
+            } else {
+                prev.data += current;
+            }
+            return prev;
+        }, {data: ''}).map((data) => {
+            return {
+                setCookie: data.setCookie,
+                data: JSON.parse(data.data)
+            };
+        }).map((data) => {
+            if (data.errorMessages) {
+                console.log(data.errorMessages[0]);
+                throw new Error(data.errorMessages[0]);
+            }
+            return data;
+        });
+    },
+
+    getUserData() {
+        return Rx.Observable.create((observer) => {
+            let url = `/rest/auth/1/session`;
+
+            let options = {
+                hostname: 'jira-new.netconomy.net',
+                port: '443',
+                path: url,
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            };
+
+            let req = https.request(options, (res) => {
+                if (res.statusCode === 401) {
+                    return observer.onError(Boom.unauthorized('Not logged in'));
+                } else if (res.statusCode !== 200) {
+                    return observer.onError(Boom.create(res.statusCode, res.statusMessage));
+                }
+
+                res.setEncoding('utf8');
+                res.on('data', (data) => {
+                    observer.onNext(data);
+                });
+                res.on('end', () => {
+                    observer.onCompleted();
+                });
+            });
+
+            req.on('error', function(e) {
+                Logger.error('problem with request: ' + e.message);
+                observer.onError(e);
+                observer.onCompleted();
+            });
 
             req.end();
         }).reduce((prev, current) => {
