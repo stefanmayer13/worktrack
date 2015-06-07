@@ -22,6 +22,7 @@ const Home = React.createClass({
                 <p>
                     The following pages are currently available:
                     <ul className="nav">
+                        <li><Link to="log"><RaisedButton label="Log" primary={true} /></Link></li>
                         <li><Link to="worklog"><RaisedButton label="Worklog" primary={true} /></Link></li>
                         <li><Link to="worklogchart"><RaisedButton label="Chart" secondary={true} /></Link></li>
                         <li><Link to="toggl"><RaisedButton label="Toggl" secondary={true} /></Link></li>
