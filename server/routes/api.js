@@ -128,11 +128,9 @@ module.exports = (server, db, prefix) => {
         handler(request, reply) {
             JiraHelper.login(request.payload)
             .subscribe((data) => {
-                console.log('setting cookie', data.setCookie);
-                reply(data.data).state('jiracookie', data.setCookie, {
-                    path: '/',
-                    domain: request.info.hostname
-                });
+                const response = reply(data.data).hold();
+                response.state('jira', data.setCookie);
+                response.send();
             }, reply);
         }
     });
@@ -141,7 +139,7 @@ module.exports = (server, db, prefix) => {
         method: 'GET',
         path: prefix+'/jira/login',
         handler(request, reply) {
-            JiraHelper.getUserData()
+            JiraHelper.getUserData(request.state.jira)
                 .subscribe(reply, reply);
         }
     });

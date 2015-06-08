@@ -78,7 +78,7 @@ module.exports = {
             return prev;
         }, {data: ''}).map((data) => {
             return {
-                setCookie: data.setCookie,
+                setCookie: new Buffer(JSON.stringify(data.setCookie)).toString('base64'),
                 data: JSON.parse(data.data)
             };
         }).map((data) => {
@@ -90,9 +90,10 @@ module.exports = {
         });
     },
 
-    getUserData() {
+    getUserData(cookieBase64) {
         return Rx.Observable.create((observer) => {
             let url = `/rest/auth/1/session`;
+            const cookie = JSON.parse(new Buffer(cookieBase64, 'base64').toString('ascii'));
 
             let options = {
                 hostname: 'jira-new.netconomy.net',
@@ -100,9 +101,12 @@ module.exports = {
                 path: url,
                 method: 'GET',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Cookie': cookie.join(', ')
                 }
             };
+
+            Logger.info('Getting userdata from jira');
 
             let req = https.request(options, (res) => {
                 if (res.statusCode === 401) {

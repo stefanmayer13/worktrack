@@ -7,6 +7,7 @@ const React = require('react/addons');
 const mui = require('material-ui');
 const MaterialUiMixin = require('../mixins/MaterialUiMixin');
 const Api = require('../utils/Api');
+const request = require('superagent-bluebird-promise');
 
 const TextField = mui.TextField;
 const RaisedButton = mui.RaisedButton;
@@ -69,26 +70,23 @@ const Home = React.createClass({
             return;
         }
 
-        Api.fetch(`/api/jira/login`, {
-            method: 'post',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
+        request.post(`/api/jira/login`)
+            .send({
                 username: user,
                 password: password
             })
-        }).subscribe((data) => {
-            console.log(data);
-        }, (error) => {
-            console.log(error);
-        });
+            .withCredentials()
+            .then((data) => {
+                console.log(data);
+            }, (error) => {
+                console.log(error);
+            });
     },
 
     _checkLogin() {
         Api.fetch(`/api/jira/login`, {
             method: 'get',
+            credentials: 'include',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
