@@ -5,18 +5,20 @@
 
 const React = require('react/addons');
 const Router = require('react-router');
+const connectToStores = require('fluxible/addons/connectToStores');
 const mui = require('material-ui');
 const MaterialUiMixin = require('../mixins/MaterialUiMixin');
 const Api = require('../utils/Api');
+const UserStore = require('../stores/UserStore');
 
 const RaisedButton = mui.RaisedButton;
 const Link = Router.Link;
 
-const Home = React.createClass({
+let Home = React.createClass({
     mixins: [MaterialUiMixin],
 
     render() {
-        return (
+        let page = this.props.loggedIn ? (
             <div className='page'>
                 <h1>Welcome to Worktrack</h1>
                 <p>
@@ -30,26 +32,17 @@ const Home = React.createClass({
                     </ul>
                 </p>
             </div>
+        ) : (
+            <div>Not allowed!</div>
         );
-    },
-
-    _login() {
-        Api.fetch(`/api/jira/login`, {
-            method: 'post',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                username: 'a',
-                password: 'b'
-            })
-        }).subscribe((data) => {
-            console.log(data);
-        }, (error) => {
-            console.log(error);
-        });
+        return <div>{page}</div>;
     }
 });
+
+Home = connectToStores(Home, [UserStore], function (stores, props) {
+    return {
+        loggedIn: stores.UserStore.isLoggedIn()
+    };
+})
 
 module.exports = Home;

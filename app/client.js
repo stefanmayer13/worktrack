@@ -7,11 +7,25 @@ require('whatwg-fetch');
 
 const React = require('react/addons');
 const Router = require('react-router');
-const routes = require('./routes');
+const app = require('./app');
+const IsLoggedInAction = require('./actions/IsLoggedInAction');
 const injectTapEventPlugin = require("react-tap-event-plugin");
 
 injectTapEventPlugin();
 
-Router.run(routes, Router.HistoryLocation, (Handler) => {
-    React.render(<Handler/>, document.body);
+let context = app.createContext();
+
+let router = Router.create({
+    routes: app.getComponent(),
+    location: Router.HistoryLocation,
+    transitionContext: context
+});
+
+context.getComponentContext().executeAction(IsLoggedInAction);
+
+router.run((Handler) => {
+    let Component = React.createFactory(Handler);
+    React.render(Component({
+        context: context.getComponentContext()
+    }), document.body);
 });

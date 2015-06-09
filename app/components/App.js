@@ -5,6 +5,7 @@
 
 const React = require('react/addons');
 const Router = require('react-router');
+const provideContext = require('fluxible/addons/provideContext');
 
 const RouteHandler = Router.RouteHandler;
 
@@ -19,4 +20,4 @@ const App = React.createClass({
     }
 });
 
-module.exports = App;
+module.exports = provideContext(App);
