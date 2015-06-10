@@ -20,10 +20,10 @@ let AuthenticatedPage = React.createClass({
     }
 });
 
-AuthenticatedPage = connectToStores(AuthenticatedPage, [UserStore], function (stores, props) {
+AuthenticatedPage = connectToStores(AuthenticatedPage, [UserStore], function (stores) {
     return {
         loggedIn: stores.UserStore.isLoggedIn()
     };
-})
+});
 
 module.exports = AuthenticatedPage;

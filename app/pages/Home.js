@@ -5,11 +5,8 @@
 
 const React = require('react/addons');
 const Router = require('react-router');
-const connectToStores = require('fluxible/addons/connectToStores');
 const mui = require('material-ui');
 const MaterialUiMixin = require('../mixins/MaterialUiMixin');
-const Api = require('../utils/Api');
-const UserStore = require('../stores/UserStore');
 
 const RaisedButton = mui.RaisedButton;
 const Link = Router.Link;
@@ -18,7 +15,7 @@ let Home = React.createClass({
     mixins: [MaterialUiMixin],
 
     render() {
-        let page = this.props.loggedIn ? (
+        return (
             <div className='page'>
                 <h1>Welcome to Worktrack</h1>
                 <p>
@@ -32,17 +29,8 @@ let Home = React.createClass({
                     </ul>
                 </p>
             </div>
-        ) : (
-            <div>Not allowed!</div>
         );
-        return <div>{page}</div>;
     }
 });
-
-Home = connectToStores(Home, [UserStore], function (stores, props) {
-    return {
-        loggedIn: stores.UserStore.isLoggedIn()
-    };
-})
 
 module.exports = Home;

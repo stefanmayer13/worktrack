@@ -3,7 +3,6 @@
  * @author <a href="mailto:stefanmayer13@gmail.com">Stefan Mayer</a>
  */
 
-const Api = require('../utils/Api');
 const ActionTypes = require('../constants/ActionTypes');
 
 module.exports = function IsLoggedInAction (context) {
@@ -22,4 +21,4 @@ module.exports = function IsLoggedInAction (context) {
         context.dispatch(ActionTypes.GET_USER_DATA_FAILURE, response.statusText);
         throw new Error(response.statusText);
     });
-}
+};

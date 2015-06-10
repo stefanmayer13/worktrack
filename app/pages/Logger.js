@@ -5,12 +5,10 @@
 
 const React = require('react/addons');
 const Mui = require('material-ui');
-const Api = require('../utils/Api');
 const CurrentEntry = require('../components/CurrentEntry');
 const MaterialUiMixin = require('../mixins/MaterialUiMixin');
 
 const RaisedButton = Mui.RaisedButton;
-const CircularProgress = Mui.CircularProgress;
 
 module.exports = React.createClass({
     mixins: [MaterialUiMixin],
