@@ -10,7 +10,7 @@ let AuthenticatedPage = React.createClass({
     mixins: [Router.State],
 
     render() {
-        return this.props.loggedIn ? this._getRouteHandler()() : <LoginPage />;
+        return this.props.loggedIn ? this._getRouteHandler()(this.props) : <LoginPage />;
     },
 
     _getRouteHandler() {

@@ -19,7 +19,7 @@ module.exports = {
     module: {
         loaders: [
             // FIXME: remove react-router from regex when going back to stable
-            {test: /\.js$/, exclude: /\/node_modules\/[^react\-router].*/, loader: 'babel-loader'},
+            {test: /\.js$/, exclude: /\/node_modules\/[^react\-router].*/, loader: 'babel-loader?stage=1'},
             {test: /\.json$/, loaders: ['json']}
         ]
     },

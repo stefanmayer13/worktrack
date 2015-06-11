@@ -2,6 +2,7 @@
 /**
  * @author <a href="mailto:stefanmayer13@gmail.com">Stefan Mayer</a>
  */
+require("babel/polyfill");
 require('es6-promise').polyfill();
 require('whatwg-fetch');
 

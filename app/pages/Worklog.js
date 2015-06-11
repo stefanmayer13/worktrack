@@ -27,20 +27,23 @@ const Worklog = React.createClass({
     },
 
     componentWillMount() {
-        this._getNewData(Time.getDateFromParam(this.props.params.date));
+        let date = this.props.params ? this.props.params.date : null;
+        this._getNewData(Time.getDateFromParam(date));
     },
 
     componentWillReceiveProps(nextProps) {
-        this._getNewData(Time.getDateFromParam(nextProps.params.date));
+        let date = nextProps.params ? nextProps.params.date : null;
+        this._getNewData(Time.getDateFromParam(date));
     },
 
     render() {
         const toSync = this.state.data.filter((entry) => {
             return !entry.worklog;
         });
-        const previous = Time.getDateFromParam(this.props.params.date);
+        let date = Time.getDateFromParam(this.props.params ? this.props.params.date : null);
+        const previous = new Date(date.getTime());
         previous.setDate(previous.getDate() - 1);
-        const next = Time.getDateFromParam(this.props.params.date);
+        const next = new Date(date.getTime());
         next.setDate(next.getDate() + 1);
 
         return (
@@ -55,8 +58,9 @@ const Worklog = React.createClass({
                     <DatePicker
                         className="datepicker"
                         style={{float: 'left'}}
-                        defaultDate={Time.getDateFromParam(this.props.params.date)}
+                        defaultDate={date}
                         autoOk={true}
+                        formatDate={Time.getDate.bind(Time)}
                         onChange={this._handleDateChange} />
                     <Link to={`/worklog/${Time.getDateForApi(next)}`}>
                         <RaisedButton style={{float: 'left'}} label="+" />
