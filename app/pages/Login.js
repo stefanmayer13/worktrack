@@ -5,15 +5,18 @@
 
 const React = require('react/addons');
 const mui = require('material-ui');
+const connectToStores = require('fluxible/addons/connectToStores');
+const FluxibleMixin = require('fluxible').FluxibleMixin;
+const UserStore = require('../stores/UserStore');
 const MaterialUiMixin = require('../mixins/MaterialUiMixin');
 const Api = require('../utils/Api');
-const request = require('superagent-bluebird-promise');
+const LoginAction = require('../actions/LoginAction');
 
 const TextField = mui.TextField;
 const RaisedButton = mui.RaisedButton;
 
 const Home = React.createClass({
-    mixins: [MaterialUiMixin],
+    mixins: [MaterialUiMixin, FluxibleMixin],
 
     getInitialState() {
         return {
@@ -28,24 +31,24 @@ const Home = React.createClass({
                 <h1>Welcome to Worktrack</h1>
                 <p>
                     Login with your Jira user to gain access:
-                    <TextField
-                        errorText={this.state.usernameErrorText}
-                        floatingLabelText="Username"
-                        onChange={this._onUserNameChange}
-                        onEnterKeyDown={this._onSubmit}
-                        ref="username" />
-                    <br />
-                    <TextField
-                        errorText={this.state.passwordErrorText}
-                        floatingLabelText="Password"
-                        onChange={this._onUserPasswordChange}
-                        onEnterKeyDown={this._onSubmit}
-                        type="password"
-                        ref="password" />
-                    <br />
-                    <RaisedButton label="Login" primary={true} onClick={this._onSubmit} />
-                    <RaisedButton label="IsLoggedIn?" secondary={true} onClick={this._checkLogin} />
                 </p>
+                <TextField
+                    errorText={this.state.usernameErrorText}
+                    floatingLabelText="Username"
+                    onChange={this._onUserNameChange}
+                    onEnterKeyDown={this._onSubmit}
+                    ref="username" />
+                <br />
+                <TextField
+                    errorText={this.state.passwordErrorText}
+                    floatingLabelText="Password"
+                    onChange={this._onUserPasswordChange}
+                    onEnterKeyDown={this._onSubmit}
+                    type="password"
+                    ref="password" />
+                <br />
+                <p className="error">{this.props.error}</p>
+                <RaisedButton label="Login" primary={true} onClick={this._onSubmit} />
             </div>
         );
     },
@@ -63,42 +66,22 @@ const Home = React.createClass({
     },
 
     _onSubmit() {
-        const user = this.refs.username.getValue();
+        const username = this.refs.username.getValue();
         const password = this.refs.password.getValue();
 
-        if (!user || !password) {
+        if (!username || !password) {
             return;
         }
 
-        request.post(`/api/jira/login`)
-            .send({
-                username: user,
-                password: password
-            })
-            .withCredentials()
-            .then((data) => {
-                console.log(data);
-            }, (error) => {
-                console.log(error);
-            });
-    },
-
-    _checkLogin() {
-        Api.fetch(`/api/jira/login`, {
-            method: 'get',
-            credentials: 'include',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        }).subscribe((data) => {
-            console.log(data);
-            alert('Logged in!');
-        }, (error) => {
-            console.log(error);
-            alert('Not logged in!');
+        this.executeAction(LoginAction, {
+            username,
+            password
         });
     }
 });
 
-module.exports = Home;
+module.exports = connectToStores(Home, [UserStore], function (stores) {
+    return {
+        error: stores.UserStore.getLoginError()
+    };
+});

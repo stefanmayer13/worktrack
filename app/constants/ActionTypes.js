@@ -6,5 +6,7 @@ module.exports = keyMirror({
     /* UserStoreActions */
     GET_USER_DATA: null,
     GET_USER_DATA_SUCCESS: null,
-    GET_USER_DATA_FAILURE: null
+    GET_USER_DATA_FAILURE: null,
+    LOGIN_SUCCESS: null,
+    LOGIN_FAILURE: null
 });

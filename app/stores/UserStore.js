@@ -6,12 +6,15 @@ let UserStore = createStore({
     storeName: 'UserStore',
     handlers: {
         'GET_USER_DATA_SUCCESS': '_handleGetUserDataSuccess',
-        'GET_USER_DATA_FAILURE': '_handleGetUserDataFailure'
+        'GET_USER_DATA_FAILURE': '_handleGetUserDataFailure',
+        'LOGIN_SUCCESS': '_handleGetUserDataSuccess',
+        'LOGIN_FAILURE': '_handleLoginFailure'
     },
 
     initialize() {
         this.userData = null;
         this.error = null;
+        this.loginError = null;
     },
 
     isLoggedIn() {
@@ -26,15 +29,26 @@ let UserStore = createStore({
         return this.error;
     },
 
+    getLoginError() {
+        return this.loginError;
+    },
+
     _handleGetUserDataSuccess(userData) {
         this.userData = userData;
         this.error = null;
+        this.loginError = null;
         this.emitChange();
     },
 
     _handleGetUserDataFailure(error) {
         this.userData = null;
         this.error = error;
+        this.emitChange();
+    },
+
+    _handleLoginFailure(error) {
+        this.userData = null;
+        this.loginError = error;
         this.emitChange();
     },
 

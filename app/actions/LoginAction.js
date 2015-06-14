@@ -1,0 +1,25 @@
+'use strict';
+/**
+ * @author <a href="mailto:stefanmayer13@gmail.com">Stefan Mayer</a>
+ */
+
+const request = require('superagent-bluebird-promise');
+const ActionTypes = require('../constants/ActionTypes');
+
+module.exports = function LoginAction (context, payload) {
+    return request.post(`/api/jira/login`)
+        .send({
+            username: payload.username,
+            password: payload.password
+        })
+        .withCredentials()
+        .then((response) => {
+            if (response.status >= 200 && response.status < 300) {
+                context.dispatch(ActionTypes.LOGIN_SUCCESS, response.body);
+            } else {
+                context.dispatch(ActionTypes.LOGIN_FAILURE, response.body.message);
+            }
+        }, (error) => {
+            context.dispatch(ActionTypes.LOGIN_FAILURE, error.body.message);
+        });
+};
