@@ -7,5 +7,6 @@ let app = new Fluxible({
 });
 
 app.registerStore(require('./stores/UserStore'));
+app.registerStore(require('./stores/WorklogStore'));
 
 module.exports = app;

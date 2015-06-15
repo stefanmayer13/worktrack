@@ -8,5 +8,13 @@ module.exports = keyMirror({
     GET_USER_DATA_SUCCESS: null,
     GET_USER_DATA_FAILURE: null,
     LOGIN_SUCCESS: null,
-    LOGIN_FAILURE: null
+    LOGIN_FAILURE: null,
+
+    /* WorklogActions */
+    GET_WORKLOGS: null,
+    GET_WORKLOGS_SUCCESS: null,
+    GET_WORKLOGS_FAILURE: null,
+    SYNC_WORKLOGS: null,
+    SYNC_WORKLOGS_SUCCESS: null,
+    SYNC_WORKLOGS_FAILURE: null
 });

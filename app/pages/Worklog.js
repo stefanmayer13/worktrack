@@ -5,11 +5,16 @@
 
 const React = require('react/addons');
 const Router = require('react-router');
+const connectToStores = require('fluxible/addons/connectToStores');
+const FluxibleMixin = require('fluxible/addons/FluxibleMixin');
 const Mui = require('material-ui');
+const WorklogStore = require('../stores/WorklogStore');
 const Api = require('../utils/Api');
 const Time = require('../utils/TimeHelper');
 const TimeEntry = require('../components/TimeEntry');
 const MaterialUiMixin = require('../mixins/MaterialUiMixin');
+const WorklogSyncAction = require('../actions/WorklogSyncAction');
+const GetWorklogAction = require('../actions/GetWorklogAction');
 
 const RaisedButton = Mui.RaisedButton;
 const DatePicker = Mui.DatePicker;
@@ -17,14 +22,7 @@ const Paper = Mui.Paper;
 const Link = Router.Link;
 
 const Worklog = React.createClass({
-    mixins: [Router.Navigation, MaterialUiMixin],
-
-    getInitialState() {
-        return {
-            data: [],
-            loading: false
-        };
-    },
+    mixins: [Router.Navigation, MaterialUiMixin, FluxibleMixin],
 
     componentWillMount() {
         let date = this.props.params ? this.props.params.date : null;
@@ -32,12 +30,14 @@ const Worklog = React.createClass({
     },
 
     componentWillReceiveProps(nextProps) {
-        let date = nextProps.params ? nextProps.params.date : null;
-        this._getNewData(Time.getDateFromParam(date));
+        console.log('Date changed', this.props.params.date, nextProps.params.date);
+        if (nextProps.date && this.props.params.date.toISOString() !== nextProps.params.date.toISOString()) {
+            this._getNewData(Time.getDateFromParam(nextProps.params.date));
+        }
     },
 
     render() {
-        const toSync = this.state.data.filter((entry) => {
+        const toSync = this.props.data.filter((entry) => {
             return !entry.worklog;
         });
         let date = Time.getDateFromParam(this.props.params ? this.props.params.date : null);
@@ -68,16 +68,16 @@ const Worklog = React.createClass({
                     <div style={{clear: 'left'}}></div>
                 </div>
                 <Paper zDepth={2} style={{display: 'inline-block', padding: '0 1rem'}}>
-                    <p>Total: {Time.getTimeFromMs(this.state.total)}</p>
+                    <p>Total: {Time.getTimeFromMs(this.props.total)}</p>
                 </Paper>
                 <p><RaisedButton onClick={this._handleSync} label="Sync from Toggl" /></p>
-                <p>{this.state.loading ? 'loading...' : null}</p>
+                <p>{this.props.loading ? 'loading...' : null}</p>
                 <p>{toSync.length > 0
                     ? <RaisedButton onClick={this._handleJiraSync.bind(this, toSync)} label="Sync to Jira" />
                     : null}
                 </p>
                 <ul className="entrylist">
-                    {this.state.data.map((data) => {
+                    {this.props.data.map((data) => {
                         return <TimeEntry key={data._id} entry={data} sync={this._handleSingleSync} />;
                     })}
                 </ul>
@@ -86,16 +86,9 @@ const Worklog = React.createClass({
     },
 
     _getNewData(date) {
-        this.setState({
-            loading: true
-        });
-        const apiDate = Time.getDateForApi(date);
-        const params = `start=${apiDate}&end=${apiDate}`;
-        Api.fetch(`/api/logs?${params}`)
-            .subscribe((data) => {
-                data.loading = false;
-                this.setState(data);
-            });
+        window.setTimeout(() => {
+            this.executeAction(GetWorklogAction, date);
+        }, 100);
     },
 
     _handleDateChange(e, date) {
@@ -103,27 +96,7 @@ const Worklog = React.createClass({
     },
 
     _handleSync() {
-        this.setState({
-            loading: true
-        });
-        const date = Time.getDateFromParam(this.props.params.date);
-        const params = `start=${Time.getDateForApi(date)}`
-                    + `&end=${Time.getDateForApi(date)}`;
-        Api.fetch(`/api/toggl/sync?${params}`, {
-            method: 'post',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        }).subscribe((data) => {
-            if (data.success) {
-                this._getNewData(Time.getDateFromParam(this.props.params.date));
-            } else {
-                this.setState({
-                    loading: false
-                });
-            }
-        });
+        this.executeAction(WorklogSyncAction, this.props.params.date);
     },
 
     _handleJiraSync(entries) {
@@ -147,4 +120,12 @@ const Worklog = React.createClass({
     }
 });
 
-module.exports = Worklog;
+module.exports = connectToStores(Worklog, [WorklogStore], function (stores, props) {
+    return {
+        data: stores.WorklogStore.getWorklogs(),
+        total: stores.WorklogStore.getTotal(),
+        error: stores.WorklogStore.getError(),
+        loading: stores.WorklogStore.isLoading(),
+        params: props.params
+    };
+});
