@@ -30,8 +30,7 @@ const Worklog = React.createClass({
     },
 
     componentWillReceiveProps(nextProps) {
-        console.log('Date changed', this.props.params.date, nextProps.params.date);
-        if (nextProps.date && this.props.params.date.toISOString() !== nextProps.params.date.toISOString()) {
+        if (nextProps.params && (!this.props.params || this.props.params.date !== nextProps.params.date)) {
             this._getNewData(Time.getDateFromParam(nextProps.params.date));
         }
     },
@@ -86,9 +85,7 @@ const Worklog = React.createClass({
     },
 
     _getNewData(date) {
-        window.setTimeout(() => {
-            this.executeAction(GetWorklogAction, date);
-        }, 100);
+        this.executeAction(GetWorklogAction, date);
     },
 
     _handleDateChange(e, date) {
@@ -125,7 +122,6 @@ module.exports = connectToStores(Worklog, [WorklogStore], function (stores, prop
         data: stores.WorklogStore.getWorklogs(),
         total: stores.WorklogStore.getTotal(),
         error: stores.WorklogStore.getError(),
-        loading: stores.WorklogStore.isLoading(),
-        params: props.params
+        loading: stores.WorklogStore.isLoading()
     };
 });
