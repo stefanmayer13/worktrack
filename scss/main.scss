@@ -18,6 +18,10 @@ body {
             }
         }
     }
+    &.login {
+        max-width: 500px;
+        margin: 0 auto;
+    }
 }
 
 .datepicker {
@@ -93,4 +97,13 @@ body {
 
 .error {
     color: red;
+}
+
+footer {
+    margin: 0 1rem 1rem 0;
+    text-align: right;
+    color: grey;
+    bottom: 0;
+    position: absolute;
+    right: 0;
 }

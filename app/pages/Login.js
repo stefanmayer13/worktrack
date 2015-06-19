@@ -27,7 +27,7 @@ const Home = React.createClass({
 
     render() {
         return (
-            <div className='page'>
+            <div className='page login'>
                 <h1>Welcome to Worktrack</h1>
                 <p>
                     Login with your Jira user to gain access:

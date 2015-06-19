@@ -24,7 +24,6 @@ let Home = React.createClass({
                         <li><Link to="log"><RaisedButton label="Log" primary={true} /></Link></li>
                         <li><Link to="worklog"><RaisedButton label="Worklog" primary={true} /></Link></li>
                         <li><Link to="worklogchart"><RaisedButton label="Chart" secondary={true} /></Link></li>
-                        <li><Link to="toggl"><RaisedButton label="Toggl" secondary={true} /></Link></li>
                         <li><Link to="login"><RaisedButton label="Login" /></Link></li>
                     </ul>
                 </p>
