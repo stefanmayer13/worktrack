@@ -9,6 +9,7 @@ const DateHelper = require('../utils/DateHelper');
 const JiraHelper = require('../utils/JiraHelper');
 const MongoDBHelper = require('../utils/MongoDBHelper');
 const TogglHelper = require('../utils/TogglHelper');
+const Logger = require('../Logger');
 
 module.exports = (server, db, prefix) => {
     server.route({
@@ -140,7 +141,12 @@ module.exports = (server, db, prefix) => {
         path: prefix+'/jira/login',
         handler(request, reply) {
             JiraHelper.getUserData(request.state.jira)
-                .subscribe(reply, reply);
+                .subscribe(reply, (err) => {
+                    if (!err.isBoom) {
+                        Logger.error(err);
+                    }
+                    reply(err);
+                });
         }
     });
 };

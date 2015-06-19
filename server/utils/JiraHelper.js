@@ -92,6 +92,9 @@ module.exports = {
 
     getUserData(cookieBase64) {
         return Rx.Observable.create((observer) => {
+            if (!cookieBase64) {
+                return observer.onError(Boom.unauthorized('Not logged in'));
+            }
             let url = `/rest/auth/1/session`;
             const cookie = JSON.parse(new Buffer(cookieBase64, 'base64').toString('ascii'));
 
@@ -105,8 +108,6 @@ module.exports = {
                     'Cookie': cookie.join(', ')
                 }
             };
-
-            Logger.info('Getting userdata from jira');
 
             let req = https.request(options, (res) => {
                 if (res.statusCode === 401) {
@@ -137,7 +138,7 @@ module.exports = {
             return JSON.parse(data);
         }).map((data) => {
             if (data.errorMessages) {
-                console.log(data.errorMessages[0]);
+                Logger.error(data.errorMessages[0]);
                 throw new Error(data.errorMessages[0]);
             }
             return data;
