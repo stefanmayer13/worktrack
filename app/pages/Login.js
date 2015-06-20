@@ -9,7 +9,6 @@ const connectToStores = require('fluxible/addons/connectToStores');
 const FluxibleMixin = require('fluxible/addons/FluxibleMixin');
 const UserStore = require('../stores/UserStore');
 const MaterialUiMixin = require('../mixins/MaterialUiMixin');
-const Api = require('../utils/Api');
 const LoginAction = require('../actions/LoginAction');
 
 const TextField = mui.TextField;

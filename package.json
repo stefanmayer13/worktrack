@@ -21,7 +21,8 @@
     "superagent": "^1.2.0",
     "superagent-bluebird-promise": "^2.0.2",
     "whatwg-fetch": "^0.7.0",
-    "winston": "^1.0.0"
+    "winston": "^1.0.0",
+    "yar": "^3.0.3"
   },
   "devDependencies": {
     "babel-core": "^5.0.12",

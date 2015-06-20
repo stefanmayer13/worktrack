@@ -117,7 +117,7 @@ const Worklog = React.createClass({
     }
 });
 
-module.exports = connectToStores(Worklog, [WorklogStore], function (stores, props) {
+module.exports = connectToStores(Worklog, [WorklogStore], function (stores) {
     return {
         data: stores.WorklogStore.getWorklogs(),
         total: stores.WorklogStore.getTotal(),
