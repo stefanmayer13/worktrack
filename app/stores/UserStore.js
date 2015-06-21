@@ -8,7 +8,8 @@ let UserStore = createStore({
         'GET_USER_DATA_SUCCESS': '_handleGetUserDataSuccess',
         'GET_USER_DATA_FAILURE': '_handleGetUserDataFailure',
         'LOGIN_SUCCESS': '_handleGetUserDataSuccess',
-        'LOGIN_FAILURE': '_handleLoginFailure'
+        'LOGIN_FAILURE': '_handleLoginFailure',
+        'LOGOUT_SUCCESS': '_handleLogoutSuccess'
     },
 
     initialize() {
@@ -43,6 +44,12 @@ let UserStore = createStore({
     _handleGetUserDataFailure(error) {
         this.userData = null;
         this.error = error;
+        this.emitChange();
+    },
+
+    _handleLogoutSuccess() {
+        this.userData = null;
+        this.error = null;
         this.emitChange();
     },
 

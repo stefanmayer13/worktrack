@@ -9,6 +9,8 @@ module.exports = keyMirror({
     GET_USER_DATA_FAILURE: null,
     LOGIN_SUCCESS: null,
     LOGIN_FAILURE: null,
+    LOGOUT_SUCCESS: null,
+    LOGOUT_FAILURE: null,
 
     /* WorklogActions */
     GET_WORKLOGS: null,

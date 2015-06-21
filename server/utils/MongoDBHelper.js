@@ -14,6 +14,19 @@ module.exports = {
         return Q.nfcall(MongoClient.connect, url);
     },
 
+    setUserSession(db, username, session) {
+        const collection = db.collection('users');
+        return Rx.Observable.fromNodeCallback(collection.updateOne.bind(collection))({
+            _id: username
+        }, {
+            $set: {
+                session: session
+            }
+        }, {
+            upsert: true
+        });
+    },
+
     getLogs(db, start, end) {
         start.setHours(0, 0, 0);
         end.setHours(23, 59, 59);

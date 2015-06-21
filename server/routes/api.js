@@ -152,9 +152,12 @@ module.exports = (server, db, prefix) => {
         handler(request, reply) {
             JiraHelper.login(request.payload)
             .subscribe((data) => {
-                const response = reply(data.data).hold();
-                request.session.set('user', data.setCookie);
-                response.send();
+                MongoDBHelper.setUserSession(db, request.payload.username, data.setCookie)
+                .subscribe(() => {
+                    const response = reply(data.data).hold();
+                    request.session.set('user', data.setCookie);
+                    response.send();
+                }, reply);
             }, reply);
         }
     });
@@ -172,6 +175,18 @@ module.exports = (server, db, prefix) => {
                         }
                         reply(err);
                     });
+            }
+        }
+    });
+
+    server.route({
+        method: 'DELETE',
+        path: prefix+'/jira/login',
+        config: {
+            auth: 'default',
+            handler(request, reply) {
+                request.session.clear('user');
+                reply({message: 'You have been logged out'});
             }
         }
     });
