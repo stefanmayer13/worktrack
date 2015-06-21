@@ -47,7 +47,7 @@ module.exports = (server, db, prefix) => {
             handler(request, reply) {
                 const start = request.query.start || DateHelper.getTogglDate(),
                     end = request.query.end || DateHelper.getTogglDate();
-                TogglHelper.getDetail(start, end).then(reply, reply);
+                TogglHelper.getDetail(request.session.get('user'), start, end).then(reply, reply);
             }
         }
     });
@@ -58,7 +58,7 @@ module.exports = (server, db, prefix) => {
         config: {
             auth: 'default',
             handler(request, reply) {
-                JiraHelper.getIssue(request.params.issuekey, reply);
+                JiraHelper.getIssue(request.session.get('user'), request.params.issuekey, reply);
             }
         }
     });
@@ -70,7 +70,7 @@ module.exports = (server, db, prefix) => {
             auth: 'default',
             handler(request, reply) {
                 const jiraRequests = request.payload.map((entry) => {
-                    return JiraHelper.addCb.bind(JiraHelper, entry);
+                    return JiraHelper.addCb.bind(JiraHelper, request.session.get('user'), entry);
                 });
                 async.series(jiraRequests, (err, data) => {
                     console.log(err, data);
@@ -86,9 +86,11 @@ module.exports = (server, db, prefix) => {
         config: {
             auth: 'default',
             handler(request, reply) {
+                const cookie = request.session.get('user');
+                console.log(cookie);
                 MongoDBHelper.getEntries(db, request.payload)
                     .flatMap((entry) => {
-                        return JiraHelper.add(entry).flatMap((worklog) => {
+                        return JiraHelper.add(cookie, entry).flatMap((worklog) => {
                             return MongoDBHelper.addWorklog(db, entry._id, worklog.id);
                         });
                     })
@@ -120,7 +122,7 @@ module.exports = (server, db, prefix) => {
                 const start = request.query.start || DateHelper.getTogglDate(),
                     end = request.query.end || DateHelper.getTogglDate();
                 console.log(start, end);
-                TogglHelper.getDetail(start, end).then((data) => {
+                TogglHelper.getDetail(request.session.get('user'), start, end).then((data) => {
                     if (data && data.data) {
                         MongoDBHelper.sync(db, data.data).then((entries) => {
                             let inserts = entries.filter((entry) => {

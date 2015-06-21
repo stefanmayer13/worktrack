@@ -5,7 +5,6 @@
 
 const https = require('https');
 const Logger = require('../Logger');
-const authData = require('../../auth').jira;
 const Rx = require('rx');
 const Boom = require('boom');
 
@@ -145,9 +144,11 @@ module.exports = {
         });
     },
 
-    getIssue(issueKey, cb) {
-        var auth = 'Basic ' + new Buffer(authData.user + ':' + authData.pass).toString('base64');
-
+    getIssue(cookieBase64, issueKey, cb) {
+        if (!cookieBase64) {
+            return cb(Boom.unauthorized('Not logged in'));
+        }
+        const cookie = JSON.parse(new Buffer(cookieBase64, 'base64').toString('ascii'));
         let url = `/rest/api/2/issue/${issueKey}?fields=summary,worklog`;
 
         let options = {
@@ -157,7 +158,7 @@ module.exports = {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': auth
+                'Cookie': cookie.join(', ')
             }
         };
 
@@ -211,11 +212,16 @@ module.exports = {
         return foundWorklog.length !== 0;
     },
 
-    add(entry) {
-        return Rx.Observable.fromNodeCallback(this.addCb)(entry);
+    add(cookieBase64, entry) {
+        console.log(cookieBase64);
+        return Rx.Observable.fromNodeCallback(this.addCb)(cookieBase64, entry);
     },
 
-    addCb(entry, cb) {
+    addCb(cookieBase64, entry, cb) {
+        console.log(cookieBase64);
+        if (!cookieBase64) {
+            return cb(Boom.unauthorized('Not logged in'));
+        }
         if (!entry || !entry.jira || !entry.jira.id) {
             return cb(new Error('Problem with entry data'));
         }
@@ -223,7 +229,7 @@ module.exports = {
         if (duration < 60000) {
             duration = 60000;
         }
-        var auth = 'Basic ' + new Buffer(authData.user + ':' + authData.pass).toString('base64');
+        const cookie = JSON.parse(new Buffer(cookieBase64, 'base64').toString('ascii'));
         let issueKey = entry.jira.key;
         let isoStartDateStr = new Date(entry.start).toISOString();
         let postData = JSON.stringify({
@@ -241,8 +247,8 @@ module.exports = {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': auth,
-                'Content-Length': Buffer.byteLength(postData)
+                'Content-Length': Buffer.byteLength(postData),
+                'Cookie': cookie.join(', ')
             }
         };
 
@@ -275,8 +281,11 @@ module.exports = {
         req.end();
     },
 
-    getWorklogForIssue(issueKey, cb) {
-        var auth = 'Basic ' + new Buffer(authData.user + ':' + authData.pass).toString('base64');
+    getWorklogForIssue(cookieBase64, issueKey, cb) {
+        if (!cookieBase64) {
+            return cb(Boom.unauthorized('Not logged in'));
+        }
+        const cookie = JSON.parse(new Buffer(cookieBase64, 'base64').toString('ascii'));
 
         let url = `/rest/api/2/issue/${issueKey}/worklog`;
 
@@ -287,7 +296,7 @@ module.exports = {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': auth
+                'Cookie': cookie.join(', ')
             }
         };
 

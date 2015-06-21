@@ -13,7 +13,7 @@ const Logger = require('../Logger');
 const JiraHelper = require('../utils/JiraHelper');
 
 module.exports = {
-    getDetail(start, end) {
+    getDetail(JiraCookie, start, end) {
         let deferred = Q.defer();
         let url = `/reports/api/v2/details?since=${start}` +
                     `&until=${end}&user_agent=worktrack&workspace_id=${Config.toggl.workspace}`;
@@ -46,7 +46,7 @@ module.exports = {
                     return {
                         id: entry.id,
                         key: entry.description.split(' ')[0],
-                        fn: JiraHelper.getIssue.bind(JiraHelper, entry.description.split(' ')[0])
+                        fn: JiraHelper.getIssue.bind(JiraHelper, JiraCookie, entry.description.split(' ')[0])
                     };
                 }).reduce((prev, curr) => {
                     prev[curr.id] = curr.fn;

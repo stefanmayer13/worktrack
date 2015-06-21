@@ -14,6 +14,7 @@ const Time = require('../utils/TimeHelper');
 const TimeEntry = require('../components/TimeEntry');
 const MaterialUiMixin = require('../mixins/MaterialUiMixin');
 const WorklogSyncAction = require('../actions/WorklogSyncAction');
+const JiraSyncAction = require('../actions/JiraSyncAction');
 const GetWorklogAction = require('../actions/GetWorklogAction');
 
 const RaisedButton = Mui.RaisedButton;
@@ -100,15 +101,9 @@ const Worklog = React.createClass({
         const entryIds = entries.map((entry) => {
             return entry._id;
         });
-        Api.fetch(`/api/jira/add`, {
-            method: 'post',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(entryIds)
-        }).subscribe(() => {
-            this._getNewData(Time.getDateFromParam(this.props.params.date));
+        this.executeAction(JiraSyncAction, {
+            date: this.props.params.date,
+            entries: entryIds
         });
     },
 
