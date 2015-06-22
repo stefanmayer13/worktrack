@@ -12,6 +12,7 @@ const NotFoundRoute = Router.NotFoundRoute;
 const AuthenticatedPage = require('./pages/AuthenticatedPage');
 const App = require('./components/App');
 const Home = require('./pages/Home');
+const User = require('./pages/User');
 const Logger = require('./pages/Logger');
 const Worklog = require('./pages/Worklog');
 const WorklogChart = require('./pages/WorklogChart');
@@ -24,6 +25,7 @@ module.exports = (
             <Route name="log" path="log" handler={Logger} />
             <Route name="worklog" path="worklog/?:date?" handler={Worklog} />
             <Route name="worklogchart" path="worklog/chart/?:date?" handler={WorklogChart} />
+            <Route name="user" path="user" handler={User} />
             <NotFoundRoute handler={NotFound}/>
         </Route>
     </Route>

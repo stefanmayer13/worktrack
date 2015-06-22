@@ -27,6 +27,11 @@ module.exports = {
         });
     },
 
+    getUserSession(db, session) {
+        const collection = db.collection('users');
+        return Rx.Observable.fromNodeCallback(collection.findOne.bind(collection))({session: session});
+    },
+
     getLogs(db, start, end) {
         start.setHours(0, 0, 0);
         end.setHours(23, 59, 59);

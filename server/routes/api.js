@@ -168,7 +168,16 @@ module.exports = (server, db, prefix) => {
         config: {
             auth: 'default',
             handler(request, reply) {
-                JiraHelper.getUserData(request.session.get('user'))
+                const session = request.session.get('user');
+                JiraHelper.getUserData(session)
+                    .zip(MongoDBHelper.getUserSession(db, session),
+                    (data, user) => {
+                        return {
+                            username: user._id,
+                            togglApi: user.toggl,
+                            url: data.self
+                        };
+                    })
                     .subscribe(reply, (err) => {
                         if (!err.isBoom) {
                             Logger.error(err);
