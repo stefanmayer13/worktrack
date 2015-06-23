@@ -47,7 +47,10 @@ module.exports = (server, db, prefix) => {
             handler(request, reply) {
                 const start = request.query.start || DateHelper.getTogglDate(),
                     end = request.query.end || DateHelper.getTogglDate();
-                TogglHelper.getDetail(request.session.get('user'), start, end).then(reply, reply);
+                const session = request.session.get('user');
+                MongoDBHelper.getUserSession(db, session).subscribe((data) => {
+                    TogglHelper.getDetail(session, data.togglApi, start, end).then(reply, reply);
+                }, reply);
             }
         }
     });
@@ -122,25 +125,28 @@ module.exports = (server, db, prefix) => {
                 const start = request.query.start || DateHelper.getTogglDate(),
                     end = request.query.end || DateHelper.getTogglDate();
                 console.log(start, end);
-                TogglHelper.getDetail(request.session.get('user'), start, end).then((data) => {
-                    if (data && data.data) {
-                        MongoDBHelper.sync(db, data.data).then((entries) => {
-                            let inserts = entries.filter((entry) => {
-                                return !!entry.upsertedCount;
+                const session = request.session.get('user');
+                MongoDBHelper.getUserSession(db, session).subscribe((data) => {
+                    TogglHelper.getDetail(session, data.togglApi, start, end).then((data) => {
+                        if (data && data.data) {
+                            MongoDBHelper.sync(db, data.data).then((entries) => {
+                                let inserts = entries.filter((entry) => {
+                                    return !!entry.upsertedCount;
+                                });
+                                reply({
+                                    success: {
+                                        inserts: inserts.length,
+                                        updates: entries.length - inserts.length
+                                    }
+                                });
+                            }, (err) => {
+                                console.log(err);
+                                reply(err);
                             });
-                            reply({
-                                success: {
-                                    inserts: inserts.length,
-                                    updates: entries.length - inserts.length
-                                }
-                            });
-                        }, (err) => {
-                            console.log(err);
-                            reply(err);
-                        });
-                    } else {
-                        reply('No data');
-                    }
+                        } else {
+                            reply('No data');
+                        }
+                    }, reply);
                 }, reply);
             }
         }
@@ -163,6 +169,15 @@ module.exports = (server, db, prefix) => {
     });
 
     server.route({
+        method: 'POST',
+        path: prefix+'/user',
+        handler(request, reply) {
+            MongoDBHelper.setUserData(db, request.session.get('user'), request.payload)
+                .subscribe(reply, reply);
+        }
+    });
+
+    server.route({
         method: 'GET',
         path: prefix+'/jira/login',
         config: {
@@ -174,7 +189,7 @@ module.exports = (server, db, prefix) => {
                     (data, user) => {
                         return {
                             username: user._id,
-                            togglApi: user.toggl,
+                            togglApi: user.togglApi,
                             url: data.self
                         };
                     })

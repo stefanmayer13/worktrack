@@ -8,12 +8,11 @@ const https = require('https');
 const async = require('async');
 
 const Config = require('../Config');
-const token = require('../../auth').token;
 const Logger = require('../Logger');
 const JiraHelper = require('../utils/JiraHelper');
 
 module.exports = {
-    getDetail(JiraCookie, start, end) {
+    getDetail(JiraCookie, token, start, end) {
         let deferred = Q.defer();
         let url = `/reports/api/v2/details?since=${start}` +
                     `&until=${end}&user_agent=worktrack&workspace_id=${Config.toggl.workspace}`;

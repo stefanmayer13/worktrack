@@ -27,6 +27,17 @@ module.exports = {
         });
     },
 
+    setUserData(db, session, userdata) {
+        const collection = db.collection('users');
+        return Rx.Observable.fromNodeCallback(collection.updateOne.bind(collection))({
+            session: session
+        }, {
+            $set: {
+                togglApi: userdata.togglApi
+            }
+        });
+    },
+
     getUserSession(db, session) {
         const collection = db.collection('users');
         return Rx.Observable.fromNodeCallback(collection.findOne.bind(collection))({session: session});

@@ -7,6 +7,7 @@ module.exports = keyMirror({
     GET_USER_DATA: null,
     GET_USER_DATA_SUCCESS: null,
     GET_USER_DATA_FAILURE: null,
+    SET_USER_FAILURE: null,
     LOGIN_SUCCESS: null,
     LOGIN_FAILURE: null,
     LOGOUT_SUCCESS: null,
