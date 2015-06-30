@@ -39,5 +39,9 @@ const afterBuild = (cb) => {
 module.exports = {
     webpack(cb) {
         webpack(webpackConfig).run(afterBuild(cb));
+    },
+
+    webpackwatch(cb) {
+        webpack(webpackConfig).watch(100, afterBuild());
     }
 };

@@ -15,7 +15,6 @@ module.exports = {
                 rulePaths: [
                     '.'
                 ]}))
-            .pipe(eslint.format())
-            .pipe(eslint.failAfterError());
+            .pipe(eslint.format());
     }
 };

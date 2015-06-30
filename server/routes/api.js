@@ -126,8 +126,8 @@ module.exports = (server, db, prefix) => {
                     end = request.query.end || DateHelper.getTogglDate();
                 console.log(start, end);
                 const session = request.session.get('user');
-                MongoDBHelper.getUserSession(db, session).subscribe((data) => {
-                    TogglHelper.getDetail(session, data.togglApi, start, end).then((data) => {
+                MongoDBHelper.getUserSession(db, session).subscribe((usersession) => {
+                    TogglHelper.getDetail(session, usersession.togglApi, start, end).then((data) => {
                         if (data && data.data) {
                             MongoDBHelper.sync(db, data.data).then((entries) => {
                                 let inserts = entries.filter((entry) => {

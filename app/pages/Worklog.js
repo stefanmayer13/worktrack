@@ -16,6 +16,7 @@ const MaterialUiMixin = require('../mixins/MaterialUiMixin');
 const WorklogSyncAction = require('../actions/WorklogSyncAction');
 const JiraSyncAction = require('../actions/JiraSyncAction');
 const GetWorklogAction = require('../actions/GetWorklogAction');
+const UserStore = require('../stores/UserStore');
 
 const RaisedButton = Mui.RaisedButton;
 const DatePicker = Mui.DatePicker;
@@ -46,6 +47,8 @@ const Worklog = React.createClass({
         const next = new Date(date.getTime());
         next.setDate(next.getDate() + 1);
 
+        const togglEnabled = this.props.user && this.props.user.togglApi;
+
         return (
             <div className='page report'>
                 <div className="backbutton">
@@ -70,7 +73,7 @@ const Worklog = React.createClass({
                 <Paper zDepth={2} style={{display: 'inline-block', padding: '0 1rem'}}>
                     <p>Total: {Time.getTimeFromMs(this.props.total)}</p>
                 </Paper>
-                <p><RaisedButton onClick={this._handleSync} label="Sync from Toggl" /></p>
+                {togglEnabled ? <p><RaisedButton onClick={this._handleSync} label="Sync from Toggl" /></p> : null}
                 <p>{this.props.loading ? 'loading...' : null}</p>
                 <p>{toSync.length > 0
                     ? <RaisedButton onClick={this._handleJiraSync.bind(this, toSync)} label="Sync to Jira" />
@@ -112,11 +115,12 @@ const Worklog = React.createClass({
     }
 });
 
-module.exports = connectToStores(Worklog, [WorklogStore], function (stores) {
+module.exports = connectToStores(Worklog, [WorklogStore, UserStore], function (stores) {
     return {
         data: stores.WorklogStore.getWorklogs(),
         total: stores.WorklogStore.getTotal(),
         error: stores.WorklogStore.getError(),
-        loading: stores.WorklogStore.isLoading()
+        loading: stores.WorklogStore.isLoading(),
+        user: stores.UserStore.getCurrentUser()
     };
 });

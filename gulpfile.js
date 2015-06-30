@@ -16,6 +16,7 @@ gulp.task('default', ['check', 'sass', 'webpack', 'devserver', 'watch']);
 gulp.task('devserver', getTask('server').rundevserver);
 
 gulp.task('webpack', getTask('client').webpack);
+gulp.task('webpackwatch', getTask('client').webpackwatch);
 
 gulp.task('watch', function () {
     gulp.watch('scss/*.scss', ['sass']);
