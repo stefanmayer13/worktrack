@@ -7,9 +7,9 @@ module.exports = {
         lib: ["react", "material-ui"]
     },
     output: {
-        path: path.join(__dirname, "tmp"),
+        path: path.join(__dirname, "build", "js"),
         filename: 'app.js',
-        publicPath: 'tmp/scripts/'
+        publicPath: 'js/'
     },
 
     resolve: {
@@ -32,6 +32,14 @@ module.exports = {
     },
 
     plugins: [
-        new webpack.optimize.CommonsChunkPlugin(/* chunkName= */"lib", /* filename= */"lib.js")
+        new webpack.DefinePlugin({
+            "process.env": {
+                NODE_ENV: JSON.stringify("production")
+            }
+        }),
+        new webpack.NoErrorsPlugin(),
+        new webpack.optimize.DedupePlugin(),
+        new webpack.optimize.CommonsChunkPlugin(/* chunkName= */"lib", /* filename= */"lib.js"),
+        new webpack.optimize.UglifyJsPlugin()
     ]
 };

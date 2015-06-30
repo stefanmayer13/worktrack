@@ -19,11 +19,21 @@ module.exports = {
                 browsers: ['last 2 versions'],
                 cascade: false
             }))
-            .pipe(minifyCSS())
             .pipe(sourcemaps.write())
             .on('error', function (err) {
                 gutil.log(err.message);
             })
             .pipe(gulp.dest('css'));
+    },
+
+    sassproduction() {
+        gulp.src('./scss/*.scss')
+            .pipe(sass())
+            .pipe(autoprefixer({
+                browsers: ['last 2 versions'],
+                cascade: false
+            }))
+            .pipe(minifyCSS())
+            .pipe(gulp.dest('build/css'));
     }
 };

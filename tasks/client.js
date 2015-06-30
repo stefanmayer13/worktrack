@@ -10,6 +10,7 @@ const nodemon = require('nodemon');
 const path    = require('path');
 
 const webpackConfig = require("../webpack.config.js");
+const webpackProductionConfig = require("../webpack.production.config.js");
 let cache = {};
 
 if (process.env.NODE_ENV !== 'production') {
@@ -41,7 +42,20 @@ module.exports = {
         webpack(webpackConfig).run(afterBuild(cb));
     },
 
+    webpackproduction(cb) {
+        webpack(webpackProductionConfig).run(function (err, stats) {
+            if (err) {
+                throw new gutil.PluginError("webpack:build-dev", err);
+            }
+            cb();
+        });
+    },
+
     webpackwatch(cb) {
         webpack(webpackConfig).watch(100, afterBuild());
+    },
+
+    copyresources(cb) {
+        cb();
     }
 };

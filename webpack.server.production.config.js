@@ -3,13 +3,12 @@ var path = require('path'),
 
 module.exports = {
     entry: {
-        app: './app/client.js',
-        lib: ["react", "material-ui"]
+        app: './server/server.js'
     },
     output: {
-        path: path.join(__dirname, "tmp"),
-        filename: 'app.js',
-        publicPath: 'tmp/scripts/'
+        path: path.join(__dirname, "build"),
+        filename: 'server.js',
+        publicPath: '/'
     },
 
     resolve: {
@@ -32,6 +31,13 @@ module.exports = {
     },
 
     plugins: [
-        new webpack.optimize.CommonsChunkPlugin(/* chunkName= */"lib", /* filename= */"lib.js")
+        new webpack.DefinePlugin({
+            "process.env": {
+                NODE_ENV: JSON.stringify("production")
+            }
+        }),
+        new webpack.NoErrorsPlugin(),
+        new webpack.optimize.DedupePlugin(),
+        new webpack.optimize.UglifyJsPlugin()
     ]
 };

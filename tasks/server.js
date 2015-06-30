@@ -5,6 +5,9 @@
 
 let gutil = require("gulp-util");
 let nodemon = require('nodemon');
+const webpack = require('webpack');
+
+const webpackServerProductionConfig = require("../webpack.server.production.config.js");
 
 module.exports = {
     rundevserver() {
@@ -15,6 +18,15 @@ module.exports = {
             nodeArgs: ['--debug']
         }).on('restart', () => {
             gutil.log('server restarted!');
+        });
+    },
+
+    webpackproduction(cb) {
+        webpack(webpackServerProductionConfig).run(function (err, stats) {
+            if (err) {
+                throw new gutil.PluginError("webpack:build-dev", err);
+            }
+            cb();
         });
     }
 };
