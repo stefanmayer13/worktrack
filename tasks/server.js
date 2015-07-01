@@ -3,9 +3,11 @@
  * @author <a href="mailto:stefanmayer13@gmail.com">Stefan Mayer</a>
  */
 
-let gutil = require("gulp-util");
-let nodemon = require('nodemon');
+const gutil = require("gulp-util");
+const nodemon = require('nodemon');
 const webpack = require('webpack');
+const gulp = require('gulp');
+const babel = require("gulp-babel");
 
 const webpackServerProductionConfig = require("../webpack.server.production.config.js");
 
@@ -21,12 +23,9 @@ module.exports = {
         });
     },
 
-    webpackproduction(cb) {
-        webpack(webpackServerProductionConfig).run(function (err, stats) {
-            if (err) {
-                throw new gutil.PluginError("webpack:build-dev", err);
-            }
-            cb();
-        });
+    production() {
+        return gulp.src("server/**/*.js")
+            .pipe(babel())
+            .pipe(gulp.dest("build/server"));
     }
 };

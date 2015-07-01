@@ -7,11 +7,11 @@ module.exports = {
     port: 8081,
     logger: {
         console: {
-            level: 'error',
+            level: 'verbose',
             colorize: true
         },
         file: {
-            level: 'error',
+            level: 'verbose',
             file: 'log/error.log'
         }
     }

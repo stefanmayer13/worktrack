@@ -56,6 +56,7 @@ module.exports = {
     },
 
     copyresources(cb) {
-        cb();
+        return gulp.src('./config/production/**/*.js', {base: './config/production'})
+            .pipe(gulp.dest('./build/config/production/'));
     }
 };

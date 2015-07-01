@@ -26,8 +26,8 @@ gulp.task('devserver', getTask('server').rundevserver);
 
 gulp.task('webpack', getTask('client').webpack);
 gulp.task('webpackwatch', getTask('client').webpackwatch);
-gulp.task('webpack-prod', getTask('client').webpackproduction);
-gulp.task('webpack-server', getTask('server').webpackproduction);
+gulp.task('client-prod', getTask('client').webpackproduction);
+gulp.task('server-prod', getTask('server').production);
 
 gulp.task('watch', function () {
     gulp.watch('scss/*.scss', ['sass']);
