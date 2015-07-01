@@ -12,7 +12,7 @@ module.exports = function LoginAction (context, payload) {
     const date = Time.getDateFromParam(payload.date);
 
     context.dispatch(ActionTypes.SYNC_WORKLOGS);
-    return request.post(`/api/jira/add`)
+    return request.post(`api/jira/add`)
         .withCredentials()
         .send(payload.entries)
         .then((response) => {

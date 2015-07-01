@@ -14,7 +14,7 @@ module.exports = function LoginAction (context, payload) {
         + `&end=${Time.getDateForApi(date)}`;
 
     context.dispatch(ActionTypes.SYNC_WORKLOGS);
-    return request.post(`/api/toggl/sync?${params}`)
+    return request.post(`api/toggl/sync?${params}`)
         .withCredentials()
         .then((response) => {
             if (response.status >= 200 && response.status < 300) {

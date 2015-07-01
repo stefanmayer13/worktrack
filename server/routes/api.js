@@ -48,8 +48,8 @@ module.exports = (server, db, prefix) => {
                 const start = request.query.start || DateHelper.getTogglDate(),
                     end = request.query.end || DateHelper.getTogglDate();
                 const session = request.session.get('user');
-                MongoDBHelper.getUserSession(db, session).subscribe((data) => {
-                    TogglHelper.getDetail(session, data.togglApi, start, end).then(reply, reply);
+                MongoDBHelper.getUserSession(db, session).subscribe((usersession) => {
+                    TogglHelper.getDetail(session, usersession.togglApi, usersession.togglWorkspace, start, end).then(reply, reply);
                 }, reply);
             }
         }
@@ -127,7 +127,7 @@ module.exports = (server, db, prefix) => {
                 console.log(start, end);
                 const session = request.session.get('user');
                 MongoDBHelper.getUserSession(db, session).subscribe((usersession) => {
-                    TogglHelper.getDetail(session, usersession.togglApi, start, end).then((data) => {
+                    TogglHelper.getDetail(session, usersession.togglApi, usersession.togglWorkspace, start, end).then((data) => {
                         if (data && data.data) {
                             MongoDBHelper.sync(db, data.data).then((entries) => {
                                 let inserts = entries.filter((entry) => {
@@ -190,6 +190,7 @@ module.exports = (server, db, prefix) => {
                         return {
                             username: user._id,
                             togglApi: user.togglApi,
+                            togglWorkspace: user.togglWorkspace,
                             url: data.self
                         };
                     })

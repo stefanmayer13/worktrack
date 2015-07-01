@@ -15,7 +15,7 @@ const Home = require('./pages/Home');
 const User = require('./pages/User');
 const Logger = require('./pages/Logger');
 const Worklog = require('./pages/Worklog');
-const WorklogChart = require('./pages/WorklogChart');
+//const WorklogChart = require('./pages/WorklogChart');
 const NotFound = require('./pages/NotFound');
 
 module.exports = (
@@ -24,7 +24,7 @@ module.exports = (
             <DefaultRoute name="home" handler={Home} />
             <Route name="log" path="log" handler={Logger} />
             <Route name="worklog" path="worklog/?:date?" handler={Worklog} />
-            <Route name="worklogchart" path="worklog/chart/?:date?" handler={WorklogChart} />
+            {/* <Route name="worklogchart" path="worklog/chart/?:date?" handler={WorklogChart} /> */}
             <Route name="user" path="user" handler={User} />
             <NotFoundRoute handler={NotFound}/>
         </Route>

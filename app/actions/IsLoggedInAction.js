@@ -7,7 +7,7 @@ const request = require('superagent-bluebird-promise');
 const ActionTypes = require('../constants/ActionTypes');
 
 module.exports = function IsLoggedInAction (context) {
-    return request.get(`/api/jira/login`)
+    return request.get(`api/jira/login`)
         .withCredentials()
         .then((response) => {
             if (response.status >= 200 && response.status < 300) {

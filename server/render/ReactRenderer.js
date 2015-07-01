@@ -11,10 +11,9 @@ let ReactRenderer = {
                     <meta charset="UTF-8"> \
                     <meta name="viewport" content="width=device-width, initial-scale=1"> \
                     <title>Test</title> \
-                    <link rel="stylesheet" href="/styles/main.css" />\
-                    <script defer src="/js/rx.lite.min.js"></script>\
-                    \<script defer src="/js/lib.js"></script>\
-                    <script defer src="/js/app.js"></script>\
+                    <link rel="stylesheet" href="styles/main.css" />\
+                    <script defer src="js/lib.js"></script>\
+                    <script defer src="js/app.js"></script>\
                     <link href="http://fonts.googleapis.com/css?family=Roboto:400,300,500"\
                         rel="stylesheet" type="text/css">\
                 </head> \

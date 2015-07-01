@@ -8,7 +8,7 @@ const ActionTypes = require('../constants/ActionTypes');
 const IsLoggedInAction = require('./IsLoggedInAction');
 
 module.exports = function SetTogglKeyAction (context, payload) {
-    return request.post(`/api/user`)
+    return request.post(`api/user`)
         .send(payload)
         .withCredentials()
         .then((response) => {

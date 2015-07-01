@@ -23,7 +23,7 @@ let User = React.createClass({
         return (
             <div className='page'>
                 <div>
-                    <Link to="/"><RaisedButton label="Back" /></Link>
+                    <Link to="home"><RaisedButton label="Back" /></Link>
                 </div>
                 <p>
                     Username: {this.props.user ? this.props.user.username : null}
@@ -37,15 +37,26 @@ let User = React.createClass({
                         ref="togglapi"
                         style={{width: '20rem'}} />
                 </p>
+                <p>
+                    <TextField
+                        floatingLabelText="Toggl Workspace ID"
+                        onEnterKeyDown={this._saveTogglKey}
+                        onBlur={this._saveTogglKey}
+                        defaultValue={this.props.user ? this.props.user.togglWorkspace : null}
+                        ref="togglworkspace"
+                        style={{width: '20rem'}} />
+                </p>
             </div>
         );
     },
 
     _saveTogglKey() {
         const togglApi = this.refs.togglapi.getValue();
+        const togglWorkspace = this.refs.togglworkspace.getValue();
         if (togglApi) {
             this.executeAction(SetTogglKeyAction, {
-                togglApi
+                togglApi,
+                togglWorkspace
             });
         }
     }

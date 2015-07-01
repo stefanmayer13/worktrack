@@ -12,7 +12,7 @@ module.exports = function LoginAction (context, payload) {
     const params = `start=${apiDate}&end=${apiDate}`;
     context.dispatch(ActionTypes.GET_WORKLOGS);
 
-    return request.get(`/api/logs?${params}`)
+    return request.get(`api/logs?${params}`)
         .withCredentials()
         .then((response) => {
             if (response.status >= 200 && response.status < 300) {

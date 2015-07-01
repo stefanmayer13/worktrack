@@ -8,6 +8,7 @@ const gulp    = require('gulp');
 const gutil   = require('gulp-util');
 const nodemon = require('nodemon');
 const path    = require('path');
+const merge   = require('merge-stream');
 
 const webpackConfig = require("../webpack.config.js");
 const webpackProductionConfig = require("../webpack.production.config.js");
@@ -55,8 +56,14 @@ module.exports = {
         webpack(webpackConfig).watch(100, afterBuild());
     },
 
-    copyresources(cb) {
-        return gulp.src('./config/production/**/*.js', {base: './config/production'})
+    copyresources() {
+        const config = gulp.src('./config/production/**/*.js', {base: './config/production'})
             .pipe(gulp.dest('./build/config/production/'));
+        const css = gulp.src('./css/*', {base: './css'})
+            .pipe(gulp.dest('./build/css/'));
+        const packagejson = gulp.src('./package.json', {base: './'})
+            .pipe(gulp.dest('./build/'));
+
+        return merge(config, css, packagejson);
     }
 };

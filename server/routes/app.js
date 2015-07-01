@@ -5,6 +5,8 @@
 
 let ReactRenderer = require('../render/ReactRenderer');
 
+const jsPath = process.env.NODE_ENV === 'production' ? 'js/' : 'tmp/';
+
 module.exports = (server) => {
     server.route({
         method: 'GET',
@@ -19,7 +21,7 @@ module.exports = (server) => {
         path: '/js/{filename}',
         handler: {
             file: (request) => {
-                return 'tmp/' + request.params.filename;
+                return jsPath + request.params.filename;
             }
         }
     });

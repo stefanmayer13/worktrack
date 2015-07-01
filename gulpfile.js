@@ -17,8 +17,8 @@ gulp.task('default', ['check', 'sass', 'webpack', 'devserver', 'watch']);
 
 gulp.task('build', function (cb) {
     runSequence(['clean', 'check'],
-        ['sass-production', 'webpack-prod'],
-        ['webpack-server', 'copy-resources'],
+        ['sass-production', 'client-prod'],
+        ['server-prod', 'copy-resources'],
         cb);
 });
 

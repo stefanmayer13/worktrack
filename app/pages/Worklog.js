@@ -9,7 +9,6 @@ const connectToStores = require('fluxible/addons/connectToStores');
 const FluxibleMixin = require('fluxible/addons/FluxibleMixin');
 const Mui = require('material-ui');
 const WorklogStore = require('../stores/WorklogStore');
-const Api = require('../utils/Api');
 const Time = require('../utils/TimeHelper');
 const TimeEntry = require('../components/TimeEntry');
 const MaterialUiMixin = require('../mixins/MaterialUiMixin');
@@ -52,7 +51,7 @@ const Worklog = React.createClass({
         return (
             <div className='page report'>
                 <div className="backbutton">
-                    <Link to="/"><RaisedButton label="Back" /></Link>
+                    <Link to="home"><RaisedButton label="Back" /></Link>
                 </div>
                 <div style={{marginTop: '1rem', marginBottom: '1rem'}}>
                     <Link to={`/worklog/${Time.getDateForApi(previous)}`}>

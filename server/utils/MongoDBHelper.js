@@ -33,7 +33,8 @@ module.exports = {
             session: session
         }, {
             $set: {
-                togglApi: userdata.togglApi
+                togglApi: userdata.togglApi,
+                togglWorkspace: userdata.togglWorkspace
             }
         });
     },

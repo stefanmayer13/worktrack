@@ -12,10 +12,10 @@ const Logger = require('../Logger');
 const JiraHelper = require('../utils/JiraHelper');
 
 module.exports = {
-    getDetail(JiraCookie, token, start, end) {
+    getDetail(JiraCookie, token, workspace, start, end) {
         let deferred = Q.defer();
         let url = `/reports/api/v2/details?since=${start}` +
-                    `&until=${end}&user_agent=worktrack&workspace_id=${Config.toggl.workspace}`;
+                    `&until=${end}&user_agent=worktrack&workspace_id=${workspace}`;
 
         let options = {
             hostname: 'toggl.com',

@@ -19,7 +19,7 @@ let Home = React.createClass({
     mixins: [MaterialUiMixin, FluxibleMixin],
 
     render() {
-        let warning = (this.props.user && this.props.user.togglApi) ? null :
+        let warning = (this.props.user && this.props.user.togglApi && this.props.user.togglWorkspace) ? null :
             (<p>
                 Worktrack currently works only with <a href="http://toggl.com">Toggl</a>.
                 Please add your Toggl API-Key under <Link to="user">User</Link>.
