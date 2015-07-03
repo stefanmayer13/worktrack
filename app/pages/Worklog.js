@@ -46,7 +46,7 @@ const Worklog = React.createClass({
         const next = new Date(date.getTime());
         next.setDate(next.getDate() + 1);
 
-        const togglEnabled = this.props.user && this.props.user.togglApi;
+        const togglEnabled = this.props.user && this.props.user.togglApi && this.props.user.togglWorkspace;
 
         return (
             <div className='page report'>

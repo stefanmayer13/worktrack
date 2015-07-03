@@ -43,6 +43,7 @@ body {
     border: 0.1rem solid grey;
     border-radius: 0.5rem;
     box-shadow: rgba(0,0,0,.7)1px 1px 5px 0;
+    background-color: #f0f0f0;
     >div {
         flex: 2;
         padding: 0.5rem 0 0.5rem 0.5rem;
@@ -104,6 +105,7 @@ footer {
     text-align: right;
     color: grey;
     bottom: 0;
-    position: absolute;
+    position: fixed;
     right: 0;
+    z-index: -1;
 }

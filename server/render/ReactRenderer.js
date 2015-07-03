@@ -12,10 +12,10 @@ let ReactRenderer = {
                     <meta name="viewport" content="width=device-width, initial-scale=1"> \
                     <title>Test</title> \
                     <link rel="stylesheet" href="styles/main.css" />\
-                    <script defer src="js/lib.js"></script>\
-                    <script defer src="js/app.js"></script>\
                     <link href="http://fonts.googleapis.com/css?family=Roboto:400,300,500"\
                         rel="stylesheet" type="text/css">\
+                    <script defer src="js/lib.js"></script>\
+                    <script defer src="js/app.js"></script>\
                 </head> \
                 <body> \
                 </body> \
