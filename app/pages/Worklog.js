@@ -16,6 +16,7 @@ const WorklogSyncAction = require('../actions/WorklogSyncAction');
 const JiraSyncAction = require('../actions/JiraSyncAction');
 const GetWorklogAction = require('../actions/GetWorklogAction');
 const UserStore = require('../stores/UserStore');
+const Config = require('../Config');
 
 const RaisedButton = Mui.RaisedButton;
 const DatePicker = Mui.DatePicker;
@@ -54,7 +55,7 @@ const Worklog = React.createClass({
                     <Link to="home"><RaisedButton label="Back" /></Link>
                 </div>
                 <div style={{marginTop: '1rem', marginBottom: '1rem'}}>
-                    <Link to={`/worklog/${Time.getDateForApi(previous)}`}>
+                    <Link to={`${Config.baseUrl}/worklog/${Time.getDateForApi(previous)}`}>
                         <RaisedButton style={{float: 'left'}} label="-" />
                     </Link>
                     <DatePicker
@@ -64,7 +65,7 @@ const Worklog = React.createClass({
                         autoOk={true}
                         formatDate={Time.getDate.bind(Time)}
                         onChange={this._handleDateChange} />
-                    <Link to={`/worklog/${Time.getDateForApi(next)}`}>
+                    <Link to={`${Config.baseUrl}/worklog/${Time.getDateForApi(next)}`}>
                         <RaisedButton style={{float: 'left'}} label="+" />
                     </Link>
                     <div style={{clear: 'left'}}></div>

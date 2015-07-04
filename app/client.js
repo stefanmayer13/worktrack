@@ -18,7 +18,7 @@ let context = app.createContext();
 
 let router = Router.create({
     routes: app.getComponent(),
-    location: Router.HashLocation, //TODO fix app to work with Router.HistoryLocation
+    location: Router.HistoryLocation,
     transitionContext: context
 });
 

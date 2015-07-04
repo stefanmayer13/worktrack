@@ -5,9 +5,10 @@
 
 const request = require('superagent-bluebird-promise');
 const ActionTypes = require('../constants/ActionTypes');
+const Config = require('../Config');
 
 module.exports = function LoginAction (context) {
-    return request.del(`api/jira/login`)
+    return request.del(`${Config.baseUrl}/api/jira/login`)
         .withCredentials()
         .then((response) => {
             if (response.status >= 200 && response.status < 300) {

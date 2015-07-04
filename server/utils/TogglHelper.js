@@ -7,7 +7,6 @@ const Q = require('q');
 const https = require('https');
 const async = require('async');
 
-const Config = require('../Config');
 const Logger = require('../Logger');
 const JiraHelper = require('../utils/JiraHelper');
 

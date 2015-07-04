@@ -3,27 +3,32 @@
  * @author <a href="mailto:stefanmayer13@gmail.com">Stefan Mayer</a>
  */
 
-let Hapi = require('hapi');
-let Config = require('./Config');
-let Logger = require('./Logger');
-let MongoDBHelper = require('./utils/MongoDBHelper');
+const Hapi = require('hapi');
+const Config = require('./Config');
+const Logger = require('./Logger');
+const MongoDBHelper = require('./utils/MongoDBHelper');
 
 const sessionSecret = process.env.NODE_SESSION_SECRET;
 
+Logger.verbose('Connecting to MongoDB');
+
 MongoDBHelper.connect().then((db) => {
+    Logger.verbose('Connected.');
     let server = new Hapi.Server();
     server.connection({port: Config.port});
 
     server.auth.scheme('custom', require('./authScheme.js'));
     server.auth.strategy('default', 'custom');
 
-    require('./routes/api')(server, db, '/api');
+    require('./routes/api')(server, db, Config.baseUrl + '/api');
     require('./routes/app')(server);
 
     server.state('jiracookie', {
         isSecure: true,
         encoding: 'base64json'
     });
+
+    Logger.verbose('Registering plugins');
 
     server.register([{
         register: require('yar'),
@@ -46,6 +51,6 @@ MongoDBHelper.connect().then((db) => {
             }
         });
     });
-}, (err) => {
-    console.log('Error connecting DB!', err);
+}).catch((err) => {
+    Logger.error(err);
 });

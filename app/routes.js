@@ -4,6 +4,7 @@
  */
 const React = require('react/addons');
 const Router = require('react-router');
+const Config = require('./Config');
 
 const Route = Router.Route;
 const DefaultRoute = Router.DefaultRoute;
@@ -19,8 +20,8 @@ const Worklog = require('./pages/Worklog');
 const NotFound = require('./pages/NotFound');
 
 module.exports = (
-    <Route handler={App} path="/">
-        <Route name="auth" path="/" handler={AuthenticatedPage}>
+    <Route handler={App} path={Config.baseUrl}>
+        <Route name="auth" path={Config.baseUrl} handler={AuthenticatedPage}>
             <DefaultRoute name="home" handler={Home} />
             <Route name="log" path="log" handler={Logger} />
             <Route name="worklog" path="worklog/?:date?" handler={Worklog} />
