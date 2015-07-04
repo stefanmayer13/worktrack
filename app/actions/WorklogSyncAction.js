@@ -7,6 +7,7 @@ const request = require('superagent-bluebird-promise');
 const ActionTypes = require('../constants/ActionTypes');
 const Time = require('../utils/TimeHelper');
 const GetWorklogAction = require('./GetWorklogAction');
+const Config = require('../Config');
 
 module.exports = function LoginAction (context, payload) {
     const date = Time.getDateFromParam(payload);
@@ -14,7 +15,7 @@ module.exports = function LoginAction (context, payload) {
         + `&end=${Time.getDateForApi(date)}`;
 
     context.dispatch(ActionTypes.SYNC_WORKLOGS);
-    return request.post(`api/toggl/sync?${params}`)
+    return request.post(`${Config.baseUrl}/api/toggl/sync?${params}`)
         .withCredentials()
         .then((response) => {
             if (response.status >= 200 && response.status < 300) {

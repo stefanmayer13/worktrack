@@ -6,9 +6,10 @@
 const request = require('superagent-bluebird-promise');
 const ActionTypes = require('../constants/ActionTypes');
 const IsLoggedInAction = require('./IsLoggedInAction');
+const Config = require('../Config');
 
 module.exports = function LoginAction (context, payload) {
-    return request.post(`api/jira/login`)
+    return request.post(`${Config.baseUrl}/api/jira/login`)
         .send({
             username: payload.username,
             password: payload.password

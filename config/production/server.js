@@ -4,6 +4,7 @@
  */
 
 module.exports = {
+    baseUrl: '',
     port: 8081,
     logger: {
         console: {

@@ -6,9 +6,10 @@
 const request = require('superagent-bluebird-promise');
 const ActionTypes = require('../constants/ActionTypes');
 const IsLoggedInAction = require('./IsLoggedInAction');
+const Config = require('../Config');
 
 module.exports = function SetTogglWorkspaceAction (context, payload) {
-    return request.post(`api/user`)
+    return request.post(`${Config.baseUrl}/api/user`)
         .send(payload)
         .withCredentials()
         .then((response) => {

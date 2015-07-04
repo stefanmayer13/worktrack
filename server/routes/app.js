@@ -3,14 +3,15 @@
  * @author <a href="mailto:stefanmayer13@gmail.com">Stefan Mayer</a>
  */
 
-let ReactRenderer = require('../render/ReactRenderer');
+const ReactRenderer = require('../render/ReactRenderer');
+const Config = require('../Config');
 
 const jsPath = process.env.NODE_ENV === 'production' ? 'js/' : 'tmp/';
 
 module.exports = (server) => {
     server.route({
         method: 'GET',
-        path: '/{path*}',
+        path: Config.baseUrl + '/{path*}',
         handler: (request, reply) => {
             reply(ReactRenderer.render(request));
         }
@@ -18,7 +19,7 @@ module.exports = (server) => {
 
     server.route({
         method: 'GET',
-        path: '/js/{filename}',
+        path: Config.baseUrl + '/js/{filename}',
         handler: {
             file: (request) => {
                 return jsPath + request.params.filename;
@@ -28,7 +29,7 @@ module.exports = (server) => {
 
     server.route({
         method: 'GET',
-        path: '/styles/{filename}',
+        path: Config.baseUrl + '/styles/{filename}',
         handler: {
             file: (request) => {
                 return 'css/' + request.params.filename;
