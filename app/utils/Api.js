@@ -3,18 +3,25 @@
  * @author <a href="mailto:stefanmayer13@gmail.com">Stefan Mayer</a>
  */
 
+const request = require('superagent-bluebird-promise');
+const Config = require('../Config');
+
 module.exports = {
-    fetch(url, options) {
-        return Rx.Observable.fromPromise(fetch(url, options)
-            .then((response) => {
-                if (response.status >= 200 && response.status < 300) {
-                    return response;
-                }
-                throw new Error(response.statusText);
-            }))
-            .flatMap((response) => {
-                let data = response.json();
-                return Rx.Observable.fromPromise(data);
-            });
+    request(url, type, params) {
+        return request[type](`${Config.baseUrl}/api/${url}?${params || ''}`)
+            .withCredentials();
+    },
+
+    get(url, options) {
+        return this.request(url, 'get', options ? options.params : '');
+    },
+
+    post (url, options) {
+        return this.request(url, 'post', options ? options.params : '')
+            .send(options.body);
+    },
+
+    del (url, options) {
+        return this.request(url, 'del', options ? options.params : '');
     }
 };

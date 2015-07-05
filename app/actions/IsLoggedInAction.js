@@ -3,20 +3,18 @@
  * @author <a href="mailto:stefanmayer13@gmail.com">Stefan Mayer</a>
  */
 
-const request = require('superagent-bluebird-promise');
 const ActionTypes = require('../constants/ActionTypes');
-const Config = require('../Config');
+const Api = require('../utils/Api');
 
 module.exports = function IsLoggedInAction (context) {
-    return request.get(`${Config.baseUrl}/api/jira/login`)
-        .withCredentials()
+    return Api.get(`jira/login`)
         .then((response) => {
             if (response.status >= 200 && response.status < 300) {
                 context.dispatch(ActionTypes.GET_USER_DATA_SUCCESS, response.body);
                 return response.body;
             }
             context.dispatch(ActionTypes.GET_USER_DATA_FAILURE, response.body.message);
-        }, (error) => {
+        }).catch((error) => {
             context.dispatch(ActionTypes.GET_USER_DATA_FAILURE, error.body.message);
         });
 };

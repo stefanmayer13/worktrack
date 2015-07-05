@@ -63,7 +63,6 @@
     "superagent": "^1.2.0",
     "superagent-bluebird-promise": "^2.0.2",
     "webpack": "^1.8.2",
-    "webpack-config": "^0.7.0",
-    "whatwg-fetch": "^0.7.0"
+    "webpack-config": "^0.7.0"
   }
 }

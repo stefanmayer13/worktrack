@@ -4,5 +4,8 @@
  */
 
 module.exports = {
-    baseUrl: '/worktrack'
+    baseUrl: '/worktrack',
+    features: [
+        'logging'
+    ]
 };

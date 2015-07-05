@@ -8,6 +8,8 @@ const Router = require('react-router');
 const connectToStores = require('fluxible/addons/connectToStores');
 const FluxibleMixin = require('fluxible/addons/FluxibleMixin');
 const mui = require('material-ui');
+
+const Config = require('../Config');
 const MaterialUiMixin = require('../mixins/MaterialUiMixin');
 const LogoutAction = require('../actions/LogoutAction');
 const UserStore = require('../stores/UserStore');
@@ -24,6 +26,9 @@ let Home = React.createClass({
                 Worktrack currently works only with <a href="http://toggl.com">Toggl</a>.
                 Please add your Toggl API-Key under <Link to="user">User</Link>.
             </p>);
+
+        const logging = Config.features.includes('logging');
+
         return (
             <div className='page'>
                 <h1>Welcome to Worktrack</h1>
@@ -31,7 +36,7 @@ let Home = React.createClass({
                 <p>
                     The following pages are currently available:
                     <ul className="nav">
-                        {/*<li><Link to="log"><RaisedButton label="Log" primary={true} /></Link></li>*/}
+                        {logging ? <li><Link to="log"><RaisedButton label="Log" primary={true} /></Link></li> : null}
                         <li><Link to="worklog"><RaisedButton label="Worklog" primary={true} /></Link></li>
                         {/*<li><Link to="worklogchart"><RaisedButton label="Chart" secondary={true} /></Link></li>*/}
                         <li><Link to="user"><RaisedButton label="User" secondary={true} /></Link></li>
