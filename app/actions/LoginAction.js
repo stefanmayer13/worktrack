@@ -20,7 +20,7 @@ module.exports = function LoginAction (context, payload) {
         } else {
             context.dispatch(ActionTypes.LOGIN_FAILURE, response.body.message);
         }
-    }).catch((error) => {
+    }, (error) => {
         context.dispatch(ActionTypes.LOGIN_FAILURE, error.body.message);
     });
 };

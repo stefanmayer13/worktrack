@@ -14,7 +14,7 @@ module.exports = function IsLoggedInAction (context) {
                 return response.body;
             }
             context.dispatch(ActionTypes.GET_USER_DATA_FAILURE, response.body.message);
-        }).catch((error) => {
+        }, (error) => {
             context.dispatch(ActionTypes.GET_USER_DATA_FAILURE, error.body.message);
         });
 };

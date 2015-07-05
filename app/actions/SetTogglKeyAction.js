@@ -17,7 +17,7 @@ module.exports = function SetTogglKeyAction (context, payload) {
         } else {
             context.dispatch(ActionTypes.SET_USER_FAILURE, response.body.message);
         }
-    }).catch((error) => {
+    }, (error) => {
         context.dispatch(ActionTypes.SET_USER_FAILURE, error.body.message);
     });
 };

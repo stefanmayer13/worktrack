@@ -14,7 +14,7 @@ module.exports = function LoginAction (context) {
             } else {
                 context.dispatch(ActionTypes.LOGOUT_FAILURE, response.body.message);
             }
-        }).catch((error) => {
+        }, (error) => {
             context.dispatch(ActionTypes.LOGOUT_FAILURE, error.body.message);
         });
 };

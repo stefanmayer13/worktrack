@@ -4,11 +4,13 @@
  */
 
 const React = require('react/addons');
+const Router = require('react-router');
 const Mui = require('material-ui');
 const CurrentEntry = require('../components/CurrentEntry');
 const MaterialUiMixin = require('../mixins/MaterialUiMixin');
 
 const RaisedButton = Mui.RaisedButton;
+const Link = Router.Link;
 
 module.exports = React.createClass({
     mixins: [MaterialUiMixin],
@@ -25,6 +27,9 @@ module.exports = React.createClass({
 
         return (
             <div className='page logger'>
+                <div className="backbutton">
+                    <Link to="home"><RaisedButton label="Back" /></Link>
+                </div>
                 <RaisedButton onClick={this._startLog} label="Log" />
 
                 {currentEntry}

@@ -21,7 +21,7 @@ module.exports = function LoginAction (context, payload) {
         } else {
             context.dispatch(ActionTypes.GET_WORKLOGS_FAILURE, response.body.message);
         }
-    }).catch((error) => {
+    }, (error) => {
         context.dispatch(ActionTypes.GET_WORKLOGS_FAILURE, error.body.message);
     });
 };
