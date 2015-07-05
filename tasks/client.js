@@ -30,7 +30,8 @@ const afterBuild = (cb) => {
             throw new gutil.PluginError("webpack:build-dev", err);
         }
         gutil.log("[webpack:build-dev]", stats.toString({
-            colors: true
+            colors: true,
+            chunks: false
         }));
         if ((typeof cb) === 'function') {
             cb();
@@ -54,6 +55,7 @@ module.exports = {
 
     webpackwatch(cb) {
         webpack(webpackConfig).watch(100, afterBuild());
+        cb();
     },
 
     copyresources() {

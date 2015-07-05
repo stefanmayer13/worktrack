@@ -32,6 +32,10 @@ module.exports = {
     },
 
     plugins: [
-        new webpack.optimize.CommonsChunkPlugin(/* chunkName= */"lib", /* filename= */"lib.js")
+        new webpack.optimize.CommonsChunkPlugin({
+            name: 'lib',
+            filename: 'lib.js',
+            async: true
+        })
     ]
 };

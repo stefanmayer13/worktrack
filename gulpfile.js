@@ -13,7 +13,7 @@ function getTask(name) {
     return require('./tasks/' + name);
 }
 
-gulp.task('default', ['check', 'sass', 'webpack', 'devserver', 'watch']);
+gulp.task('default', ['check', 'sass', 'devserver', 'watch']);
 
 gulp.task('build', function (cb) {
     runSequence(['clean', 'check'],
@@ -29,9 +29,8 @@ gulp.task('webpackwatch', getTask('client').webpackwatch);
 gulp.task('client-prod', getTask('client').webpackproduction);
 gulp.task('server-prod', getTask('server').production);
 
-gulp.task('watch', function () {
+gulp.task('watch', ['webpackwatch'], function () {
     gulp.watch('scss/*.scss', ['sass']);
-    gulp.watch('app/**/*.js', ['webpack']);
 });
 
 gulp.task('check', getTask('helper').check);
