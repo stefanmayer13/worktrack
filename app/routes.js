@@ -17,6 +17,7 @@ const User = require('./pages/User');
 const Logger = require('./pages/Logger');
 const Worklog = require('./pages/Worklog');
 //const WorklogChart = require('./pages/WorklogChart');
+const About = require('./pages/About');
 const NotFound = require('./pages/NotFound');
 
 module.exports = (
@@ -27,6 +28,7 @@ module.exports = (
             <Route name="worklog" path="worklog/?:date?" handler={Worklog} />
             {/* <Route name="worklogchart" path="worklog/chart/?:date?" handler={WorklogChart} /> */}
             <Route name="user" path="user" handler={User} />
+            <Route name="about" path="about" handler={About} />
             <NotFoundRoute handler={NotFound}/>
         </Route>
     </Route>

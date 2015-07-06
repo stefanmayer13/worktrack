@@ -33,7 +33,7 @@ let Home = React.createClass({
             <div className='page'>
                 <h1>Welcome to Worktrack</h1>
                 {warning}
-                <p>
+                <div>
                     The following pages are currently available:
                     <ul className="nav">
                         {logging ? <li><Link to="log"><RaisedButton label="Log" primary={true} /></Link></li> : null}
@@ -42,7 +42,10 @@ let Home = React.createClass({
                         <li><Link to="user"><RaisedButton label="User" secondary={true} /></Link></li>
                         <li><RaisedButton onClick={this._logout} label="Logout" /></li>
                     </ul>
-                </p>
+                    <div style={{'paddingTop': '4rem'}}>
+                        <Link to="about"><RaisedButton label="About" secondary={true} /></Link>
+                    </div>
+                </div>
             </div>
         );
     },

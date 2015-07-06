@@ -16,19 +16,17 @@ module.exports = React.createClass({
     mixins: [MaterialUiMixin],
 
     render() {
-        let currentEntry = this.state.entry ? <CurrentEntry start={this.state.start} /> : null;
-
         return (
             <div className='page logger'>
                 <div className="backbutton">
                     <Link to="home"><RaisedButton label="Back" /></Link>
                 </div>
-                <RaisedButton onClick={this._startLog} label="Log" />
-
-                <p>
+                <div style={{clear: 'left', paddingTop: '2rem'}}>
                     Credits:
-                    * Password Eye by Hello Many from the Noun Project
-                </p>
+                    <ul>
+                        <li>Password Eye by Hello Many from the Noun Project</li>
+                    </ul>
+                </div>
             </div>
         );
     }
