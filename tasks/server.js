@@ -17,7 +17,8 @@ module.exports = {
             script: 'server/index.js',
             ext: 'js html',
             env: {'NODE_ENV': 'development'},
-            nodeArgs: ['--debug']
+            nodeArgs: ['--debug'],
+            ignore: ['.git', 'node_modules', 'app']
         }).on('restart', () => {
             gutil.log('server restarted!');
         });
