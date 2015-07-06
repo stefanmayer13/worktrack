@@ -18,7 +18,7 @@ module.exports = {
 
     post (url, options) {
         return this.request(url, 'post', options ? options.params : '')
-            .send(options.body);
+            .send(options.data);
     },
 
     del (url, options) {

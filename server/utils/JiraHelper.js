@@ -13,7 +13,7 @@ module.exports = {
     login(payload) {
         return Rx.Observable.create((observer) => {
             if (!payload.username || !payload.password) {
-                observer.onError(new Error('Problem with entry data'));
+                observer.onError(Boom.badRequest('Problem with entry data'));
                 observer.onCompleted();
                 return;
             }
