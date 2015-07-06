@@ -3,18 +3,24 @@
  * @author <a href="mailto:stefanmayer13@gmail.com">Stefan Mayer</a>
  */
 
-let gulp = require('gulp');
-let gutil = require("gulp-util");
-let autoprefixer = require('gulp-autoprefixer');
-let minifyCSS = require('gulp-minify-css');
-let sass = require('gulp-sass');
-let sourcemaps = require('gulp-sourcemaps');
+const gulp = require('gulp');
+const gutil = require("gulp-util");
+const autoprefixer = require('gulp-autoprefixer');
+const minifyCSS = require('gulp-minify-css');
+const sass = require('gulp-sass');
+const sourcemaps = require('gulp-sourcemaps');
+const inline_base64 = require('gulp-inline-base64');
 
 module.exports = {
     sass() {
         gulp.src('./scss/*.scss')
             .pipe(sourcemaps.init())
             .pipe(sass())
+            .pipe(inline_base64({
+                baseDir: './scss/',
+                maxSize: 14 * 1024,
+                debug: true
+            }))
             .pipe(autoprefixer({
                 browsers: ['last 2 versions'],
                 cascade: false
@@ -29,6 +35,10 @@ module.exports = {
     sassproduction() {
         gulp.src('./scss/*.scss')
             .pipe(sass({outputStyle: 'compressed'}))
+            .pipe(inline_base64({
+                baseDir: './scss/icons/',
+                maxSize: 14 * 1024
+            }))
             .pipe(autoprefixer({
                 browsers: ['last 2 versions'],
                 cascade: false

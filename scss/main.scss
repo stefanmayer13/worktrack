@@ -24,6 +24,24 @@ body {
     }
 }
 
+.showpassword {
+    position: relative;
+    top: -2.2rem;
+    left: 14rem;
+    height: 2rem;
+    width: 2rem;
+    cursor: pointer;
+    user-select: none;
+    &.open {
+        background-color: rgba(0,0,0,0.8);
+        mask: url('icons/noun_65813_cc.svg') no-repeat 50% 50%;
+    }
+    &.closed {
+        background-color: rgba(0,0,0,0.3);
+        mask: url('icons/noun_65815_cc.svg') no-repeat 50% 50%;
+    }
+}
+
 .datepicker {
     input {
         text-align: center;

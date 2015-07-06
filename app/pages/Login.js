@@ -20,11 +20,13 @@ const Home = React.createClass({
     getInitialState() {
         return {
             usernameErrorText: '',
-            passwordErrorText: ''
+            passwordErrorText: '',
+            showPassword: false
         };
     },
 
     render() {
+        const passwordClass = this.state.showPassword ? 'open' : 'closed';
         return (
             <div className='page login'>
                 <h1>Welcome to Worktrack</h1>
@@ -36,6 +38,10 @@ const Home = React.createClass({
                     floatingLabelText="Username"
                     onChange={this._onUserNameChange}
                     onEnterKeyDown={this._onSubmit}
+                    autoComplete="username"
+                    autoFocus={true}
+                    autoCapitalize="none"
+                    autoCorrect="off"
                     ref="username" />
                 <br />
                 <TextField
@@ -43,8 +49,12 @@ const Home = React.createClass({
                     floatingLabelText="Password"
                     onChange={this._onUserPasswordChange}
                     onEnterKeyDown={this._onSubmit}
-                    type="password"
+                    autoComplete="username"
+                    autoCapitalize="none"
+                    autoCorrect="off"
+                    type={this.state.showPassword ? null : 'password'}
                     ref="password" />
+                <div className={`showpassword ${passwordClass}`} onClick={this._togglePassword}></div>
                 <br />
                 <p className="error">{this.props.error}</p>
                 <RaisedButton label="Login" primary={true} onClick={this._onSubmit} />
@@ -62,6 +72,13 @@ const Home = React.createClass({
         this.setState({
             passwordErrorText: e.target.value ? '' : 'This field is required.'
         });
+    },
+
+    _togglePassword(e) {
+        this.setState({
+            showPassword: !this.state.showPassword
+        });
+        e.preventDefault();
     },
 
     _onSubmit() {
