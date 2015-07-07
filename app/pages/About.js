@@ -22,10 +22,17 @@ module.exports = React.createClass({
                     <Link to="home"><RaisedButton label="Back" /></Link>
                 </div>
                 <div style={{clear: 'left', paddingTop: '2rem'}}>
-                    Credits:
-                    <ul>
-                        <li>Password Eye by Hello Many from the Noun Project</li>
-                    </ul>
+                    <p>
+                        Worktrack is developed by Stefan Mayer.<br/>
+                        <a href="mailto:stefan@stefanmayer.me">stefan@stefanmayer.me</a><br/>
+                        <a href="https://twitter.com/stefanmayer13">Twitter</a>
+                    </p>
+                    <p>
+                        Credits:
+                        <ul>
+                            <li>Password Eye by Hello Many from the Noun Project</li>
+                        </ul>
+                    </p>
                 </div>
             </div>
         );
