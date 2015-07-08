@@ -6,7 +6,6 @@
 const React = require('react/addons');
 const Router = require('react-router');
 const Mui = require('material-ui');
-const CurrentEntry = require('../components/CurrentEntry');
 const MaterialUiMixin = require('../mixins/MaterialUiMixin');
 
 const RaisedButton = Mui.RaisedButton;
@@ -30,7 +29,7 @@ module.exports = React.createClass({
                     <p>
                         Credits:
                         <ul>
-                            <li>Password Eye by Hello Many from the Noun Project</li>
+                            <li>Password field eye by Hello Many from the Noun Project</li>
                         </ul>
                     </p>
                 </div>
