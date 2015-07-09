@@ -69,6 +69,7 @@ describe("TimeEntry", () => {
 
         const node = TestUtils.findRenderedDOMComponentWithTag(entryNode, 'button');
         expect(node).to.not.be.undefined;
+        expect(node.props.disabled).to.be.falsy;
     });
 
     it("displays no sync button if no handler is defined", function() {
@@ -80,7 +81,7 @@ describe("TimeEntry", () => {
         expect(node).to.deep.equal([]);
     });
 
-    it("displays logged info and no button if logged", function() {
+    it("displays logged info and no enabled button if logged", function() {
         const entry = {
             worklog: 1,
             jira: {}
@@ -89,7 +90,8 @@ describe("TimeEntry", () => {
         const entryNode = TestUtils.renderIntoDocument(<TimeEntry key="key" entry={entry} sync={() => {}} />);
 
         const button = TestUtils.scryRenderedDOMComponentsWithTag(entryNode, 'button');
-        expect(button).to.deep.equal([]);
+        console.log();
+        expect(button[0].props.disabled).to.be.truthy;
 
         const node = TestUtils.findRenderedDOMComponentWithClass(entryNode, 'log');
         expect(node).to.not.be.undefined;
