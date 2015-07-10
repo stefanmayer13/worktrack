@@ -104,4 +104,43 @@ describe("MongoDBHelper", () => {
             return assert.isRejected(MongoDBHelper.getLogs(dbMock, start, end), 'error');
         });
     });
+
+    describe("getUserSession", () => {
+        const userSession1 = {
+            _id: 'testuser1',
+            session: 'abc',
+            data: 'test1'
+        };
+        const userSession2 = {
+            _id: 'testuser2',
+            session: 'testsession',
+            data: 'test2'
+        };
+        before(() => {
+            return Q.nfcall(MongoClient.connect, url)
+                .then((db) => {
+                    const collection = db.collection('users');
+                    return Q.nfcall(collection.insertMany.bind(collection), [userSession1, userSession2]);
+                });
+        });
+
+        after(() => {
+            return Q.nfcall(MongoClient.connect, url)
+                .then((db) => {
+                    const collection = db.collection('users');
+                    return Q.nfcall(collection.deleteMany.bind(collection), {});
+                });
+        });
+
+        it("gets userdata if session is present", () => {
+            return Q.nfcall(MongoClient.connect, url)
+                .then((db) => {
+                    MongoDBHelper.getUserSession(db, userSession1.session).subscribe((result) => {
+                        expect(result).to.be.deep.equal(userSession1);
+                    }, (err) => {
+                        expect(err).to.be.not.defined;
+                    });
+                });
+        });
+    });
 });
