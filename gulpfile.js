@@ -40,12 +40,22 @@ gulp.task('sass-production', getTask('sass').sassproduction);
 
 gulp.task('copy-resources', getTask('client').copyresources);
 
-gulp.task('test', ['karmaTests', 'mochaTests']);
+gulp.task('test', ['karma-tests', 'mocha-tests']);
 
-gulp.task('karmaTests', getTask('testing').karmaTests);
-gulp.task('mochaTests', getTask('testing').mochaTests);
+gulp.task('karma-tests', getTask('testing').karmaTests);
+gulp.task('mocha-tests', getTask('testing').mochaTests);
 
-gulp.task('watch-test', getTask('testing').watchtest);
+gulp.task('watch-test', function(done) {
+    runSequence(
+        ['watch-karma-tests', 'watch-mocha-tests'],
+        done);
+});
+
+gulp.task('watch-karma-tests', getTask('testing').watchkarma);
+gulp.task('watch-mocha-tests', function () {
+    gulp.watch('server/**/*.js', ['mocha-tests']);
+    gulp.watch('tests/server/**/*.js', ['mocha-tests']);
+});
 
 gulp.task('clean', function (cb) {
     del([

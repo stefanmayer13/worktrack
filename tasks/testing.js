@@ -16,12 +16,14 @@ module.exports = {
             singleRun: true
         }, done);
     },
-    watchtest(done) {
+
+    watchkarma(done) {
         karma.start({
             configFile: __dirname + '/../karma.conf.js',
             singleRun: false
         }, done);
     },
+
     mochaTests: shell.task([
         path.join('node_modules', '.bin', 'istanbul') + ' cover --report html --dir build/coverage/node -- ' +
                 'node_modules/mocha/bin/_mocha --color --compilers js:babel/register tests/server/**/*.spec.js'
