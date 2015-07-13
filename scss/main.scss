@@ -5,6 +5,8 @@ body {
 }
 
 .page {
+    max-width: 500px;
+    margin: 0 auto;
     ul.nav {
         clear: left;
         padding: 0;
@@ -18,9 +20,22 @@ body {
             }
         }
     }
-    &.login {
-        max-width: 500px;
+    &.report {
+        max-width: 100%;
         margin: 0 auto;
+    }
+}
+
+.row {
+    >div {
+        float: left;
+        margin: 0.5rem;
+    }
+    &:after {
+        content: " ";
+        display: block;
+        height: 0;
+        clear: left;
     }
 }
 

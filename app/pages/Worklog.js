@@ -70,15 +70,16 @@ const Worklog = React.createClass({
                     </Link>
                     <div style={{clear: 'left'}}></div>
                 </div>
-                <Paper zDepth={2} style={{display: 'inline-block', padding: '0 1rem'}}>
+                <div className="row">
+                    {toSync.length > 0
+                        ? <RaisedButton onClick={this._handleJiraSync.bind(this, toSync)} label="Sync to Jira" primary={true} />
+                        : null}
+                    {togglEnabled ? <RaisedButton onClick={this._handleSync} label="Sync from Toggl" secondary={true} /> : null}
+                </div>
+                <Paper zDepth={2} style={{display: 'inline-block', padding: '0 1rem', marginTop: '0.5rem'}}>
                     <p>Total: {Time.getTimeFromMs(this.props.total)}</p>
                 </Paper>
-                {togglEnabled ? <p><RaisedButton onClick={this._handleSync} label="Sync from Toggl" /></p> : null}
-                <p>{this.props.loading ? 'loading...' : null}</p>
-                <p>{toSync.length > 0
-                    ? <RaisedButton onClick={this._handleJiraSync.bind(this, toSync)} label="Sync to Jira" />
-                    : null}
-                </p>
+                <div>{this.props.loading ? 'loading...' : null}</div>
                 <ul className="entrylist">
                     {this.props.data.map((data) => {
                         return <TimeEntry key={data._id} entry={data} sync={this._handleSingleSync} />;
