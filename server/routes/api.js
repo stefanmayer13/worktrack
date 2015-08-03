@@ -7,9 +7,17 @@ const async = require('async');
 
 const DateHelper = require('../utils/DateHelper');
 const JiraHelper = require('../utils/JiraHelper');
+const NodeJira = require('node-jira');
 const MongoDBHelper = require('../utils/MongoDBHelper');
 const TogglHelper = require('../utils/TogglHelper');
 const Logger = require('../Logger');
+const LoggerConfig = require('../Config').logger;
+
+const nodeJira = new NodeJira({
+    hostname: 'jira-new.netconomy.net',
+    port: '443',
+    logger: LoggerConfig
+});
 
 module.exports = (server, db, prefix) => {
     server.route({
@@ -158,12 +166,12 @@ module.exports = (server, db, prefix) => {
         method: 'POST',
         path: prefix+'/jira/login',
         handler(request, reply) {
-            JiraHelper.login(request.payload)
+            nodeJira.loginRx(request.payload.username, request.payload.password)
             .subscribe((data) => {
-                MongoDBHelper.setUserSession(db, request.payload.username, data.setCookie)
+                MongoDBHelper.setUserSession(db, request.payload.username, data.cookie)
                 .subscribe(() => {
                     const response = reply(data.data).hold();
-                    request.session.set('user', data.setCookie);
+                    request.session.set('user', data.cookie);
                     response.send();
                 }, reply);
             }, reply);

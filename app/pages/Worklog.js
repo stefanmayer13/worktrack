@@ -94,7 +94,7 @@ const Worklog = React.createClass({
     },
 
     _handleDateChange(e, date) {
-        this.replaceWith(`/worklog/${Time.getDateForApi(date)}`);
+        this.replaceWith(`${Config.baseUrl}/worklog/${Time.getDateForApi(date)}`);
     },
 
     _handleSync() {
