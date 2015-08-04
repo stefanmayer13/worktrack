@@ -194,7 +194,7 @@ module.exports = (server, db, prefix) => {
             auth: 'default',
             handler(request, reply) {
                 const session = request.session.get('user');
-                JiraHelper.getUserData(session)
+                nodeJira.getUserDataRx(session)
                     .zip(MongoDBHelper.getUserSession(db, session),
                     (data, user) => {
                         return {
