@@ -88,7 +88,8 @@ module.exports = {
             return cb(Boom.unauthorized('Not logged in'));
         }
         if (!entry || !entry.jira || !entry.jira.id) {
-            return cb(new Error('Problem with entry data'));
+            //return cb(new Error('Problem with entry data'));
+            return cb(null, null);
         }
         let duration = entry.dur || entry.duration;
         if (duration < 60000) {

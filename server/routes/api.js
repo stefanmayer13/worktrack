@@ -4,6 +4,7 @@
  */
 
 const async = require('async');
+const Rx = require('rx');
 
 const DateHelper = require('../utils/DateHelper');
 const JiraHelper = require('../utils/JiraHelper');
@@ -102,9 +103,15 @@ module.exports = (server, db, prefix) => {
                 console.log(cookie);
                 MongoDBHelper.getEntries(db, request.payload)
                     .flatMap((entry) => {
-                        return JiraHelper.add(cookie, entry).flatMap((worklog) => {
-                            return MongoDBHelper.addWorklog(db, entry._id, worklog.id);
-                        });
+                        if (!entry.worklog) {
+                            return JiraHelper.add(cookie, entry).flatMap((worklog) => {
+                                if (entry && worklog) {
+                                    return MongoDBHelper.addWorklog(db, entry._id, worklog.id);
+                                }
+                                return Rx.Observable.fromArray([]);
+                            });
+                        }
+                        return Rx.Observable.fromArray([]);
                     })
                     .toArray()
                     .subscribe((err, data) => {
