@@ -30,7 +30,7 @@ const TimeEntry = React.createClass({
                 <div className="jira">{entry.jira.key} {entry.jira.descr}</div>
             ) : null,
             warning = !hasJiraInfo ? <div className="jiraerror">NO JIRA ISSUE FOUND!</div> : null,
-            logged = (hasJiraInfo && (entry.jira.logged || entry.worklog))
+            logged = (hasJiraInfo && (entry.worklog))
                     ? <div className="log"><RaisedButton label="Logged" disabled={true} /></div>
                     : (this.props.sync
                         ? <div className="log"><RaisedButton
