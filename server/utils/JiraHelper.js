@@ -36,11 +36,16 @@ module.exports = {
                 body += data;
             });
             res.on('end', () => {
-                let data = JSON.parse(body);
-                if (data.errorMessages) {
+                try {
+                    let data = JSON.parse(body);
+                    if (data.errorMessages) {
+                        cb(null, null);
+                    } else {
+                        cb(null, data);
+                    }
+                } catch (e) {
+                    console.log(e, body);
                     cb(null, null);
-                } else {
-                    cb(null, data);
                 }
             });
         });
