@@ -5,6 +5,9 @@
 
 let winston = require('winston');
 let Config = require('./Config').logger;
+const fs = require('fs');
+
+fs.mkdir('log', function() {});
 
 let transports = [];
 

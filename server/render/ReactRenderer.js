@@ -31,7 +31,7 @@ let ReactRenderer = {
                             }
                         }
                     </script>
-                    <script defer async src="${Config.baseUrl}/js/lib.js"></script>
+                    {/*<script defer async src="${Config.baseUrl}/js/lib.js"></script>*/}
                     <script defer async src="${Config.baseUrl}/js/app.js"></script>
                     <script defer async src="${polyfillUrl}"></script>
                 </head>

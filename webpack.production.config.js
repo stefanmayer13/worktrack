@@ -4,7 +4,7 @@ var path = require('path'),
 module.exports = {
     entry: {
         app: './app/client.js',
-        lib: ["react", "material-ui"]
+        //lib: ["react", "material-ui"]
     },
     output: {
         path: path.join(__dirname, "build", "js"),
@@ -39,7 +39,7 @@ module.exports = {
         }),
         new webpack.NoErrorsPlugin(),
         new webpack.optimize.DedupePlugin(),
-        new webpack.optimize.CommonsChunkPlugin(/* chunkName= */"lib", /* filename= */"lib.js"),
+        //new webpack.optimize.CommonsChunkPlugin(/* chunkName= */"lib", /* filename= */"lib.js"),
         new webpack.optimize.UglifyJsPlugin()
     ]
 };

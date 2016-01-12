@@ -6,6 +6,8 @@
 var gulp = require('gulp');
 var runSequence = require('run-sequence');
 var del = require('del');
+var babel = require("gulp-babel");
+var shell = require('gulp-shell');
 
 require('babel/register');
 
@@ -27,7 +29,7 @@ gulp.task('devserver', getTask('server').rundevserver);
 gulp.task('webpack', getTask('client').webpack);
 gulp.task('webpackwatch', getTask('client').webpackwatch);
 gulp.task('client-prod', getTask('client').webpackproduction);
-gulp.task('server-prod', getTask('server').production);
+gulp.task('server-prod', ['prod-conf', 'docker'], getTask('server').production);
 
 gulp.task('watch', ['webpackwatch'], function () {
     gulp.watch('scss/*.scss', ['sass']);
@@ -63,3 +65,18 @@ gulp.task('clean', function (cb) {
         'build'
     ], cb);
 });
+
+gulp.task('prod-conf', function () {
+    return gulp.src("app/Config.js")
+        .pipe(babel())
+        .pipe(gulp.dest("build/app"));
+});
+
+gulp.task('docker', function () {
+    return gulp.src("Dockerfile")
+        .pipe(gulp.dest("build"));
+});
+
+gulp.task('build-docker', shell.task([
+    'docker build -t worktrack build'
+]));

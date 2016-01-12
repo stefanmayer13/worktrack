@@ -1,6 +1,9 @@
 {
   "name": "worktrack",
   "version": "0.0.2",
+  "scripts": {
+    "start": "node server/server.js"
+  },
   "dependencies": {
     "async": "^0.9.0",
     "boom": "^2.7.2",

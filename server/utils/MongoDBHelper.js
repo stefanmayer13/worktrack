@@ -10,7 +10,9 @@ const Rx = require('rx');
 
 module.exports = {
     connect() {
-        const url = 'mongodb://localhost:27017/worktrack';
+        const mongoIp = process.env.MONGO_PORT_27017_TCP_ADDR || 'localhost';
+        const mongoPort = process.env.MONGO_PORT_27017_TCP_PORT || '27017';
+        const url = `mongodb://${mongoIp}:${mongoPort}/worktrack`;
         return Q.nfcall(MongoClient.connect, url);
     },
 
