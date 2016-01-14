@@ -46,10 +46,14 @@ module.exports = {
 
     webpackproduction(cb) {
         webpack(webpackProductionConfig).run(function (err, stats) {
+            gutil.log("[webpack:build-dev]", stats.toString({
+                colors: true,
+                chunks: false
+            }));
             if (err) {
                 throw new gutil.PluginError("webpack:build-dev", err);
             }
-            cb();
+            cb(err);
         });
     },
 

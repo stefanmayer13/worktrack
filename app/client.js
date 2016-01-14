@@ -8,9 +8,6 @@ window.worktrack = function worktrack() {
     const Router = require('react-router');
     const app = require('./app');
     const IsLoggedInAction = require('./actions/IsLoggedInAction');
-    const injectTapEventPlugin = require("react-tap-event-plugin");
-
-    injectTapEventPlugin();
 
     let context = app.createContext();
 

@@ -3,10 +3,11 @@
  * @author <a href="mailto:stefanmayer13@gmail.com">Stefan Mayer</a>
  */
 
+const Path = require('path');
 const ReactRenderer = require('../render/ReactRenderer');
 const Config = require('../Config');
 
-const jsPath = process.env.NODE_ENV === 'production' ? 'js/' : 'tmp/';
+const jsPath = process.env.NODE_ENV === 'production' ? Path.join(__dirname, '..', '..', 'js') : 'tmp/';
 
 module.exports = (server) => {
     server.route({
@@ -22,7 +23,7 @@ module.exports = (server) => {
         path: Config.baseUrl + '/js/{filename}',
         handler: {
             file: (request) => {
-                return jsPath + request.params.filename;
+                return Path.join(jsPath, request.params.filename);
             }
         }
     });
@@ -32,7 +33,7 @@ module.exports = (server) => {
         path: Config.baseUrl + '/styles/{filename}',
         handler: {
             file: (request) => {
-                return 'css/' + request.params.filename;
+                return Path.join('css', request.params.filename);
             }
         }
     });

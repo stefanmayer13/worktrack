@@ -60,14 +60,13 @@
     "phantomjs-polyfill": "0.0.1",
     "react": "^0.13.1",
     "react-router": "^0.13.3",
-    "react-tap-event-plugin": "^0.1.7",
     "rewire": "^2.3.3",
     "rewire-webpack": "^1.0.0",
     "run-sequence": "^1.1.1",
-    "sinon": "git://github.com/cjohansen/Sinon.JS#sinon-2.0",
+    "sinon": "^1.17.2",
     "superagent": "^1.2.0",
     "superagent-bluebird-promise": "^2.0.2",
     "webpack": "^1.8.2",
-    "webpack-config": "^0.7.0"
+    "webpack-config": "^0.8.1"
   }
 }

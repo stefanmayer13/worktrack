@@ -17,18 +17,12 @@
         "forOf": true,
         "globalReturn": false,
         "jsx": true,
-        "blockBindings": true,
         "defaultParams": true,
         "objectLiteralComputedProperties": true,
         "objectLiteralShorthandMethods": true,
         "objectLiteralShorthandProperties": true,
         "templateStrings": true,
-        "jsx": true,
         "arrowFunctions": true
-    },
-    "env": {
-        "browser": true,
-        "node": true
     },
     "globals": {
         "async": true,
@@ -81,7 +75,6 @@
         "comma-style": [2, "last"],
         "consistent-this": [1, "self"],
         "eol-last": 0,
-        "new-cap": 0,
         "new-parens": 2,
         "no-array-constructor": 2,
         "no-mixed-spaces-and-tabs": 2,
