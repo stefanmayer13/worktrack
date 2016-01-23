@@ -3,8 +3,7 @@ var path = require('path'),
 
 module.exports = {
     entry: {
-        app: './app/client.js',
-        //lib: ["react", "material-ui"]
+        app: './app/client.js'
     },
     output: {
         path: path.join(__dirname, "build", "js"),

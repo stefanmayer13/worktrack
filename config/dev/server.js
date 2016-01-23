@@ -4,7 +4,7 @@
  */
 
 module.exports = {
-    baseUrl: '/worktrack',
+    baseUrl: '',
     port: 8080,
     logger: {
         console: {

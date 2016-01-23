@@ -12,7 +12,7 @@ module.exports = {
             colorize: true
         },
         file: {
-            level: 'verbose',
+            level: 'error',
             file: 'log/error.log'
         }
     }
