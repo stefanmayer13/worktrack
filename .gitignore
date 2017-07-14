@@ -1,11 +1,4 @@
 node_modules
 .tmp
-.sass-cache
-.idea
-*.bat
 
-css
-tmp
-
-auth.js
-build
+old
