@@ -2,10 +2,22 @@
   "name": "Worktrack",
   "version": "1.0.0",
   "description": "Simple sync between Toggl and Jira.",
+  "scripts": {
+    "start": "webpack-dev-server"
+  },
   "dependencies": {
     "vue": "^2.4.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^15.0.2",
+    "eslint-plugin-import": "^2.6.1",
+    "eslint-plugin-jsx-a11y": "^5.1.1",
+    "eslint-plugin-react": "^7.1.0",
+    "eslint-plugin-vue": "beta",
+    "webpack": "^3.2.0",
+    "webpack-dev-server": "^2.5.1"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/stefanmayer13/worktrack.git"

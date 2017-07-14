@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head lang="en">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Worktrack</title>
+        <script src="/bundle.js" defer></script>
+    </head>
+    <body>
+        <div id="app">
+            <h1>{{ title }}</h1>
+            <p>{{ description }}</p>
+            <form action="/authenticate" method="POST">
+                <div>
+                    <label>{{ usernameLabel }}</label>
+                    <input name="username" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false"/>
+                </div>
+                <div>
+                    <label>{{ passwordLabel }}</label>
+                    <input name="password" type="password" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false"/>
+                </div>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    </body>
+</html>
